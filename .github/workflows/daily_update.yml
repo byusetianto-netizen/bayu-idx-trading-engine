@@ -53,14 +53,22 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/idx_stock_prices.csv                   data/idx_ihsg_index.csv                   data/latest_actual_radar.csv                   data/model_validation_metrics.csv                   data/update_manifest.json
-data/security_master.csv
-data/universe_audit.csv
-data/universe_status.json
-data/universe_audit_summary.json
+                - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/idx_stock_prices.csv
+          git add data/idx_ihsg_index.csv
+          git add data/latest_actual_radar.csv
+          git add data/model_validation_metrics.csv
+          git add data/update_manifest.json
+          git add data/security_master.csv
+          git add data/universe_audit.csv
+          git add data/universe_status.json
+          git add data/universe_audit_summary.json
           if git diff --cached --quiet; then
             echo "No data changes to commit."
           else
-            git commit -m "Auto-update IDX data and trading radar"
+            git commit -m "Auto-update IDX data, universe audit and trading radar"
             git push
           fi
