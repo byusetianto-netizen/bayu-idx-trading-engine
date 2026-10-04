@@ -39,6 +39,24 @@ for c in idx.columns:
         rename_lower[c]=lc
 idx=idx.rename(columns=rename_lower)
 
+# Clean IHSG - support both original Yahoo format and normalized updater format
+idx=pd.read_csv(IHSG)
+
+if 'Price' in idx.columns:
+    idx=idx[pd.to_datetime(idx['Price'],errors='coerce').notna()].copy()
+    idx=idx.rename(columns={
+        'Price':'date',
+        'Open':'open',
+        'High':'high',
+        'Low':'low',
+        'Close':'close',
+        'Volume':'volume'
+    })
+elif 'date' in idx.columns:
+    idx=idx[pd.to_datetime(idx['date'],errors='coerce').notna()].copy()
+else:
+    raise ValueError("IHSG file has no recognized date column")
+
 idx['date']=pd.to_datetime(idx['date'],errors='coerce')
 idx['close']=pd.to_numeric(idx['close'],errors='coerce')
 idx=idx[['date','close']].dropna().drop_duplicates('date').sort_values('date')
