@@ -13,7 +13,8 @@ OUT = ROOT / 'data' / 'engine_output'
 OUT.mkdir(exist_ok=True)
 
 TARGETS = [0.03, 0.05, 0.08]
-MAX_HOLD = 5
+# Research horizon only: maximum observation window, NOT a forced holding period.
+MAX_HOLD = 60
 STOP_ATR_MULT = 1.5
 STRUCTURE_BUFFER = 0.005
 MIN_HISTORY = 200
@@ -102,6 +103,7 @@ df = pd.concat([df,lev],axis=1)
 features = ['ret5','ret10','ret20','ret60','ma20_dist','ma50_dist','ma200_dist','vol_ratio','rsi','volatility20','atr_pct','rs20','signal_rr']
 
 # Labels use the next trading-session OPEN as entry. No future information enters features.
+# MAX_HOLD is a research horizon only; it is NOT an instruction to sell after N days.
 for target in TARGETS:
     labels = np.full(len(df), np.nan)
     for ticker,g in df.groupby('ticker', sort=False):
@@ -167,13 +169,56 @@ L['eligible']=(L.history_n>=MIN_HISTORY)&(L.liq20>=MIN_LIQ)&(L.close>=MIN_PRICE)
 L=L[L.eligible].copy()
 L['reference_entry']=L['close']; L['entry_status']='NEXT_SESSION_OPEN_PENDING'; L['stop']=L['signal_stop']; L['target']=L['signal_target']; L['target_pct']=L['signal_target_pct']; L['risk_pct']=(L.reference_entry-L.stop)/L.reference_entry; L['risk_reward']=L['signal_rr']
 L['target3']=L.reference_entry*1.03; L['target5']=L.reference_entry*1.05; L['target8']=L.reference_entry*1.08
-L['decision']=np.where((L.opportunity_score>=65)&(L.p5>=.45)&(L.risk_reward>=1.5),'WATCH','NO TRADE')
+# Map the dynamic target to the nearest modeled target probability.
+L['target_band']=pd.cut(L['target_pct'], bins=[0,0.04,0.065,1], labels=[3,5,8], include_lowest=True).astype(float)
+L['p_target']=np.select([L.target_band.eq(3),L.target_band.eq(5),L.target_band.eq(8)],[L.p3,L.p5,L.p8],default=np.nan)
+# Expected value is an analytical estimate, not a guarantee. Reward uses the dynamic target;
+# loss uses the planned stop. This is a decision aid, not a probability of profit.
+L['expected_value']=L.p_target*L.target_pct - (1-L.p_target)*L.risk_pct
+L['decision_reason']=np.select([
+    L.risk_reward < 1.5,
+    L.p_target < 0.45,
+    L.opportunity_score < 65,
+    L.regime.eq('BEAR') & (L.p_target < 0.55),
+    L.expected_value <= 0
+], [
+    'Risk/reward terlalu rendah: potensi imbalan belum cukup membayar risiko.',
+    'Model evidence belum cukup kuat: peluang mencapai target belum memenuhi ambang riset.',
+    'Kekuatan setup keseluruhan belum cukup tinggi untuk masuk watchlist.',
+    'Pasar sedang bearish dan evidence belum cukup kuat untuk mengambil risiko.',
+    'Expected value model tidak positif setelah memperhitungkan risiko.'
+], default='Setup memenuhi ambang riset; tetap perlu menunggu harga entry aktual dan validasi manusia.')
+L['decision']=np.where((L.opportunity_score>=65)&(L.p_target>=.45)&(L.risk_reward>=1.5)&(L.expected_value>0),'TRADE CANDIDATE','NO TRADE')
+L['why_positive']=np.select([
+    (L.ma20_dist>0)&(L.ma50_dist>0),
+    L.rs20>0,
+    L.vol_ratio>1.2,
+    L.rsi.between(50,70)
+], [
+    'Harga berada di atas MA20 dan MA50, mendukung tren.',
+    'Relative strength terhadap IHSG positif.',
+    'Volume relatif meningkat dibanding rata-rata 20 hari.',
+    'RSI berada pada zona momentum yang relatif sehat.'
+], default='Belum ada faktor teknikal positif yang dominan.')
+L['why_risk']=np.select([
+    L.risk_pct>0.10,
+    L.regime.eq('BEAR'),
+    L.rsi>75,
+    L.rs20<0,
+    L.volatility20>0.04
+], [
+    'Jarak stop terlalu lebar sehingga risiko modal tinggi.',
+    'IHSG berada dalam regime bearish.',
+    'RSI tinggi; harga berisiko sudah terlalu panas.',
+    'Relative strength terhadap IHSG masih negatif.',
+    'Volatilitas tinggi dapat membuat stop lebih mudah tersentuh.'
+], default='Tidak ada red flag utama dari faktor risiko yang dihitung engine.')
 L=L.sort_values(['opportunity_score','p5'],ascending=False)
 
-cols=['date','ticker','close','reference_entry','entry_status','opportunity_score','p3','p5','p8','rsi','ret20','ma20_dist','ma50_dist','ma200_dist','vol_ratio','atr14','atr_pct','swing_low20','rs20','liq20','regime','stop','target','target_pct','risk_pct','risk_reward','target3','target5','target8','decision']
+cols=['date','ticker','close','reference_entry','entry_status','opportunity_score','p3','p5','p8','p_target','rsi','ret20','ma20_dist','ma50_dist','ma200_dist','vol_ratio','atr14','atr_pct','swing_low20','rs20','liq20','regime','stop','target','target_pct','risk_pct','risk_reward','expected_value','target_band','target3','target5','target8','decision','decision_reason','why_positive','why_risk']
 L[cols].head(20).to_csv(OUT/'latest_actual_radar.csv',index=False)
 pd.DataFrame(metrics).to_csv(OUT/'model_validation_metrics.csv',index=False)
-report=f'''# Actual Engine V1.1 Run\n\nLatest data date: {latest_date.date()}\nMarket regime: {regime}\nEligible candidates: {len(L)}\n\n## Risk / execution model\n- Historical entry: next trading-session OPEN.\n- Latest radar: last close is only a reference entry; actual next open is pending.\n- Stop: dynamic using 1.5 ATR(14) and 20D structure.\n- Target: volatility-aware, 3%–8%.\n- R/R: dynamic; no constant 1.6667.\n- Same-bar target + stop: failure.\n\n## Validation\n{pd.DataFrame(metrics).to_markdown(index=False)}\n\nIMPORTANT: Research/paper trading only. Universe remains incomplete (95 tickers); survivorship/security-master bias is unresolved.\n'''
+report=f'''# Actual Engine V1.2 Run\n\nLatest data date: {latest_date.date()}\nMarket regime: {regime}\nEligible candidates: {len(L)}\n\n## Risk / execution model\n- Historical entry: next trading-session OPEN.\n- Latest radar: last close is only a reference entry; actual next open is pending.\n- Stop: dynamic using 1.5 ATR(14) and 20D structure.\n- Target: volatility-aware, 3%–8%.\n- R/R: dynamic; no constant 1.6667.\n- Same-bar target + stop: failure.\n\n## Validation\n{pd.DataFrame(metrics).to_markdown(index=False)}\n\nIMPORTANT: Research/paper trading only. Universe remains incomplete (95 tickers); survivorship/security-master bias is unresolved.\n'''
 (OUT/'ACTUAL_ENGINE_REPORT.md').write_text(report,encoding='utf-8')
 print('latest',latest_date.date(),'regime',regime,'eligible',len(L))
 print(L[cols].head(10).to_string(index=False))
