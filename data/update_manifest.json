@@ -1,9 +1,9 @@
 {
   "status": "SUCCESS",
   "mode": "repair",
-  "updated_at": "2026-10-04T15:28:49.179457+07:00",
+  "updated_at": "2026-10-04T15:34:26.646788+07:00",
   "source": "yfinance",
-  "old_last_date": "2026-07-01",
+  "old_last_date": "2026-10-02",
   "new_last_date": "2026-10-02",
   "ihsg_last_date": "2026-10-02",
   "requested_start": "2026-07-01",
