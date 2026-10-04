@@ -1,0 +1,11 @@
+{
+  "master_tickers": 949,
+  "price_data_tickers": 95,
+  "overlap_tickers": 95,
+  "coverage_pct": 10.01,
+  "price_latest_date": "2026-10-02",
+  "tickers_with_200plus_rows": 95,
+  "new_current_tickers_without_price_history": 854,
+  "local_only_tickers": 0,
+  "status": "RESEARCH_ONLY_UNTIL_PIT_SECURITY_MASTER_IS_COMPLETE"
+}
