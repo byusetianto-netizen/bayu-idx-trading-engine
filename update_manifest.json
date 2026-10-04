@@ -1,0 +1,9 @@
+{
+  "updated_at": null,
+  "source": "local-upload",
+  "old_last_date": "2026-07-01",
+  "new_last_date": "2026-07-01",
+  "verified_external_market_date": "2026-10-02",
+  "verified_external_ihsg_close": 6036.89,
+  "note": "The environment cannot download external files programmatically. Run data_update.py on an internet-connected machine to append 2026-07-02 onward. The updater uses yfinance first and GitHub daily snapshots as fallback."
+}
