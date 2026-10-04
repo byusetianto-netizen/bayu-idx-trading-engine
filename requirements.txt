@@ -1,0 +1,8 @@
+fastapi>=0.115
+uvicorn>=0.34
+pandas>=2.2
+numpy>=2.0
+scikit-learn>=1.5
+tabulate>=0.9
+yfinance>=0.2.66
+requests>=2.32
