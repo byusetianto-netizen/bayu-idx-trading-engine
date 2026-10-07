@@ -1,0 +1,38 @@
+name: V1.3C-4 PIT Security Master
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pit_master:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Build PIT security master
+        run: python pit_security_master.py
+
+      - name: Commit PIT audit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/pit_security_master_v13c4.csv
+          git add data/pit_daily_eligibility_sample.csv
+          git add data/pit_security_master_review_queue.csv
+          git add data/pit_security_master_summary.json
+          git add data/pit_security_master_status.json
+          git diff --cached --quiet || git commit -m "Add V1.3C-4 PIT security master audit"
+          git push
