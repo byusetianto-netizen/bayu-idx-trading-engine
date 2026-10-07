@@ -1,0 +1,34 @@
+name: V1.3C-2 Historical Event Evidence
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  event_evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Build event evidence layer
+        run: python historical_event_evidence.py
+
+      - name: Commit audit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/historical_events data/historical_event_evidence.csv data/historical_security_master_v13c2.csv data/historical_event_evidence_summary.json data/historical_event_evidence_status.json
+          git diff --cached --quiet || git commit -m "Add V1.3C-2 historical event evidence layer"
+          git push
