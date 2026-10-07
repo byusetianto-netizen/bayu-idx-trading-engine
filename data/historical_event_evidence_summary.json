@@ -1,0 +1,12 @@
+{
+  "status": "V1.3C2_AUDIT_IMPORT_COMPLETE__NO_ENGINE_CHANGE",
+  "event_rows": 0,
+  "listing_events": 0,
+  "delisting_events": 0,
+  "suspension_events": 0,
+  "ticker_change_events": 0,
+  "tickers_with_listing_evidence": 0,
+  "tickers_with_delisting_evidence": 0,
+  "tickers_with_suspension_events": 0,
+  "note": "Empty event templates are expected on first run. Main price dataset and trading engine are unchanged."
+}

@@ -1,0 +1,7 @@
+{
+  "status": "V1.3C2_AUDIT_IMPORT_COMPLETE__NO_ENGINE_CHANGE",
+  "main_dataset_modified": false,
+  "engine_inputs_modified": false,
+  "source_priority": "IDX official > IDX-derived > secondary cross-check",
+  "next_step": "Populate event CSVs from verified IDX evidence, then run PIT reconciliation."
+}
