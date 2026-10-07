@@ -1,0 +1,6 @@
+{
+  "status": "UNIVERSE_BACKTEST_AUDIT_COMPLETE__NO_ENGINE_CHANGE",
+  "engine_changed": false,
+  "pit_safe_for_backtest": false,
+  "warning": "The audit compares forward-return distributions. It is not evidence of a profitable strategy and is not a replacement for the validated actual_engine walk-forward tests."
+}
