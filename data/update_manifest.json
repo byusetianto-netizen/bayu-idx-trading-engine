@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "mode": "repair",
-  "updated_at": "2026-10-06T18:42:36.717233+07:00",
+  "updated_at": "2026-10-07T18:42:58.749312+07:00",
   "source": "yfinance",
-  "old_last_date": "2026-10-02",
-  "new_last_date": "2026-10-05",
-  "ihsg_last_date": "2026-10-05",
-  "requested_start": "2026-07-03",
-  "requested_end": "2026-10-06",
+  "old_last_date": "2026-10-05",
+  "new_last_date": "2026-10-06",
+  "ihsg_last_date": "2026-10-06",
+  "requested_start": "2026-07-04",
+  "requested_end": "2026-10-07",
   "ticker_count": 95,
   "tickers_on_latest_stock_date": 94,
   "rows_added_before_dedup": 6170,
-  "rows_final": 367686,
+  "rows_final": 367780,
   "coverage": {
     "pass": true,
     "latest_ticker_coverage": 0.9895,
@@ -20,7 +20,7 @@
     "expected_tickers": 95,
     "rows_received": 6170,
     "expected_rows": 6080,
-    "latest_date": "2026-10-05"
+    "latest_date": "2026-10-06"
   },
   "message": "Recent historical repair completed and merged after passing coverage validation."
 }
