@@ -1,0 +1,6 @@
+{
+  "status": "ROBUST_UNIVERSE_VALIDATION_COMPLETE__NO_ENGINE_CHANGE",
+  "engine_changed": false,
+  "pit_safe_for_backtest": false,
+  "note": "This validates stability of the universe effect across periods/regimes/classes. It does not enable the research universe in actual_engine."
+}
