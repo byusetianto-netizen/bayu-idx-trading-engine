@@ -1,0 +1,14 @@
+{
+  "status": "V1.3C_PROBE_COMPLETE__NO_MAIN_ENGINE_CHANGE",
+  "price_source": "data/idx_stock_prices_expansion.csv",
+  "ticker_count": 903,
+  "tickers_with_sourced_listing_date": 0,
+  "tickers_with_unknown_listing_date": 903,
+  "tickers_with_sourced_delisted_date": 0,
+  "possible_suspension_or_long_gap_flags": 0,
+  "possible_long_gap_over_90d": 0,
+  "latest_price_date": "2026-10-07",
+  "pit_security_master_solved": false,
+  "survivorship_bias_solved": false,
+  "warning": "First observed price date is not treated as official listing date. Current-universe membership is not sufficient to reconstruct historical PIT membership. Gap flags are review signals, not confirmed suspensions."
+}
