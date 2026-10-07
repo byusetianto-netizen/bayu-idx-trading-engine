@@ -3,7 +3,7 @@ name: V2.0 Top-Down Foundation
 on:
   workflow_dispatch:
   schedule:
-    - cron: '45 12 * * 1-5'  # 19:45 WIB
+    - cron: '00 13 * * 1-5'  # 20:00 WIB
 
 permissions:
   contents: write
