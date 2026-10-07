@@ -1,0 +1,56 @@
+{
+  "latest_price_date": "2026-10-07",
+  "full_universe_tickers": 903,
+  "research_universe_tickers": 297,
+  "metrics": [
+    {
+      "universe": "FULL_903",
+      "events": 914181,
+      "unique_tickers": 903,
+      "win_rate_5d": 0.39996237069026813,
+      "avg_return_5d": 0.004104124026621576,
+      "median_return_5d": 0.0,
+      "profit_factor_5d": 1.1821743989199123,
+      "max_drawdown_sequential_5d": -1.0
+    },
+    {
+      "universe": "RESEARCH_297",
+      "events": 377263,
+      "unique_tickers": 297,
+      "win_rate_5d": 0.4306385730909207,
+      "avg_return_5d": 0.004400274052359485,
+      "median_return_5d": 0.0,
+      "profit_factor_5d": 1.1945441915943749,
+      "max_drawdown_sequential_5d": -1.0
+    },
+    {
+      "universe": "FULL_903_20D",
+      "events": 914181,
+      "unique_tickers": 903,
+      "win_rate_5d": 0.4331286692679021,
+      "avg_return_5d": 0.022285567545847148,
+      "median_return_5d": 0.0,
+      "profit_factor_5d": 1.5025796072817532,
+      "max_drawdown_sequential_5d": -1.0
+    },
+    {
+      "universe": "RESEARCH_297_20D",
+      "events": 377263,
+      "unique_tickers": 297,
+      "win_rate_5d": 0.466414676233821,
+      "avg_return_5d": 0.025403217698441102,
+      "median_return_5d": 0.0,
+      "profit_factor_5d": 1.579355966636919,
+      "max_drawdown_sequential_5d": -1.0
+    }
+  ],
+  "comparison": {
+    "avg_return_5d_delta_research_minus_full": 0.00029615002573790856,
+    "win_rate_5d_delta_research_minus_full": 0.030676202400652552,
+    "profit_factor_5d_delta_research_minus_full": 0.012369792674462587
+  },
+  "method_note": "This is not a backtest of the current Opportunity Score. It is a universe-effect audit using fixed forward-return horizons and no threshold optimization.",
+  "engine_changed": false,
+  "pit_safe_for_backtest": false,
+  "status": "UNIVERSE_BACKTEST_AUDIT_COMPLETE__NO_ENGINE_CHANGE"
+}
