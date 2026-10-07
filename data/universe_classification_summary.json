@@ -1,0 +1,11 @@
+{
+  "universe_tickers": 903,
+  "classified_tickers": 74,
+  "unclassified_tickers": 829,
+  "blue_chip_tickers": 45,
+  "conglomerate_tickers": 22,
+  "bumn_affiliated_secondary": 16,
+  "pit_safe_tickers": 0,
+  "engine_changed": false,
+  "status": "CLASSIFICATION_AUDIT_COMPLETE__NO_ENGINE_CHANGE"
+}

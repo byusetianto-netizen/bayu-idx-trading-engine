@@ -1,0 +1,8 @@
+{
+  "status": "CLASSIFICATION_AUDIT_COMPLETE__NO_ENGINE_CHANGE",
+  "source": "IDX index definitions + dated secondary current snapshot seed",
+  "historical_membership_verified": false,
+  "pit_safe_for_backtest": false,
+  "engine_changed": false,
+  "note": "This layer classifies the research universe only. It does not enable PIT backtesting."
+}
