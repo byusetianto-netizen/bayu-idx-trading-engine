@@ -1,0 +1,37 @@
+name: V1.3E Universe Backtest Audit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas numpy
+
+      - name: Run universe backtest audit
+        run: python universe_backtest_audit.py
+
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/universe_backtest_comparison.csv \
+                  data/universe_backtest_comparison_summary.json \
+                  data/universe_backtest_audit_status.json \
+                  data/universe_backtest_by_class.csv
+          git diff --cached --quiet || git commit -m "Add V1.3E universe backtest audit"
+          git push
