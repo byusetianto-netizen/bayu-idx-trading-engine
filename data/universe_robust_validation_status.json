@@ -1,6 +1,9 @@
 {
-  "status": "ROBUST_UNIVERSE_VALIDATION_COMPLETE__NO_ENGINE_CHANGE",
+  "status": "ROBUST_UNIVERSE_VALIDATION_FIX_COMPLETE__NO_ENGINE_CHANGE",
   "engine_changed": false,
   "pit_safe_for_backtest": false,
-  "note": "This validates stability of the universe effect across periods/regimes/classes. It does not enable the research universe in actual_engine."
+  "warnings_fixed": [
+    "pandas boolean Series reindexing/chained indexing"
+  ],
+  "note": "This remains a universe diagnostic, not a strategy profitability test."
 }
