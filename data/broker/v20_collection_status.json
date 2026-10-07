@@ -1,0 +1,17 @@
+{
+  "status": "SUCCESS",
+  "selected_tickers": [
+    "AADI",
+    "AALI",
+    "ABBA",
+    "ABDA",
+    "ABMM"
+  ],
+  "selected_count": 5,
+  "rows_received": 114,
+  "rows_total": 114,
+  "errors": [],
+  "quota_remaining": "145",
+  "provider": "indexalpha",
+  "updated_at": "2026-10-07T11:48:05.612983+00:00"
+}
