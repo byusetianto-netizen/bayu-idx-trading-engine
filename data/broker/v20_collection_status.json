@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "AADI",
-    "AALI",
-    "ABBA",
-    "ABDA",
-    "ABMM"
+    "ACES",
+    "ACRO",
+    "ACST",
+    "ADCP",
+    "ADES"
   ],
   "selected_count": 5,
-  "rows_received": 114,
-  "rows_total": 114,
+  "rows_received": 99,
+  "rows_total": 213,
   "errors": [],
-  "quota_remaining": "145",
+  "quota_remaining": "140",
   "provider": "indexalpha",
-  "updated_at": "2026-10-07T11:48:05.612983+00:00"
+  "updated_at": "2026-10-07T12:50:18.350693+00:00"
 }
