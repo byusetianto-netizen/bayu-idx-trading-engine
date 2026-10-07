@@ -1,0 +1,6 @@
+source_id,source_name,source_type,authority,status,access_method,pit_capable,notes
+IDX_XBRL,IDX XBRL,official,IDX,DISCOVERED,official_web,YES,"Standardized financial reporting taxonomy"
+IDX_FINANCIAL_REPORT,IDX Financial Report,official,IDX,DISCOVERED,official_web,YES,"Listed-company financial report/disclosure source"
+IDX_DATA_REFERENCE,IDX Data Reference Financial Statement,licensed,IDX,LICENSE_REQUIRED,licensed_product,YES,"Historical financial statement product; access may require subscription/license"
+ISSUER_IR,Issuer Investor Relations,issuer,Issuer,SECONDARY,web_or_document,CONDITIONAL,"Use for verification with publication evidence"
+THIRD_PARTY,Third-party dataset,third_party,Various,DISCOVERY_ONLY,external,NO,"Never silently treated as PIT authoritative"

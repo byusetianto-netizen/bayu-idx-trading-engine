@@ -1,0 +1,12 @@
+{
+  "status": "V2.1A_FOUNDATION_READY",
+  "raw_records": 0,
+  "pit_safe_records": 0,
+  "authoritative_historical_feed_loaded": false,
+  "engine_changed": false,
+  "notes": [
+    "Official IDX XBRL and financial-report sources are identified.",
+    "Licensed IDX historical financial-statement access is identified but is not assumed to be available.",
+    "No synthetic financial values are inserted."
+  ]
+}

@@ -1,0 +1,35 @@
+name: V2.1A Financial Foundation Audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 13 * * 1-5' # 20:30 WIB
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pandas openpyxl
+      - name: Validate financial foundation
+        run: python scripts/validate_financial_import.py
+      - name: Commit audit status
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/fundamental/acquisition_status.json
+          if git diff --cached --quiet; then
+            echo 'No V2.1A status changes.'
+          else
+            git commit -m 'V2.1A financial foundation audit'
+            git push
+          fi
