@@ -1,0 +1,24 @@
+{
+  "version": "V1.3B-3",
+  "status": "AUDIT_COMPLETE__MAIN_DATASET_UNCHANGED",
+  "source_dataset": "data/idx_stock_prices_expansion.csv",
+  "source_rows": 932241,
+  "unique_tickers": 903,
+  "integrity_grade_A": 795,
+  "integrity_grade_B": 31,
+  "integrity_grade_C": 77,
+  "tickers_with_hard_issues": 77,
+  "tickers_with_large_gaps": 0,
+  "tickers_with_duplicates": 0,
+  "max_gap_threshold_days": 45,
+  "min_rows_for_grade_A": 500,
+  "outputs": [
+    "data/ohlcv_integrity_audit.csv",
+    "data/ohlcv_integrity_summary.json"
+  ],
+  "important": [
+    "Integrity grade is separate from V1.3B-2 coverage grade.",
+    "No trading-engine dataset was replaced.",
+    "Passing integrity does not solve point-in-time universe membership or survivorship bias."
+  ]
+}
