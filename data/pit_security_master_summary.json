@@ -1,0 +1,12 @@
+{
+  "status": "V1.3C4_PIT_MASTER_BUILT__NOT_ENABLED_IN_ENGINE",
+  "ticker_count": 903,
+  "verified_interval_tickers": 0,
+  "partial_verified_tickers": 0,
+  "unknown_tickers": 903,
+  "pit_safe_tickers": 0,
+  "research_proxy_tickers": 0,
+  "suspension_filter_tickers": 0,
+  "engine_changed": false,
+  "warning": "PIT master is an audit layer only. It is not connected to actual_engine.py. No ticker is PIT-safe unless listing evidence is VERIFIED and a closed interval is VERIFIED."
+}
