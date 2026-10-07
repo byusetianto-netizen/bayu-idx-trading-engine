@@ -1,0 +1,24 @@
+{
+  "version": "V1.3B-4",
+  "status": "DIAGNOSTIC_COMPLETE__DATASETS_UNCHANGED",
+  "stock_unique_tickers": 903,
+  "ihsg_unique_sessions": 4064,
+  "tickers_with_coverage_above_1": 903,
+  "tickers_with_stock_only_sessions": 903,
+  "tickers_with_ihsg_only_sessions": 44,
+  "tickers_calendar_match": 0,
+  "mean_coverage_ratio": 1.010079644160273,
+  "median_coverage_ratio": 1.008450704225352,
+  "max_coverage_ratio": 1.0309278350515463,
+  "outputs": [
+    "data/session_coverage_diagnostic.csv",
+    "data/session_coverage_summary.json",
+    "data/session_coverage_examples.csv"
+  ],
+  "important": [
+    "This diagnostic does not declare stock-only dates invalid.",
+    "It does not modify any price dataset.",
+    "Calendar differences must be understood before using session coverage as a rejection rule.",
+    "This does not solve point-in-time universe membership or survivorship bias."
+  ]
+}
