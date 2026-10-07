@@ -1,0 +1,17 @@
+{
+  "status": "V1.3C3_RECONCILIATION_COMPLETE__NO_ENGINE_CHANGE",
+  "price_universe_tickers": 903,
+  "verified_partial": 0,
+  "partial_evidence": 0,
+  "unknown": 903,
+  "high_priority_review": 903,
+  "medium_priority_review": 0,
+  "low_priority_review": 0,
+  "listing_verified": 0,
+  "delisting_verified": 0,
+  "suspension_event_tickers": 0,
+  "ticker_change_event_tickers": 0,
+  "pit_safe_tickers": 0,
+  "warning": "No ticker is marked PIT-safe in this probe. Candidate intervals are audit outputs only.",
+  "methodology": "First observed price date is never treated as official listing date. Missing events remain UNKNOWN."
+}
