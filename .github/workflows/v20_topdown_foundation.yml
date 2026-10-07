@@ -1,0 +1,38 @@
+name: V2.0 Top-Down Foundation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '45 12 * * 1-5'  # 19:45 WIB
+
+permissions:
+  contents: write
+
+jobs:
+  topdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas numpy
+
+      - name: Build macro regime
+        run: python scripts/macro_regime_engine.py
+
+      - name: Build sector rotation
+        run: python scripts/sector_rotation_engine.py
+
+      - name: Commit top-down outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/macro data/sector data/topdown_status.json
+          git diff --cached --quiet || git commit -m "V2.0 top-down research update"
+          git push
