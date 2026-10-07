@@ -2,10 +2,11 @@
   "latest_price_date": "2026-10-07",
   "full_universe_tickers": 903,
   "research_universe_tickers": 297,
-  "matched_bucket_count": 26,
-  "buckets_positive_both_winrate_and_avg_return": 13,
+  "matched_buckets": 26,
+  "positive_both_winrate_and_avg_return_buckets": 13,
   "positive_both_ratio": 0.5,
-  "overall": [
+  "robust_positive_buckets": 8,
+  "overall_comparison": [
     {
       "dimension": "overall",
       "bucket": "ALL",
@@ -14,18 +15,23 @@
       "delta_win_rate_pp": 3.0676202400652555,
       "delta_avg_return_pp": 0.029615002573790856,
       "delta_profit_factor": 0.012369792674462587,
-      "research_ci_excludes_zero": true
+      "bootstrap_delta_mean_ci_low": 0.0001285151016401554,
+      "bootstrap_delta_mean_ci_high": 0.0008996845310403968,
+      "delta_mean_ci_excludes_zero": true,
+      "positive_both": true
     }
   ],
   "method": {
     "entry": "next trading session OPEN",
-    "forward_horizon": "5 sessions for diagnostic consistency",
-    "bootstrap": "2000 resamples, fixed seed 42, CI on mean return",
+    "diagnostic_horizon": "5 sessions",
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 42,
     "regime_proxy": "IHSG trailing 20-session return >2% BULL, <-2% BEAR, otherwise SIDEWAYS",
-    "threshold_optimization": false
+    "threshold_optimization": false,
+    "comparison_fixed": "FULL vs RESEARCH, not in-sample threshold selection"
   },
-  "interpretation": "Diagnostic only; not proof of strategy profitability and not PIT-safe backtest evidence.",
+  "interpretation": "Universe effect remains exploratory unless differences are stable across periods/regimes and survive uncertainty checks.",
   "engine_changed": false,
   "pit_safe_for_backtest": false,
-  "status": "ROBUST_UNIVERSE_VALIDATION_COMPLETE__NO_ENGINE_CHANGE"
+  "status": "ROBUST_UNIVERSE_VALIDATION_FIX_COMPLETE__NO_ENGINE_CHANGE"
 }
