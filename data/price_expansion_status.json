@@ -1,0 +1,22 @@
+{
+  "version": "V1.3B-1",
+  "status": "PROBE_COMPLETE__MAIN_DATASET_UNCHANGED",
+  "universe_tickers": 949,
+  "existing_price_tickers": 95,
+  "missing_price_tickers": 854,
+  "accepted_new_tickers": 808,
+  "rejected_or_failed_tickers": 46,
+  "download_start": "2023-10-07",
+  "download_end": "2026-10-07",
+  "minimum_rows": 200,
+  "maximum_allowed_lag_days": 10,
+  "candidate_rows": 932241,
+  "candidate_tickers": 903,
+  "output_dataset": "data/idx_stock_prices_expansion.csv",
+  "audit_file": "data/price_expansion_audit.csv",
+  "important": [
+    "idx_stock_prices.csv was NOT overwritten.",
+    "This is a current-universe price-coverage expansion, not a point-in-time security master.",
+    "Do not feed the candidate dataset into the trading engine until coverage and data-quality review is complete."
+  ]
+}
