@@ -1,0 +1,29 @@
+{
+  "version": "V1.3A",
+  "snapshot_date": "2026-10-02",
+  "official_idx_source": "https://www.idx.co.id/en/listed-companies/company-profiles/",
+  "official_idx_fetch": {
+    "status": "FETCH_FAILED",
+    "rows": 0,
+    "url": "https://www.idx.co.id/en/listed-companies/company-profiles/",
+    "error": "403 Client Error: Forbidden for url: https://www.idx.co.id/en/listed-companies/company-profiles/"
+  },
+  "official_current_universe_count": 0,
+  "daily_snapshot_universe_count": 949,
+  "local_price_ticker_count": 95,
+  "official_and_local": 0,
+  "official_missing_local_price": 0,
+  "official_not_in_daily_snapshot": 0,
+  "daily_and_local": 95,
+  "local_only": 0,
+  "official_to_local_coverage_pct": null,
+  "status": "AUDIT_READY__DO_NOT_EXPAND_ENGINE_UNTIL_REVIEWED",
+  "notes": [
+    "IDX Company Profiles is the authoritative current-universe reference when successfully parsed.",
+    "Daily all-stock snapshot is a secondary discovery/cross-check source.",
+    "Failure to parse IDX is explicit; the workflow never silently labels the snapshot as official.",
+    "No listing date is inferred from first local price date.",
+    "Historical point-in-time membership, delistings and survivorship bias remain unsolved in V1.3A.",
+    "This phase never overwrites the local price dataset."
+  ]
+}
