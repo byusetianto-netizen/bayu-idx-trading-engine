@@ -1,0 +1,11 @@
+{
+  "version": "V1.3B-2",
+  "status": "AUDIT_ONLY__MAIN_DATASET_UNCHANGED",
+  "tickers": 903,
+  "grade_A": 794,
+  "grade_B": 31,
+  "grade_C": 78,
+  "latest_date": "2026-10-05",
+  "output_audit": "data/price_data_quality_audit.csv",
+  "output_summary": "data/price_data_quality_summary.json"
+}
