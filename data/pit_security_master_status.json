@@ -1,0 +1,8 @@
+{
+  "status": "V1.3C4_PIT_MASTER_BUILT__NOT_ENABLED_IN_ENGINE",
+  "main_dataset_modified": false,
+  "engine_inputs_modified": false,
+  "engine_enabled": false,
+  "strict_mode": true,
+  "next_step": "Populate verified event evidence, then validate PIT eligibility before V1.3D backtest."
+}
