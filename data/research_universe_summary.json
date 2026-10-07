@@ -1,0 +1,22 @@
+{
+  "latest_market_date": "2026-10-07",
+  "input_tickers": 903,
+  "research_universe_eligible": 297,
+  "excluded": 606,
+  "blue_chip_eligible": 44,
+  "conglomerate_eligible": 17,
+  "bumn_eligible": 11,
+  "liquid_core": 147,
+  "liquid_growth_momentum": 73,
+  "liquid_high_vol": 77,
+  "pit_safe_tickers": 0,
+  "engine_changed": false,
+  "status": "RESEARCH_UNIVERSE_BUILT__NO_ENGINE_CHANGE",
+  "gate_policy": {
+    "min_history_rows": 200,
+    "max_lag_days": 10,
+    "min_median_value_20d_idr": 1000000000,
+    "min_median_value_60d_idr": 1000000000,
+    "max_annualized_volatility_flag": 2.5
+  }
+}
