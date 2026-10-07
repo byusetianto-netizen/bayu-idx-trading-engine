@@ -1,0 +1,7 @@
+{
+  "status": "RESEARCH_UNIVERSE_BUILT__NO_ENGINE_CHANGE",
+  "engine_changed": false,
+  "pit_safe_for_backtest": false,
+  "note": "This is a research/liquidity gate. It does not create historical PIT membership and does not alter actual_engine.py.",
+  "official_idx_context": "IDX Ringkasan Saham exposes volume, value, frequency, listed shares and tradeable shares. This layer currently derives trading value from local OHLCV and does not yet replace it with an official PIT liquidity feed."
+}
