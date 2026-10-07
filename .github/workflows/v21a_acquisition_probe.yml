@@ -1,0 +1,44 @@
+name: V2.1A-1 IDX Financial Acquisition Probe
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '45 13 * * 1-5' # 20:45 WIB
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas curl_cffi
+
+      - name: Run IDX financial acquisition probe
+        run: python scripts/idx_financial_acquisition_probe.py
+        env:
+          MAX_PROBE_TICKERS: '3'
+          PROBE_YEAR: '2025'
+          PROBE_PERIOD: 'audit'
+          DOWNLOAD_SAMPLE_ATTACHMENT: '1'
+
+      - name: Commit probe outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/fundamental/acquisition_probe.csv data/fundamental/acquisition_probe_status.json
+          if git diff --cached --quiet; then
+            echo "No acquisition probe changes to commit."
+          else
+            git commit -m "V2.1A-1 IDX financial acquisition probe"
+            git push
+          fi
