@@ -1,0 +1,95 @@
+ticker,category,group_name,index_membership,source,source_date,confidence,basis
+AADI,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ADMR,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ADRO,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+AKRA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+AMMN,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+AMRT,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ANTM,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ASII,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BBCA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BBNI,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BBRI,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BBTN,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BMRI,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BRPT,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BUMI,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+CPIN,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+CUAN,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+DEWA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+EMTK,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ESSA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+EXCL,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+GOTO,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+HRTA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ICBP,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+INCO,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+INDF,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+INKP,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ISAT,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+ITMG,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+JPFA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+KLBF,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+MAPI,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+MBMA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+MDKA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+MEDC,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+PGAS,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+PGEO,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+PTBA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+SCMA,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+SMGR,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+TLKM,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+TOWR,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+UNTR,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+UNVR,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+WIFI,BLUE_CHIP,,LQ45,Secondary LQ45 snapshot,2026-06-12,MEDIUM,Current/recent snapshot; historical membership not inferred
+BRPT,CONGLOMERATE,BARITO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+TPIA,CONGLOMERATE,BARITO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BREN,CONGLOMERATE,BARITO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+CUAN,CONGLOMERATE,BARITO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+PTRO,CONGLOMERATE,BARITO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+CDIA,CONGLOMERATE,BARITO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BSDE,CONGLOMERATE,SINAR_MAS,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+SMAR,CONGLOMERATE,SINAR_MAS,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+SMMA,CONGLOMERATE,SINAR_MAS,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+INKP,CONGLOMERATE,SINAR_MAS,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+DMAS,CONGLOMERATE,SINAR_MAS,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BBCA,CONGLOMERATE,DJARUM_HARTONO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BELI,CONGLOMERATE,DJARUM_HARTONO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+SUPR,CONGLOMERATE,DJARUM_HARTONO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+TOWR,CONGLOMERATE,DJARUM_HARTONO,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+ICBP,CONGLOMERATE,SALIM,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+INDF,CONGLOMERATE,SALIM,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+SIMP,CONGLOMERATE,SALIM,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+FAST,CONGLOMERATE,SALIM,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BRMS,CONGLOMERATE,SALIM,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+ASII,CONGLOMERATE,ASTRA,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+UNTR,CONGLOMERATE,ASTRA,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+AALI,CONGLOMERATE,ASTRA,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BUMI,CONGLOMERATE,BAKRIE,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BNBR,CONGLOMERATE,BAKRIE,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+ENRG,CONGLOMERATE,BAKRIE,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+UNSP,CONGLOMERATE,BAKRIE,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+VKTR,CONGLOMERATE,BAKRIE,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+VIVA,CONGLOMERATE,BAKRIE,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+MDIA,CONGLOMERATE,BAKRIE,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+MDKA,CONGLOMERATE,MERDEKA,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+EMAS,CONGLOMERATE,MERDEKA,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+TAPG,CONGLOMERATE,TRIPUTRA,,Secondary group-affiliation snapshot,2026-10-07,MEDIUM,Current/recent affiliation; ownership/control relationship requires verification
+BBNI,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+BBRI,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+BBTN,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+BMRI,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+ADHI,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+ANTM,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+PTBA,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+PGAS,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+SMGR,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+TLKM,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+JSMR,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+KAEF,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+KRAS,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+WSKT,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+WIKA,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
+GIAA,BUMN_AFFILIATED,,,IDX/market reference seed,2026-10-07,LOW,Research classification seed; not equivalent to BUMN20 PIT membership
