@@ -5,6 +5,8 @@
   "tickers": 98,
   "financial_source": "financial_statements_pit.csv",
   "price_source": "idx_stock_prices.csv + PIT-required expansion/supplement when available",
+  "ratio_source": "not available",
+  "ratio_snapshot_rows": 0,
   "pit_verified": 3,
   "pit_verified_tickers": [
     "AADI",
