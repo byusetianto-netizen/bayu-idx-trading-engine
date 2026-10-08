@@ -1,0 +1,23 @@
+{
+  "status": "COVERAGE_COMPLETE",
+  "analysis_date": "2026-10-06",
+  "pit_tickers_required": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "main_price_tickers": 95,
+  "expansion_price_tickers": 903,
+  "supplement_price_tickers": 0,
+  "missing_before_supplement": [],
+  "fetched": [],
+  "still_missing": [],
+  "errors": [],
+  "supplement_rows": 0,
+  "notes": [
+    "Main IDX price dataset is never overwritten by this script.",
+    "Only PIT-required tickers missing from the main/expansion price universe are supplemented.",
+    "All fetched prices are restricted to dates on/before the analysis date.",
+    "If Yahoo Finance is unavailable, the engine reports the missing coverage instead of inventing prices."
+  ]
+}
