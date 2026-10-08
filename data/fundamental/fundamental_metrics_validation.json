@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "analysis_date": "2026-09-01",
+  "assessment_rows": 1,
+  "metric_rows": 22,
+  "publication_dates_after_analysis": 0,
+  "missing_required_metrics": [],
+  "tickers": [
+    "AADI"
+  ]
+}
