@@ -1,11 +1,11 @@
 {
-  "status": "REVIEW",
+  "status": "PASS",
   "engine_changed": false,
   "checks": {
     "financial_statement_file": true,
-    "rows": 60,
+    "rows": 30,
     "tickers": 3,
-    "duplicates": 30,
+    "duplicates": 0,
     "missing_metric": 0,
     "missing_period_end": 0,
     "pit_ready_rows": 0
