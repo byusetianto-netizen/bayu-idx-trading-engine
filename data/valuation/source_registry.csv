@@ -1,5 +1,6 @@
 source,role,status,notes
-IDX Financial Data and Ratio,absolute/sector valuation cross-check,REFERENCE,Official IDX source
-PIT fundamental statements,EPS/BV/growth inputs,REQUIRED,Publication date must precede analysis date
-OHLCV price history,current price and historical valuation,REQUIRED,Use point-in-time prices
-Sector map,peer grouping,OPTIONAL,Must be PIT-safe before historical peer tests
+IDX Financial Statement / XBRL,primary fundamental input,REQUIRED,PIT publication evidence required
+IDX Financial Data and Ratio,valuation cross-check,REFERENCE,Do not substitute for detailed PIT statements when historical analysis is required
+Point-in-time OHLCV,current and historical price,REQUIRED,Use dates that existed in the price dataset
+financial_source_manifest.csv,PIT publication evidence,REQUIRED,High-confidence publication timestamp preferred
+sector_map.csv,peer grouping,OPTIONAL,Must be PIT-safe for historical peer analysis
