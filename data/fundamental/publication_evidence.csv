@@ -1,0 +1,4 @@
+ticker,period_end,publication_date,publication_timezone,publication_source,evidence_type,evidence_note,confidence
+AADI,2026-03-31,2026-04-30 16:51:00,Asia/Jakarta,IDX,IDX_DISCLOSURE_SCREENSHOT,"IDX screenshot supplied by user; AADI 2026 TW1 shown as 30 April 2026 16:51 WIB",HIGH
+AALI,2026-03-31,2026-04-28 16:30:00,Asia/Jakarta,IDX,IDX_DISCLOSURE_SCREENSHOT,"IDX screenshot supplied by user; AALI 2026 TW1 shown as 28 April 2026 16:30 WIB",HIGH
+ABBA,2026-03-31,2026-04-28 17:14:00,Asia/Jakarta,IDX,IDX_DISCLOSURE_SCREENSHOT,"IDX screenshot supplied by user; ABBA 2026 TW1 shown as 28 April 2026 17:14 WIB",HIGH

@@ -1,0 +1,40 @@
+name: V2.1A3 IDX Publication Evidence PIT
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pit-publication-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Apply IDX publication evidence
+        run: python scripts/apply_idx_publication_evidence.py
+
+      - name: Validate PIT publication timestamps
+        run: python scripts/validate_pit_publication_evidence.py
+
+      - name: Commit validation outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/fundamental/publication_evidence.csv
+          git add data/fundamental/financial_statements.csv
+          git add data/fundamental/pit_publication_status.json
+          git add data/fundamental/pit_publication_validation.json
+          git add README_V2.1A3.md
+          git diff --cached --quiet || git commit -m "V2.1A3 validate IDX publication evidence"
+          git push
