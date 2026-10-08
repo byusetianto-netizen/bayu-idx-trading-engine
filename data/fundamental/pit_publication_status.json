@@ -1,0 +1,18 @@
+{
+  "status": "PIT_PUBLICATION_EVIDENCE_APPLIED",
+  "engine_changed": false,
+  "evidence_rows": 3,
+  "financial_rows": 256,
+  "rows_with_evidence_applied": 0,
+  "tickers_with_evidence": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "notes": [
+    "Publication timestamp is treated as the availability timestamp for PIT filtering.",
+    "period_end is not used as publication_date.",
+    "Evidence source is IDX and was captured from the IDX disclosure page screenshot supplied by the user.",
+    "This patch does not create investment scores or trade decisions."
+  ]
+}
