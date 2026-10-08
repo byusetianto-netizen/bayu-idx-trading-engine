@@ -1,0 +1,49 @@
+{
+  "status": "COLLECTION_PARTIAL",
+  "engine_changed": false,
+  "tickers_requested": 3,
+  "tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "discovered_candidates": 0,
+  "stored_evidence_rows": 3,
+  "http_errors": 6,
+  "errors": [
+    {
+      "request": "ann_AADI",
+      "status": 403,
+      "error": null
+    },
+    {
+      "request": "fin_AADI",
+      "status": 403,
+      "error": null
+    },
+    {
+      "request": "ann_AALI",
+      "status": 403,
+      "error": null
+    },
+    {
+      "request": "fin_AALI",
+      "status": 403,
+      "error": null
+    },
+    {
+      "request": "ann_ABBA",
+      "status": 403,
+      "error": null
+    },
+    {
+      "request": "fin_ABBA",
+      "status": 403,
+      "error": null
+    }
+  ],
+  "notes": [
+    "Automatic collector never invents publication timestamps.",
+    "High-confidence manual IDX evidence is preserved until automatic evidence can replace it with equivalent evidence."
+  ]
+}

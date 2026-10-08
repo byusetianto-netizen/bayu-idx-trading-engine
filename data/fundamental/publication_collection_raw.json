@@ -1,0 +1,32 @@
+{
+  "ann_AADI": {
+    "status": 403,
+    "bytes": 5017,
+    "error": null
+  },
+  "fin_AADI": {
+    "status": 403,
+    "bytes": 5017,
+    "error": null
+  },
+  "ann_AALI": {
+    "status": 403,
+    "bytes": 5017,
+    "error": null
+  },
+  "fin_AALI": {
+    "status": 403,
+    "bytes": 5017,
+    "error": null
+  },
+  "ann_ABBA": {
+    "status": 403,
+    "bytes": 5017,
+    "error": null
+  },
+  "fin_ABBA": {
+    "status": 403,
+    "bytes": 5017,
+    "error": null
+  }
+}

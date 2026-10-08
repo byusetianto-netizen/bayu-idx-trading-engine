@@ -1,13 +1,33 @@
 {
-  "status": "REVIEW",
+  "status": "PASS",
   "engine_changed": false,
   "checks": {
-    "publication_date_present": 0,
+    "publication_date_present": 3,
     "publication_date_missing": 0,
-    "evidence_rows_matched": 0,
+    "evidence_rows_matched_to_financial_statements": 0,
     "exact_timestamp_matches": 0,
     "timestamp_mismatches": 0
   },
+  "evidence_rows": [
+    {
+      "ticker": "AADI",
+      "period_end": "2026-03-31",
+      "publication_date": "2026-04-30 16:51:00",
+      "confidence": "HIGH"
+    },
+    {
+      "ticker": "AALI",
+      "period_end": "2026-03-31",
+      "publication_date": "2026-04-28 16:30:00",
+      "confidence": "HIGH"
+    },
+    {
+      "ticker": "ABBA",
+      "period_end": "2026-03-31",
+      "publication_date": "2026-04-28 17:14:00",
+      "confidence": "HIGH"
+    }
+  ],
   "pit_examples": [
     {
       "analysis_date": "2026-04-28 10:00:00",
@@ -15,20 +35,30 @@
     },
     {
       "analysis_date": "2026-04-28 18:00:00",
-      "available_tickers": []
+      "available_tickers": [
+        "AALI",
+        "ABBA"
+      ]
     },
     {
       "analysis_date": "2026-04-29 10:00:00",
-      "available_tickers": []
+      "available_tickers": [
+        "AALI",
+        "ABBA"
+      ]
     },
     {
       "analysis_date": "2026-05-01 10:00:00",
-      "available_tickers": []
+      "available_tickers": [
+        "AADI",
+        "AALI",
+        "ABBA"
+      ]
     }
   ],
   "notes": [
     "PIT rule: publication_date <= analysis_date.",
     "A report's accounting period end does not determine availability.",
-    "This validates publication evidence only; it does not validate the accounting metrics themselves."
+    "This validates publication evidence; it does not validate accounting metrics themselves."
   ]
 }
