@@ -1,0 +1,4 @@
+ticker,company_name,period_end,period_type,statement_file,xbrl_file,publication_timestamp,publication_source,publication_source_url,publication_confidence,financial_source,source_status,notes
+AADI,PT Adaro Andalan Indonesia Tbk,2026-03-31,Q1,FinancialStatement-2026-I-AADI.xlsx,inlineXBRL.zip,2026-04-30 16:51:00,IDX disclosure,,HIGH,IDX,VERIFIED,"Baseline evidence from IDX disclosure screenshot supplied by user"
+AALI,Astra Agro Lestari Tbk,2026-03-31,Q1,FinancialStatement-2026-I-AALI.xlsx,inlineXBRL.zip,2026-04-28 16:30:00,IDX disclosure,,HIGH,IDX,VERIFIED,"Baseline evidence from IDX disclosure screenshot supplied by user"
+ABBA,Mahaka Media Tbk,2026-03-31,Q1,FinancialStatement-2026-I-ABBA.xlsx,inlineXBRL.zip,2026-04-28 17:14:00,IDX disclosure,,HIGH,IDX,VERIFIED,"Baseline evidence from IDX disclosure screenshot supplied by user"
