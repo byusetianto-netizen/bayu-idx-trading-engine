@@ -1,0 +1,33 @@
+name: V2.1B Fundamental Metrics
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '00 14 * * 1-5' # 21:00 WIB
+
+permissions:
+  contents: write
+
+jobs:
+  fundamental-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Build fundamental metrics
+        run: python scripts/fundamental_metrics_engine.py
+      - name: Validate fundamental metrics
+        run: python scripts/validate_fundamental_metrics.py --analysis-date 2026-09-01
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/fundamental/fundamental_metrics.csv data/fundamental/fundamental_assessment.csv data/fundamental/fundamental_metrics_status.json data/fundamental/fundamental_metrics_validation.json
+          git diff --cached --quiet || git commit -m "V2.1B: build fundamental metrics"
+          git push
