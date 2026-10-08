@@ -1,12 +1,12 @@
 {
   "status": "IMPORT_COMPLETE",
   "engine_changed": false,
-  "files_found": 1,
-  "files_imported": 1,
+  "files_found": 3,
+  "files_imported": 3,
   "files_with_errors": 0,
-  "rows_extracted": 84,
-  "financial_statement_rows_total": 10,
-  "tickers_with_financial_data": 1,
+  "rows_extracted": 234,
+  "financial_statement_rows_total": 40,
+  "tickers_with_financial_data": 3,
   "notes": [
     "No financial values are fabricated.",
     "Publication date is not inferred from period_end.",
