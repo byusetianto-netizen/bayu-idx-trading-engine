@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "rows": 3,
+  "checks": [
+    {
+      "check": "missing_ticker",
+      "count": 0
+    },
+    {
+      "check": "missing_period_end",
+      "count": 0
+    },
+    {
+      "check": "missing_publication_date",
+      "count": 0
+    },
+    {
+      "check": "duplicate_ticker_period",
+      "count": 0
+    }
+  ],
+  "evidence_rows": 3,
+  "notes": [
+    "publication_date is mandatory; publication_time is optional."
+  ]
+}
