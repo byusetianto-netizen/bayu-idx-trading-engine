@@ -1,0 +1,41 @@
+name: V2.1E Batch Financial Importer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/fundamental/inbox/**'
+      - 'scripts/import_financial_statements_batch.py'
+      - 'scripts/validate_batch_financial_import.py'
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas numpy openpyxl
+
+      - name: Import financial statements
+        run: python scripts/import_financial_statements_batch.py
+
+      - name: Validate import
+        run: python scripts/validate_batch_financial_import.py
+
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/fundamental/financial_statements.csv data/fundamental/fundamental_import_audit.csv data/fundamental/fundamental_import_status.json data/fundamental/fundamental_import_validation_status.json
+          git diff --cached --quiet || git commit -m "Import batch financial statements"
+          git push
