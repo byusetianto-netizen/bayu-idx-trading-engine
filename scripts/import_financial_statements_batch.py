@@ -81,7 +81,7 @@ def find_general_info(xls):
                             info["ticker"] = re.sub(r"[^A-Z]", "", row[j+1].upper())
             if "current period" in joined or "periode berjalan" in joined:
                 # look for date-like values in row
-                dates = pd.to_datetime(pd.Series(row), errors="coerce", dayfirst=False)
+                dates = pd.to_datetime(pd.Series(row), errors="coerce", dayfirst=False, format="mixed")
                 vals = [d for d in dates if pd.notna(d)]
                 if vals:
                     info["period_end"] = max(vals).date().isoformat()
@@ -101,7 +101,7 @@ def extract_file(path):
             try:
                 df = pd.read_excel(xls, sheet_name=sh, header=None, nrows=80)
             except: continue
-            vals = pd.to_datetime(df.astype(str).stack(), errors="coerce", dayfirst=False).dropna()
+            vals = pd.to_datetime(df.astype(str).stack(), errors="coerce", dayfirst=False, format="mixed").dropna()
             if len(vals):
                 period_end = max(vals).date().isoformat()
                 break
@@ -170,21 +170,33 @@ def main():
                 "error": str(e)[:500],
             })
 
-    new_df = pd.DataFrame(imported, columns=REQUIRED)
-    if STATEMENTS.exists():
-        old = pd.read_csv(STATEMENTS)
-        combined = pd.concat([old, new_df], ignore_index=True)
-    else:
-        combined = new_df
+    # CLEAN REBUILD:
+    # Reconstruct the financial statement table exclusively from the XLSX files
+    # currently present in inbox. Do not merge the existing CSV, because an
+    # earlier importer version could have left duplicate rows behind.
+    combined = pd.DataFrame(imported, columns=REQUIRED)
 
     if not combined.empty:
         for c in REQUIRED:
-            if c not in combined.columns: combined[c] = ""
+            if c not in combined.columns:
+                combined[c] = ""
+
+        for c in ["ticker","metric","period_end","publication_date","document_id"]:
+            combined[c] = combined[c].fillna("").astype(str).str.strip()
+
+        combined["value"] = pd.to_numeric(combined["value"], errors="coerce")
+
+        # Deduplicate by source document + financial identity. If the same
+        # metric appears more than once inside an XLSX, retain one record.
         combined = combined[REQUIRED].drop_duplicates(
-            subset=["ticker","metric","period_end","publication_date","document_id"],
-            keep="last"
+            subset=["ticker","metric","period_end","document_id"],
+            keep="first"
         )
+
         combined.to_csv(STATEMENTS, index=False)
+    else:
+        # Explicitly rebuild an empty table if no source files are present.
+        pd.DataFrame(columns=REQUIRED).to_csv(STATEMENTS, index=False)
 
     pd.DataFrame(audit).to_csv(AUDIT, index=False)
 

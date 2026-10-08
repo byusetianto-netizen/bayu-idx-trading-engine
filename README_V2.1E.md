@@ -39,3 +39,26 @@ A successful import is not the same as PIT verification.
 Rows without publication evidence remain non-PIT-ready.
 
 This layer is research-only and does not generate BUY/SELL signals.
+
+
+## V2.1E-1 fix
+
+The importer normalizes blank publication/document fields before de-duplication.
+This prevents NaN-vs-empty-string duplicates when the same batch is run again.
+
+The workflow is manual-only (`workflow_dispatch`) so the same upload is not
+automatically processed and then processed again manually.
+
+
+## V2.1E-2 Clean Rebuild
+
+The importer now rebuilds `financial_statements.csv` exclusively from the
+XLSX files currently present in `data/fundamental/inbox/`. It does not merge
+the previous output CSV. This prevents legacy duplicate rows from surviving
+future runs.
+
+The duplicate identity is:
+`ticker + metric + period_end + document_id`
+
+Publication evidence is still separate. Imported rows without verified
+publication evidence are not PIT-ready.

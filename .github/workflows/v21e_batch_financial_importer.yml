@@ -2,11 +2,6 @@ name: V2.1E Batch Financial Importer
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'data/fundamental/inbox/**'
-      - 'scripts/import_financial_statements_batch.py'
-      - 'scripts/validate_batch_financial_import.py'
 
 permissions:
   contents: write

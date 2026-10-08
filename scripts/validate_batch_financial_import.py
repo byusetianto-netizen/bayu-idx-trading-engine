@@ -13,7 +13,7 @@ if not F.exists():
     status["checks"]={"financial_statement_file":False}
 else:
     df = pd.read_csv(F)
-    dup = int(df.duplicated(["ticker","metric","period_end","publication_date","document_id"]).sum()) if len(df) else 0
+    dup = int(df.duplicated(["ticker","metric","period_end","document_id"]).sum()) if len(df) else 0
     missing_metric = int(df["metric"].isna().sum()) if "metric" in df else len(df)
     missing_period = int(df["period_end"].fillna("").eq("").sum()) if "period_end" in df else len(df)
     status["checks"] = {
