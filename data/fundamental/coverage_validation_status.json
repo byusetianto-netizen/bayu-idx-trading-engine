@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "engine_changed": false,
+  "checks": {
+    "financial_statement_rows": 0,
+    "duplicate_key_rows": 0,
+    "missing_publication_date": 0,
+    "missing_period_end": 0,
+    "publication_evidence_rows": 0,
+    "evidence_missing_publication": 0,
+    "verified_rows": 0
+  },
+  "generated_at": "2026-10-08T04:04:48.683268+00:00",
+  "notes": [
+    "PASS means structural validation only.",
+    "Rows without publication_date are not PIT-ready.",
+    "No financial values are inferred or backfilled."
+  ]
+}
