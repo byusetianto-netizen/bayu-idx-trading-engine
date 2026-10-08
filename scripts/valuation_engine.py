@@ -344,9 +344,17 @@ def main():
         for _,r in sec.drop_duplicates('ticker').iterrows(): sector_lookup[str(r.ticker).upper()]=str(r.get('sector_name','') or '')
     rows=[]; hist_rows=[]
     for t,pg in p.groupby('ticker'):
-        t=str(t).upper(); price_row=pg[pg.date==latest_date]
-        if price_row.empty: continue
-        price=num(price_row.iloc[-1].close)
+        t=str(t).upper()
+        # Point-in-time safe price alignment: use this ticker's latest
+        # observation on/before the global analysis date. Do not require
+        # every ticker to have a price on the exact global latest date.
+        pg = pg.sort_values('date').copy()
+        price_candidates = pg[pg['date'] <= latest_date]
+        if price_candidates.empty:
+            continue
+        price_row = price_candidates.iloc[[-1]]
+        price = num(price_row.iloc[-1].close)
+        price_date = pd.to_datetime(price_row.iloc[-1].date)
         pit_ev=pit_evidence_for_ticker(fs,t,latest_date)
         f_hist=extract_periodic(fs,t,latest_date)
         # EPS/BVPS are optional. Missing per-share fields must not invalidate PIT evidence.
@@ -375,7 +383,7 @@ def main():
         trap=(('NEGATIVE_EPS' in flags or 'NEGATIVE_BOOK_VALUE' in flags) and (('EARNINGS_DECLINE' in flags) or ('REVENUE_DECLINE' in flags)))
         if trap: flags.append('VALUE_TRAP_RISK')
         pit_status=pit_ev['pit_status']
-        r={'analysis_date':latest_date.date().isoformat(),'ticker':t,'close':price,'eps':eps,'bvps':bvps,'per':per,'pbv':pbv,'earnings_yield':ey,
+        r={'analysis_date':latest_date.date().isoformat(),'price_date':price_date.date().isoformat(),'ticker':t,'close':price,'eps':eps,'bvps':bvps,'per':per,'pbv':pbv,'earnings_yield':ey,
            'revenue_growth_pct':revg,'net_profit_growth_pct':growth,'roe_pct':roe,'net_margin_pct':npm,'peg_diagnostic':peg,
            'sector':sector_lookup.get(t,''),'pit_period_end':pit_period.date().isoformat() if pd.notna(pit_period) else '',
            'pit_publication_date':pit_pub.date().isoformat() if pd.notna(pit_pub) else '',
