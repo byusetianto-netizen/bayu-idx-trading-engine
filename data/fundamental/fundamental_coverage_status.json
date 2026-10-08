@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "engine_changed": false,
+  "manifest_rows": 3,
+  "coverage_rows": 3,
+  "tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "source_hierarchy": "IDX statement/XBRL primary; IDX Financial Data and Ratio secondary cross-check; company IR verification; third-party discovery only",
+  "notes": [
+    "This is a data reliability/coverage layer, not an investment score.",
+    "Future approved/licensed acquisition can populate the same manifest without changing downstream metrics."
+  ]
+}
