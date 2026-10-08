@@ -1,1 +1,11 @@
-ticker,company_name,statement,metric,value,unit,currency,period_start,period_end,period_type,is_cumulative,publication_date,report_date,source,source_url,document_id,version,confidence
+ticker,metric,value,unit,currency,period_start,period_end,period_type,is_cumulative,publication_date,report_date,source,source_url,document_id,version,confidence
+AADI,total_assets,6321478.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,total_equity,3934279.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,total_liabilities,6321478.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,gross_profit,782702.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,profit_before_tax,664664.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,net_income_parent,454558.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,cash_from_operations,449870.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,cash_from_investing,-138504.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,cash_from_financing,-29198.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM
+AADI,revenue,1763894.0,reported,IDR,,2026-06-30,UNKNOWN,,,,IDX FinancialStatement XLSX,,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,FinancialStatement-2026-II-AADI.xlsx,MEDIUM

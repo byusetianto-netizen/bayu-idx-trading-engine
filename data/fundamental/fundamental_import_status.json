@@ -1,0 +1,16 @@
+{
+  "status": "IMPORT_COMPLETE",
+  "engine_changed": false,
+  "files_found": 1,
+  "files_imported": 1,
+  "files_with_errors": 0,
+  "rows_extracted": 84,
+  "financial_statement_rows_total": 10,
+  "tickers_with_financial_data": 1,
+  "notes": [
+    "No financial values are fabricated.",
+    "Publication date is not inferred from period_end.",
+    "Rows without publication evidence are not PIT-ready.",
+    "Importer is research-only and does not modify actual_engine.py."
+  ]
+}

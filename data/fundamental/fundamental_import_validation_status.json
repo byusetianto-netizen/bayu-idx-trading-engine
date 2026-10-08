@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "engine_changed": false,
+  "checks": {
+    "financial_statement_file": true,
+    "rows": 10,
+    "tickers": 1,
+    "duplicates": 0,
+    "missing_metric": 0,
+    "missing_period_end": 0,
+    "pit_ready_rows": 0
+  },
+  "notes": [
+    "PASS means structural validation only.",
+    "PIT readiness requires publication evidence and publication_date <= analysis_date.",
+    "Do not treat imported values as investment conclusions."
+  ]
+}
