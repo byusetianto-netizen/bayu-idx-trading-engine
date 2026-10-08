@@ -1,4 +1,4 @@
-ticker,period_end,publication_date,publication_time,source_url,notes
-AADI,2026-06-30,2026-08-28,16:13:53,https://www.idx.co.id/,Verified from IDX disclosure page
-AALI,2026-06-30,,,,,
-ABBA,2026-03-31,2026-04-28,17:14:00,https://www.idx.co.id/,Verified from IDX disclosure page
+"ticker,period_end,publication_date,publication_time"
+"AADI,2026-06-30,2026-08-28,16:13"
+"AALI,2026-06-30,2026-07-29,18:19"
+"ABBA,2026-03-31,2026-04-28,17:14"
