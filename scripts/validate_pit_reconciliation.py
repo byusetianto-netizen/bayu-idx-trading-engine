@@ -16,24 +16,28 @@ missing = sorted(required - set(df.columns))
 if missing:
     raise ValueError(f"Missing required columns: {missing}")
 
-# Normalize all dates to UTC-aware timestamps before comparison.
-# This prevents pandas errors when one side is timezone-aware and the other is naive.
 period = pd.to_datetime(df["period_end"], errors="coerce", utc=True)
 pub = pd.to_datetime(df["publication_date"], errors="coerce", utc=True)
 
 publication_missing = int(pub.isna().sum())
 period_missing = int(period.isna().sum())
-publication_after_period = int((pub.notna() & period.notna() & (pub > period)).sum())
 
-duplicates = int(df.duplicated(subset=["ticker", "period_end", "metric"], keep=False).sum()) if "metric" in df.columns else 0
-pit_ready_mask = pub.notna() & period.notna() & (pub <= period)
+# IMPORTANT:
+# Publication date is expected to be AFTER period_end for financial reports.
+# Therefore publication_date > period_end is NOT an error and is NOT a PIT failure.
+# PIT readiness here means the availability evidence exists and is valid.
+duplicates = (
+    int(df.duplicated(subset=["ticker", "period_end", "metric"], keep=False).sum())
+    if "metric" in df.columns else 0
+)
+
+pit_ready_mask = pub.notna() & period.notna()
 pit_ready_rows = int(pit_ready_mask.sum())
 pit_ready_tickers = int(df.loc[pit_ready_mask, "ticker"].nunique())
 
 status = "PASS" if (
     publication_missing == 0
     and period_missing == 0
-    and publication_after_period == 0
     and duplicates == 0
 ) else "REVIEW"
 
@@ -46,13 +50,17 @@ result = {
     "pit_ready_tickers": pit_ready_tickers,
     "publication_missing": publication_missing,
     "period_end_missing": period_missing,
-    "publication_after_period_end": publication_after_period,
     "duplicate_key_rows": duplicates,
+    "publication_after_period_end": int(
+        (pub.notna() & period.notna() & (pub > period)).sum()
+    ),
+    "publication_after_period_end_is_expected": True,
     "timezone_normalization": "UTC-aware comparison",
     "notes": [
-        "Publication date is treated as availability evidence.",
-        "Period end is never used as publication date.",
-        "Timezone-aware and timezone-naive datetime values are normalized to UTC before comparison.",
+        "Publication date is availability evidence and is expected to occur after period_end for financial reports.",
+        "Publication date is never required to be <= period_end.",
+        "PIT readiness requires valid period_end and publication evidence.",
+        "For a historical analysis date, the separate PIT rule is publication_date <= analysis_date.",
         "No investment decision is performed by this validation layer."
     ]
 }
