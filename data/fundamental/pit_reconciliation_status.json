@@ -3,13 +3,17 @@
   "engine_changed": false,
   "financial_rows": 30,
   "tickers": 3,
+  "evidence_rows": 3,
   "pit_ready_rows": 30,
   "pit_ready_tickers": 3,
-  "evidence_rows": 3,
+  "publication_missing_rows": 0,
+  "join_key": "ticker + period_end",
+  "ticker_only_fallback": false,
+  "period_end_used_as_publication_date": false,
   "notes": [
-    "Publication evidence is matched by ticker + period_end only.",
-    "Ticker-only fallback is intentionally prohibited to avoid wrong-period PIT attribution.",
+    "Publication evidence is matched strictly by ticker + period_end.",
+    "All financial statement rows are preserved by a left join.",
     "Publication date is never inferred from period_end.",
-    "This layer does not modify actual_engine.py."
+    "Publication time is optional."
   ]
 }
