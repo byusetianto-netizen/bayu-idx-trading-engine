@@ -3,21 +3,29 @@
   "engine_changed": false,
   "checks": {
     "snapshot_present": true,
-    "rows": 95,
+    "rows": 98,
     "duplicate_ticker": 0,
     "negative_eps_per_guard": 0,
     "negative_bvps_pbv_guard": 0,
     "pit_source_rows": 30,
     "pit_source_eligible_tickers": 3,
-    "pit_source_overlap_with_snapshot": 0,
-    "pit_verified_rows": 0,
-    "pit_verified_tickers": [],
-    "pit_expected_in_snapshot": [],
+    "pit_source_overlap_with_snapshot": 3,
+    "pit_verified_rows": 3,
+    "pit_verified_tickers": [
+      "AADI",
+      "AALI",
+      "ABBA"
+    ],
+    "pit_expected_in_snapshot": [
+      "AADI",
+      "AALI",
+      "ABBA"
+    ],
     "pit_integration_mismatch": [],
     "pit_unknown_rows": 95,
     "historical_verified_rows": 0,
     "peer_available_rows": 0,
-    "classification_present": 95
+    "classification_present": 98
   },
   "notes": [
     "PIT integration is validated against financial_statements_pit.csv using publication_date <= analysis_date.",
