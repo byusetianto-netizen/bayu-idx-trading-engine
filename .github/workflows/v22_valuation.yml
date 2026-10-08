@@ -16,7 +16,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: python -m pip install --upgrade pip pandas numpy
+        run: python -m pip install --upgrade pip pandas numpy yfinance
+      - name: Ensure PIT price coverage
+        run: python scripts/ensure_valuation_price_coverage.py
       - name: Build complete valuation engine
         run: python scripts/valuation_engine.py
       - name: Validate valuation

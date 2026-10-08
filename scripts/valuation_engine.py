@@ -12,6 +12,8 @@ import pandas as pd
 
 ROOT = Path('.')
 PRICE = ROOT/'data/idx_stock_prices.csv'
+PRICE_EXPANSION = ROOT/'data/idx_stock_prices_expansion.csv'
+PRICE_SUPPLEMENT = ROOT/'data/valuation/valuation_price_supplement.csv'
 FUND_DIR = ROOT/'data/fundamental'
 METRICS = FUND_DIR/'fundamental_metrics.csv'
 FS_PIT = FUND_DIR/'financial_statements_pit.csv'
@@ -53,14 +55,32 @@ def normalize_cols(df):
     df.columns = [str(c).strip().lower() for c in df.columns]
     return df
 
-def load_prices():
-    p = normalize_cols(read_csv(PRICE))
+def load_prices(pit_tickers=None):
+    # Keep the legacy 95-ticker universe as the base. Add only PIT-required
+    # tickers from the V1.3B expansion/supplement so V2.2 does not silently
+    # change its research universe merely because broader price data exists.
+    frames=[]
+    primary=normalize_cols(read_csv(PRICE))
+    frames.append(primary)
+    needed=set(str(x).upper().strip() for x in (pit_tickers or []))
+    for extra_path in (PRICE_EXPANSION, PRICE_SUPPLEMENT):
+        if not extra_path.exists():
+            continue
+        extra=normalize_cols(read_csv(extra_path))
+        if not extra.empty and 'ticker' in extra.columns and needed:
+            extra['ticker']=extra['ticker'].astype(str).str.upper().str.strip()
+            extra=extra[extra['ticker'].isin(needed)].copy()
+        frames.append(extra)
+    p=pd.concat([x for x in frames if not x.empty], ignore_index=True) if any(not x.empty for x in frames) else pd.DataFrame()
     need={'ticker','date','close'}
     if not need.issubset(p.columns): return pd.DataFrame()
     p['ticker']=p['ticker'].astype(str).str.upper().str.strip()
     p['date']=pd.to_datetime(p['date'], errors='coerce').dt.tz_localize(None)
     p['close']=pd.to_numeric(p['close'], errors='coerce')
-    return p.dropna(subset=['ticker','date','close']).sort_values(['ticker','date'])
+    p=p.dropna(subset=['ticker','date','close'])
+    # Primary data wins on duplicate ticker/date; then expansion; then supplement.
+    p=p.drop_duplicates(['ticker','date'], keep='first')
+    return p.sort_values(['ticker','date'])
 
 def load_fundamentals():
     # V2.2 PIT integration: financial_statements_pit.csv is the authoritative
@@ -332,7 +352,11 @@ def classify(r):
     return 'FAIR_OR_CONTEXT_DEPENDENT'
 
 def main():
-    p=load_prices(); fs,m,man=load_fundamentals(); sec=load_sector()
+    fs,m,man=load_fundamentals()
+    pit_tickers=[]
+    if not fs.empty and 'ticker' in fs.columns:
+        pit_tickers=sorted(set(fs['ticker'].astype(str).str.upper().str.strip()))
+    p=load_prices(pit_tickers=pit_tickers); sec=load_sector()
     if p.empty:
         status={'status':'INSUFFICIENT_DATA','engine_changed':False,'reason':'Price data unavailable'}
         (OUTDIR/'valuation_status.json').write_text(json.dumps(status,indent=2)); return
@@ -407,9 +431,12 @@ def main():
     else:
         pd.DataFrame(columns=['ticker','date','close','publication_date','period_end','eps','bvps','per','pbv']).to_csv(OUTDIR/'pit_valuation_observations.csv',index=False)
     counts=snap.classification.value_counts(dropna=False).to_dict()
+    pit_snapshot_tickers=set(snap.loc[snap['pit_current_status'].eq('PIT_VERIFIED'),'ticker'].astype(str).str.upper())
     status={'status':'BUILT','engine_changed':False,'analysis_date':latest_date.date().isoformat(),'tickers':int(len(snap)),
             'financial_source':'financial_statements_pit.csv' if (FS_PIT.exists() and not fs.empty and FS.resolve()==FS_PIT.resolve()) else 'financial_statements.csv',
+            'price_source':'idx_stock_prices.csv + PIT-required expansion/supplement when available',
             'pit_verified':int((snap.pit_current_status=='PIT_VERIFIED').sum()),
+            'pit_verified_tickers':sorted(pit_snapshot_tickers),
             'historical_verified':int((snap.historical_status=='VERIFIED_PIT_RANGE').sum()),
             'peer_sets_available':int((snap.peer_status=='PEER_SET_AVAILABLE').sum()),
             'classification_counts':{str(k):int(v) for k,v in counts.items()},
