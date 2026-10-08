@@ -1,11 +1,11 @@
 {
-  "offset": 10,
+  "offset": 15,
   "last_selected": [
-    "ACES",
-    "ACRO",
-    "ACST",
-    "ADCP",
-    "ADES"
+    "ADHI",
+    "ADMF",
+    "ADMG",
+    "ADMR",
+    "ADRO"
   ],
-  "updated_at": "2026-10-07T12:50:17.055458+00:00"
+  "updated_at": "2026-10-08T12:50:19.312225+00:00"
 }
