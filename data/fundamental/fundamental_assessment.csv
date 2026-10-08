@@ -1,0 +1,2 @@
+ticker,period_start,period_end,publication_date,growth,profitability,balance_sheet,cash_flow,overall_fundamental_view,revenue_growth,net_income_growth,net_margin,roe_annualized_estimate,debt_to_equity,cfo_to_net_income,pit_safe,source_document_id
+AADI,2026-01-01,2026-06-30,2026-08-28,STRONG,STRONG,HEALTHY,HEALTHY,POSITIVE,0.06127844537841387,0.08966090425531914,0.20593451022462927,0.2737870030562042,0.19589683476640057,0.8578233212313513,True,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18
