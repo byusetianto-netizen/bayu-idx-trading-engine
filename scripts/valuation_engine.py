@@ -22,6 +22,7 @@ FS_RAW = FUND_DIR/'financial_statements.csv'
 # the PIT file is absent or empty; raw data must never override PIT evidence.
 FS = FS_PIT
 MANIFEST = FUND_DIR/'financial_source_manifest.csv'
+RATIO_SNAP = FUND_DIR/'idx_financial_ratio_snapshots.csv'
 SECTOR = ROOT/'data/sector/sector_map.csv'
 OUTDIR = ROOT/'data/valuation'; OUTDIR.mkdir(parents=True, exist_ok=True)
 
@@ -91,7 +92,8 @@ def load_fundamentals():
     fs = pit if not pit.empty else raw
     m = normalize_cols(read_csv(METRICS))
     man = normalize_cols(read_csv(MANIFEST))
-    for d in (fs,m,man):
+    ratio = normalize_cols(read_csv(RATIO_SNAP))
+    for d in (fs,m,man,ratio):
         if not d.empty:
             for c in ('period_start','period_end','publication_date','publication_timestamp','report_date'):
                 if c in d.columns:
@@ -100,7 +102,7 @@ def load_fundamentals():
                 d['ticker']=d['ticker'].astype(str).str.upper().str.strip()
     if not fs.empty and 'pit_ready' in fs.columns:
         fs['pit_ready']=fs['pit_ready'].astype(str).str.lower().isin({'true','1','yes','y'})
-    return fs,m,man
+    return fs,m,man,ratio
 
 def load_sector():
     s=normalize_cols(read_csv(SECTOR))
@@ -197,13 +199,14 @@ def pit_evidence_for_ticker(fs, ticker, analysis_date):
     return result
 
 
-def extract_periodic(fs, ticker, analysis_date=None):
+def extract_periodic(fs, ticker, analysis_date=None, ratio_snap=None):
     """Return PIT-friendly fundamental observations.
 
-    The function does not require EPS/BVPS. Those fields are optional because
-    the supplied V2.1F statement dataset currently contains statement-level
-    metrics (revenue, equity, net income, etc.). Missing EPS/BVPS therefore
-    means PER/PBV remain UNKNOWN; it must not erase PIT verification.
+    EPS/BVPS may come directly from PIT financial statements. If they are not
+    present there, an official PIT financial-ratio snapshot may fill them,
+    provided the ratio record itself has publication evidence available on or
+    before the analysis date. No price-derived or post-analysis information is
+    allowed to backfill these fields.
     """
     if fs.empty:
         return pd.DataFrame()
@@ -226,9 +229,44 @@ def extract_periodic(fs, ticker, analysis_date=None):
         ad = pd.to_datetime(analysis_date, errors='coerce')
         if pd.notna(ad) and 'publication_date' in q.columns:
             q = q[q['publication_date'] <= ad]
+    else:
+        ad = pd.NaT
+
+    ratio = ratio_snap.copy() if isinstance(ratio_snap, pd.DataFrame) else pd.DataFrame()
+    if not ratio.empty and 'ticker' in ratio.columns:
+        ratio['ticker'] = ratio['ticker'].astype(str).str.upper().str.strip()
+        ratio = ratio[ratio['ticker'].eq(str(ticker).upper().strip())].copy()
+        if 'period_end' in ratio.columns:
+            ratio['period_end'] = pd.to_datetime(ratio['period_end'], errors='coerce')
+        if 'publication_date' in ratio.columns:
+            ratio['publication_date'] = pd.to_datetime(ratio['publication_date'], errors='coerce')
+            if pd.notna(ad):
+                ratio = ratio[ratio['publication_date'] <= ad]
+        if 'pit_ready' in ratio.columns:
+            ratio = ratio[ratio['pit_ready'].astype(str).str.lower().isin({'true','1','yes','y'})]
+        ratio = ratio.dropna(subset=['period_end']) if 'period_end' in ratio.columns else pd.DataFrame()
+
+    def ratio_value(g, aliases, direct_aliases=()):
+        if g.empty:
+            return np.nan
+        cols={str(c).lower():c for c in g.columns}
+        for name in direct_aliases:
+            c=cols.get(name.lower())
+            if c:
+                vals=pd.to_numeric(g[c],errors='coerce').dropna()
+                if not vals.empty: return num(vals.iloc[-1])
+        metric_col = cols.get('metric') or cols.get('metric_key')
+        value_col = cols.get('value')
+        if metric_col and value_col:
+            keys=g[metric_col].astype(str).str.lower()
+            aliases_l={x.lower() for x in aliases}
+            z=g[keys.isin(aliases_l)]
+            if not z.empty:
+                vals=pd.to_numeric(z[value_col],errors='coerce').dropna()
+                if not vals.empty: return num(vals.iloc[-1])
+        return np.nan
 
     out = []
-    # Use a scalar group key to avoid pandas returning a one-element tuple.
     for pe, g in q.groupby('period_end', dropna=True):
         pub = pd.to_datetime(g['publication_date'], errors='coerce').min() if 'publication_date' in g else pd.NaT
         if pd.isna(pub):
@@ -250,8 +288,20 @@ def extract_periodic(fs, ticker, analysis_date=None):
         eps = pick(ALIASES['eps'])
         bvps = pick(ALIASES['bvps'])
 
-        # Conservative BVPS derivation: only when explicitly compatible units
-        # are available. Do not infer shares outstanding from market data.
+        # Optional official ratio snapshot for the same PIT reporting period.
+        if not ratio.empty and 'period_end' in ratio.columns:
+            rg=ratio[ratio['period_end'].eq(pe)].copy()
+            if not rg.empty:
+                eps_r=ratio_value(rg, ALIASES['eps'], ('eps','eps_basic'))
+                bvps_r=ratio_value(rg, ALIASES['bvps'], ('bvps','book_value_per_share'))
+                if not np.isfinite(eps) and np.isfinite(eps_r): eps=eps_r
+                if not np.isfinite(bvps) and np.isfinite(bvps_r): bvps=bvps_r
+                if not np.isfinite(pub) and 'publication_date' in rg.columns:
+                    rpub=pd.to_datetime(rg['publication_date'],errors='coerce').dropna()
+                    if not rpub.empty: pub=rpub.min()
+
+        # Conservative BVPS derivation: only when explicit share-count data
+        # exists in the same PIT statement and compatible units are supplied.
         if not np.isfinite(bvps):
             eq = pick(ALIASES['equity'])
             sh = pick(ALIASES['shares'])
@@ -264,16 +314,9 @@ def extract_periodic(fs, ticker, analysis_date=None):
                 if 'share' in unit_eq or 'per share' in unit_eq:
                     bvps = eq / sh
 
-        out.append({
-            'ticker': ticker,
-            'period_end': pe,
-            'publication_date': pub,
-            'eps': eps,
-            'bvps': bvps
-        })
+        out.append({'ticker': ticker,'period_end': pe,'publication_date': pub,'eps': eps,'bvps': bvps})
 
     return pd.DataFrame(out)
-
 
 def current_metric_map(m, ticker, analysis_date):
     if m.empty or 'ticker' not in m.columns or 'metric' not in m.columns or 'value' not in m.columns: return {}
@@ -352,7 +395,7 @@ def classify(r):
     return 'FAIR_OR_CONTEXT_DEPENDENT'
 
 def main():
-    fs,m,man=load_fundamentals()
+    fs,m,man,ratio=load_fundamentals()
     pit_tickers=[]
     if not fs.empty and 'ticker' in fs.columns:
         pit_tickers=sorted(set(fs['ticker'].astype(str).str.upper().str.strip()))
@@ -380,7 +423,7 @@ def main():
         price = num(price_row.iloc[-1].close)
         price_date = pd.to_datetime(price_row.iloc[-1].date)
         pit_ev=pit_evidence_for_ticker(fs,t,latest_date)
-        f_hist=extract_periodic(fs,t,latest_date)
+        f_hist=extract_periodic(fs,t,latest_date,ratio_snap=ratio)
         # EPS/BVPS are optional. Missing per-share fields must not invalidate PIT evidence.
         obs=valuation_obs_for_ticker(pg,f_hist)
         hs=hist_stats(obs,latest_date)
@@ -435,6 +478,8 @@ def main():
     status={'status':'BUILT','engine_changed':False,'analysis_date':latest_date.date().isoformat(),'tickers':int(len(snap)),
             'financial_source':'financial_statements_pit.csv' if (FS_PIT.exists() and not fs.empty and FS.resolve()==FS_PIT.resolve()) else 'financial_statements.csv',
             'price_source':'idx_stock_prices.csv + PIT-required expansion/supplement when available',
+            'ratio_source':'idx_financial_ratio_snapshots.csv when PIT-valid and period-matched' if (RATIO_SNAP.exists() and not ratio.empty) else 'not available',
+            'ratio_snapshot_rows':int(len(ratio)),
             'pit_verified':int((snap.pit_current_status=='PIT_VERIFIED').sum()),
             'pit_verified_tickers':sorted(pit_snapshot_tickers),
             'historical_verified':int((snap.historical_status=='VERIFIED_PIT_RANGE').sum()),
