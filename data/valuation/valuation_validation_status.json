@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "engine_changed": false,
+  "checks": {
+    "snapshot_present": true,
+    "rows": 94,
+    "duplicate_ticker": 0,
+    "negative_eps_per_guard": 0,
+    "negative_bvps_pbv_guard": 0,
+    "classification_present": 94
+  }
+}

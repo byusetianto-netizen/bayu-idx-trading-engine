@@ -1,0 +1,12 @@
+{
+  "status": "BUILT",
+  "engine_changed": false,
+  "analysis_date": "2026-10-06",
+  "tickers": 94,
+  "notes": [
+    "Valuation is evidence/classification only; no trade decision.",
+    "PER is invalid for non-positive EPS; PBV is invalid for non-positive book value.",
+    "Historical valuation bands and peer-relative ranks require PIT historical snapshots and comparable peer coverage; they are not inferred from current data.",
+    "GARP is a diagnostic, not a guaranteed return forecast."
+  ]
+}
