@@ -3,10 +3,17 @@
   "engine_changed": false,
   "analysis_date": "2026-10-06",
   "tickers": 94,
+  "pit_verified": 0,
+  "historical_verified": 0,
+  "peer_sets_available": 0,
+  "classification_counts": {
+    "INSUFFICIENT_PIT_DATA": 94
+  },
   "notes": [
-    "Valuation is evidence/classification only; no trade decision.",
-    "PER is invalid for non-positive EPS; PBV is invalid for non-positive book value.",
-    "Historical valuation bands and peer-relative ranks require PIT historical snapshots and comparable peer coverage; they are not inferred from current data.",
-    "GARP is a diagnostic, not a guaranteed return forecast."
+    "Current valuation uses only fundamental evidence published on/before analysis date.",
+    "Historical bands require at least 120 price observations and 2 distinct PIT financial periods.",
+    "Peer comparison requires at least 3 PIT-verified peers in the same supplied sector grouping.",
+    "Missing PIT evidence remains UNKNOWN; no current value is backfilled into historical dates.",
+    "Valuation classification is evidence, not a BUY/SELL signal or probability."
   ]
 }

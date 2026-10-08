@@ -7,6 +7,13 @@
     "duplicate_ticker": 0,
     "negative_eps_per_guard": 0,
     "negative_bvps_pbv_guard": 0,
+    "pit_unknown_rows": 94,
+    "historical_verified_rows": 0,
+    "peer_available_rows": 0,
     "classification_present": 94
-  }
+  },
+  "notes": [
+    "PASS validates structural safety only. It does not prove valuation accuracy or investment performance.",
+    "PIT UNKNOWN rows must remain excluded from historical valuation claims."
+  ]
 }
