@@ -15,7 +15,6 @@
     "Historical bands require at least 120 price observations and 2 distinct PIT financial periods.",
     "Peer comparison requires at least 3 PIT-verified peers in the same supplied sector grouping.",
     "Missing PIT evidence remains UNKNOWN; no current value is backfilled into historical dates.",
-    "When available, financial_statements_pit.csv is the primary financial source.",
     "Valuation classification is evidence, not a BUY/SELL signal or probability."
   ]
 }
