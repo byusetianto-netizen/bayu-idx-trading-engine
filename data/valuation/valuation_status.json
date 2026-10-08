@@ -2,13 +2,13 @@
   "status": "BUILT",
   "engine_changed": false,
   "analysis_date": "2026-10-06",
-  "tickers": 94,
+  "tickers": 95,
   "financial_source": "financial_statements_pit.csv",
   "pit_verified": 0,
   "historical_verified": 0,
   "peer_sets_available": 0,
   "classification_counts": {
-    "INSUFFICIENT_PIT_DATA": 94
+    "INSUFFICIENT_PIT_DATA": 95
   },
   "notes": [
     "Current valuation uses only fundamental evidence published on/before analysis date.",
