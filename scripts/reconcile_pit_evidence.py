@@ -3,131 +3,134 @@ import json
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-FUND = ROOT / "data/fundamental"
-STATEMENTS = FUND / "financial_statements.csv"
-EVIDENCE = FUND / "publication_evidence.csv"
-OUT = FUND / "financial_statements_pit.csv"
-AUDIT = FUND / "pit_reconciliation_audit.csv"
-STATUS = FUND / "pit_reconciliation_status.json"
+FS = ROOT / "data" / "fundamental" / "financial_statements.csv"
+EVIDENCE = ROOT / "data" / "fundamental" / "publication_evidence.csv"
+OUT = ROOT / "data" / "fundamental" / "financial_statements_pit.csv"
+AUDIT = ROOT / "data" / "fundamental" / "pit_reconciliation_audit.csv"
+STATUS = ROOT / "data" / "fundamental" / "pit_reconciliation_status.json"
+
+def read_csv_flexible(path):
+    return pd.read_csv(path, dtype=str, sep=None, engine="python", encoding="utf-8-sig").fillna("")
 
 def norm_date(s):
-    return pd.to_datetime(s, errors="coerce", dayfirst=False, format="mixed").dt.date.astype("string")
+    return pd.to_datetime(s, errors="coerce", utc=True).dt.strftime("%Y-%m-%d").fillna("")
 
-def find_col(df, candidates):
-    low = {str(c).strip().lower(): c for c in df.columns}
-    for c in candidates:
-        if c.lower() in low:
-            return low[c.lower()]
-    return None
+if not FS.exists():
+    raise FileNotFoundError(f"Missing financial statements: {FS}")
+if not EVIDENCE.exists():
+    raise FileNotFoundError(f"Missing publication evidence: {EVIDENCE}")
 
-def main():
-    if not STATEMENTS.exists():
-        raise SystemExit("financial_statements.csv not found")
+fs = read_csv_flexible(FS)
+ev = read_csv_flexible(EVIDENCE)
 
-    fs = pd.read_csv(STATEMENTS)
-    if fs.empty:
-        raise SystemExit("financial_statements.csv is empty")
+for name, df in [("financial_statements", fs), ("publication_evidence", ev)]:
+    if "ticker" not in df.columns:
+        raise ValueError(f"{name} is missing required column: ticker")
+    if "period_end" not in df.columns:
+        raise ValueError(f"{name} is missing required column: period_end")
 
-    fs["ticker"] = fs["ticker"].fillna("").astype(str).str.upper().str.strip()
-    fs["period_end"] = norm_date(fs["period_end"])
+# Normalize join keys. Do NOT match ticker-only.
+fs["_ticker_key"] = fs["ticker"].astype(str).str.strip().str.upper()
+ev["_ticker_key"] = ev["ticker"].astype(str).str.strip().str.upper()
+fs["_period_key"] = norm_date(fs["period_end"])
+ev["_period_key"] = norm_date(ev["period_end"])
 
-    if not EVIDENCE.exists():
-        ev = pd.DataFrame()
-    else:
-        ev = pd.read_csv(EVIDENCE)
+# Accept either publication_date or publication_timestamp.
+pub_date_col = "publication_date" if "publication_date" in ev.columns else (
+    "publication_timestamp" if "publication_timestamp" in ev.columns else ""
+)
+pub_time_col = "publication_time" if "publication_time" in ev.columns else ""
 
-    pub_col = find_col(ev, ["publication_timestamp","publication_date","published_at","date"])
-    ev_ticker = find_col(ev, ["ticker","stock_code","code"])
-    ev_period = find_col(ev, ["period_end","period_end_date","report_period_end"])
-    ev_source = find_col(ev, ["source","source_status"])
-    ev_conf = find_col(ev, ["confidence","publication_confidence"])
+if not pub_date_col:
+    raise ValueError("publication_evidence is missing publication_date/publication_timestamp")
 
-    fs["pit_publication_date"] = ""
-    fs["pit_publication_timestamp"] = ""
-    fs["pit_source"] = ""
-    fs["pit_confidence"] = ""
-    fs["pit_match_status"] = "NO_EVIDENCE"
-    fs["pit_ready"] = False
+ev["_pub_date"] = ev[pub_date_col].astype(str).str.strip()
+ev["_pub_time"] = ev[pub_time_col].astype(str).str.strip() if pub_time_col else ""
 
-    audits = []
+# Build a single publication timestamp, preserving the supplied time when available.
+def combine_pub(row):
+    d = row["_pub_date"]
+    t = row["_pub_time"]
+    if not d:
+        return ""
+    if t:
+        return f"{d} {t}"
+    return d
 
-    if not ev.empty and ev_ticker and pub_col:
-        ev = ev.copy()
-        ev["__ticker"] = ev[ev_ticker].fillna("").astype(str).str.upper().str.strip()
-        ev["__pub"] = pd.to_datetime(ev[pub_col], errors="coerce", dayfirst=False, format="mixed")
-        if ev_period:
-            ev["__period"] = norm_date(ev[ev_period])
-        else:
-            ev["__period"] = pd.Series(pd.NA, index=ev.index, dtype="string")
+ev["_publication_timestamp"] = ev.apply(combine_pub, axis=1)
 
-        for idx, row in fs.iterrows():
-            ticker = row["ticker"]
-            period = row["period_end"]
-            candidates = ev[ev["__ticker"].eq(ticker)].copy()
+# Deduplicate evidence deterministically by ticker + period.
+ev = ev.sort_values(["_ticker_key", "_period_key", "_publication_timestamp"])
+ev = ev.drop_duplicates(["_ticker_key", "_period_key"], keep="last")
 
-            # Strong match: ticker + period_end.
-            if period is not pd.NA and pd.notna(period) and "__period" in candidates:
-                exact = candidates[candidates["__period"].eq(period) & candidates["__pub"].notna()]
-            else:
-                exact = pd.DataFrame()
+# Keep all financial rows and left-join evidence.
+merged = fs.merge(
+    ev[["_ticker_key", "_period_key", "_publication_timestamp", "_pub_date", "_pub_time"]],
+    on=["_ticker_key", "_period_key"],
+    how="left",
+    suffixes=("", "_evidence"),
+)
 
-            if len(exact) == 1:
-                e = exact.iloc[0]
-                fs.at[idx, "pit_publication_date"] = e["__pub"].date().isoformat()
-                fs.at[idx, "pit_publication_timestamp"] = e["__pub"].isoformat()
-                fs.at[idx, "pit_source"] = str(e[ev_source]) if ev_source else "publication_evidence"
-                fs.at[idx, "pit_confidence"] = str(e[ev_conf]) if ev_conf else "HIGH"
-                fs.at[idx, "pit_match_status"] = "MATCHED_TICKER_PERIOD"
-                fs.at[idx, "pit_ready"] = True
-                audits.append({
-                    "ticker": ticker, "period_end": str(period),
-                    "status": "MATCHED_TICKER_PERIOD",
-                    "publication_timestamp": e["__pub"].isoformat()
-                })
-            elif len(exact) > 1:
-                fs.at[idx, "pit_match_status"] = "AMBIGUOUS_MULTIPLE_EVIDENCE"
-                audits.append({
-                    "ticker": ticker, "period_end": str(period),
-                    "status": "AMBIGUOUS_MULTIPLE_EVIDENCE",
-                    "publication_timestamp": ""
-                })
-            else:
-                # Do NOT fall back to ticker-only evidence; that could attach
-                # the wrong reporting period.
-                audits.append({
-                    "ticker": ticker, "period_end": str(period),
-                    "status": "NO_EXACT_PERIOD_EVIDENCE",
-                    "publication_timestamp": ""
-                })
-    else:
-        for _, row in fs.iterrows():
-            audits.append({
-                "ticker": row["ticker"], "period_end": str(row["period_end"]),
-                "status": "EVIDENCE_SCHEMA_UNAVAILABLE",
-                "publication_timestamp": ""
-            })
+merged["publication_timestamp"] = merged["_publication_timestamp"].astype(str).replace("nan", "")
+merged["publication_date"] = merged["_pub_date"].astype(str).replace("nan", "")
+merged["publication_time"] = merged["_pub_time"].astype(str).replace("nan", "")
 
-    fs.to_csv(OUT, index=False)
-    pd.DataFrame(audits).to_csv(AUDIT, index=False)
+# A publication date is availability evidence. Never infer it from period_end.
+merged["pit_ready"] = merged["publication_date"].ne("") & merged["period_end"].ne("")
 
-    matched = int(fs["pit_ready"].sum())
-    status = {
-        "status": "PASS" if matched > 0 else "REVIEW",
-        "engine_changed": False,
-        "financial_rows": int(len(fs)),
-        "tickers": int(fs["ticker"].nunique()),
-        "pit_ready_rows": matched,
-        "pit_ready_tickers": int(fs.loc[fs["pit_ready"], "ticker"].nunique()) if matched else 0,
-        "evidence_rows": int(len(ev)),
-        "notes": [
-            "Publication evidence is matched by ticker + period_end only.",
-            "Ticker-only fallback is intentionally prohibited to avoid wrong-period PIT attribution.",
-            "Publication date is never inferred from period_end.",
-            "This layer does not modify actual_engine.py."
-        ]
-    }
-    STATUS.write_text(json.dumps(status, indent=2), encoding="utf-8")
-    print(json.dumps(status, indent=2))
+# Remove internal keys from published output.
+drop_cols = ["_ticker_key", "_period_key", "_publication_timestamp", "_pub_date", "_pub_time"]
+merged = merged.drop(columns=[c for c in drop_cols if c in merged.columns])
 
-if __name__ == "__main__":
-    main()
+# Reorder publication fields after period_end when possible.
+cols = list(merged.columns)
+for c in ["publication_date", "publication_time", "publication_timestamp", "pit_ready"]:
+    if c in cols:
+        cols.remove(c)
+insert_at = cols.index("period_end") + 1 if "period_end" in cols else len(cols)
+new_cols = cols[:insert_at] + [c for c in ["publication_date", "publication_time", "publication_timestamp", "pit_ready"] if c in merged.columns] + cols[insert_at:]
+merged = merged[new_cols]
+
+OUT.parent.mkdir(parents=True, exist_ok=True)
+merged.to_csv(OUT, index=False, encoding="utf-8")
+
+# Audit at ticker-period level.
+audit = (
+    merged.groupby(["ticker", "period_end"], dropna=False)
+    .agg(
+        financial_rows=("ticker", "size"),
+        publication_date=("publication_date", "first"),
+        publication_time=("publication_time", "first"),
+        pit_ready=("pit_ready", "all"),
+    )
+    .reset_index()
+)
+audit["match_status"] = audit["publication_date"].apply(lambda x: "MATCHED" if str(x).strip() else "MISSING_EVIDENCE")
+audit.to_csv(AUDIT, index=False, encoding="utf-8")
+
+pit_ready_rows = int(merged["pit_ready"].sum())
+pit_ready_tickers = int(merged.loc[merged["pit_ready"], "ticker"].nunique())
+missing_pub = int(merged["publication_date"].eq("").sum())
+
+status = {
+    "status": "PASS" if missing_pub == 0 else "REVIEW",
+    "engine_changed": False,
+    "financial_rows": int(len(merged)),
+    "tickers": int(merged["ticker"].nunique()),
+    "evidence_rows": int(len(ev)),
+    "pit_ready_rows": pit_ready_rows,
+    "pit_ready_tickers": pit_ready_tickers,
+    "publication_missing_rows": missing_pub,
+    "join_key": "ticker + period_end",
+    "ticker_only_fallback": False,
+    "period_end_used_as_publication_date": False,
+    "notes": [
+        "Publication evidence is matched strictly by ticker + period_end.",
+        "All financial statement rows are preserved by a left join.",
+        "Publication date is never inferred from period_end.",
+        "Publication time is optional."
+    ],
+}
+
+STATUS.write_text(json.dumps(status, indent=2), encoding="utf-8")
+print(json.dumps(status, indent=2))
