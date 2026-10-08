@@ -1,0 +1,4 @@
+ticker,year,period,http_status,content_type,metadata_url,metadata_ok,attachment_count,attachment_names,sample_attachment_url,sample_attachment_type,sample_attachment_http_status,sample_attachment_sha256,error
+AADI,2025,audit,403,text/html; charset=UTF-8,https://www.idx.co.id/primary/ListedCompany/GetFinancialReport?year=2025&reportType=rdf&periode=audit&kodeEmiten=AADI,False,0,,,,,,HTTP 403
+AALI,2025,audit,403,text/html; charset=UTF-8,https://www.idx.co.id/primary/ListedCompany/GetFinancialReport?year=2025&reportType=rdf&periode=audit&kodeEmiten=AALI,False,0,,,,,,HTTP 403
+ABBA,2025,audit,403,text/html; charset=UTF-8,https://www.idx.co.id/primary/ListedCompany/GetFinancialReport?year=2025&reportType=rdf&periode=audit&kodeEmiten=ABBA,False,0,,,,,,HTTP 403

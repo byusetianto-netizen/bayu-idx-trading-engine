@@ -1,0 +1,18 @@
+{
+  "status": "PROBE_BLOCKED_OR_UNAVAILABLE",
+  "engine_changed": false,
+  "year": 2025,
+  "period": "audit",
+  "tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "metadata_success": 0,
+  "metadata_failed": 3,
+  "attachment_success": 0,
+  "attachment_failed": 0,
+  "notes": [
+    "Do not invent or substitute financial values. Use an approved IDX export/data-service route if access remains blocked."
+  ]
+}
