@@ -28,303 +28,309 @@
   "tickers_checked": {
     "AADI": {
       "rows_loaded": 10,
+      "pit_rows_available": 10,
+      "pit_ready": true,
       "sample": [
         {
           "ticker": "AADI",
           "metric": "revenue",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "total_assets",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "total_liabilities",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "total_equity",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "gross_profit",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "profit_before_tax",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "net_income_parent",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "cash_from_operations",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "cash_from_investing",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AADI",
           "metric": "cash_from_financing",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-08-28T00:00:00",
-          "publication_timestamp": "2026-08-28T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-08-28 00:00:00",
+          "publication_timestamp": "2026-08-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         }
-      ],
-      "pit_result": {
-        "pit_publication_date": "2026-08-28T00:00:00",
-        "pit_period_end": "2026-06-30T00:00:00",
-        "pit_status": "PIT_VERIFIED"
-      }
+      ]
     },
     "AALI": {
       "rows_loaded": 10,
+      "pit_rows_available": 10,
+      "pit_ready": true,
       "sample": [
         {
           "ticker": "AALI",
           "metric": "total_assets",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "total_liabilities",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "total_equity",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "revenue",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "gross_profit",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "profit_before_tax",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "net_income_parent",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "cash_from_operations",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "cash_from_investing",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "AALI",
           "metric": "cash_from_financing",
-          "period_end": "2026-06-30T00:00:00",
-          "publication_date": "2026-07-29T00:00:00",
-          "publication_timestamp": "2026-07-29T00:00:00",
+          "period_end": "2026-06-30 00:00:00",
+          "publication_date": "2026-07-29 00:00:00",
+          "publication_timestamp": "2026-07-29",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         }
-      ],
-      "pit_result": {
-        "pit_publication_date": "2026-07-29T00:00:00",
-        "pit_period_end": "2026-06-30T00:00:00",
-        "pit_status": "PIT_VERIFIED"
-      }
+      ]
     },
     "ABBA": {
       "rows_loaded": 10,
+      "pit_rows_available": 10,
+      "pit_ready": true,
       "sample": [
         {
           "ticker": "ABBA",
           "metric": "total_assets",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "revenue",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "total_liabilities",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "total_equity",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "gross_profit",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "profit_before_tax",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "net_income_parent",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "cash_from_operations",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "cash_from_investing",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         },
         {
           "ticker": "ABBA",
           "metric": "cash_from_financing",
-          "period_end": "2026-03-31T00:00:00",
-          "publication_date": "2026-04-28T00:00:00",
-          "publication_timestamp": "2026-04-28T00:00:00",
+          "period_end": "2026-03-31 00:00:00",
+          "publication_date": "2026-04-28 00:00:00",
+          "publication_timestamp": "2026-04-28",
           "pit_ready": true,
           "source": "IDX FinancialStatement XLSX"
         }
-      ],
-      "pit_result": {
-        "pit_publication_date": "2026-04-28T00:00:00",
-        "pit_period_end": "2026-03-31T00:00:00",
-        "pit_status": "PIT_VERIFIED"
-      }
+      ]
     }
-  }
+  },
+  "pit_verified_tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "pit_unknown_tickers": [],
+  "notes": [
+    "Diagnostic reads the V2.1F reconciled PIT dataset directly.",
+    "No private helper from valuation_engine.py is required.",
+    "PIT readiness requires publication_date <= analysis_date.",
+    "period_end is never substituted for publication_date."
+  ],
+  "pit_verified_rows": 30,
+  "pit_verified_ticker_count": 3,
+  "pit_unknown_ticker_count": 0
 }
