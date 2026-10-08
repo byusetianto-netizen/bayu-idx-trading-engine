@@ -1,0 +1,34 @@
+{
+  "status": "REVIEW",
+  "engine_changed": false,
+  "checks": {
+    "publication_date_present": 0,
+    "publication_date_missing": 0,
+    "evidence_rows_matched": 0,
+    "exact_timestamp_matches": 0,
+    "timestamp_mismatches": 0
+  },
+  "pit_examples": [
+    {
+      "analysis_date": "2026-04-28 10:00:00",
+      "available_tickers": []
+    },
+    {
+      "analysis_date": "2026-04-28 18:00:00",
+      "available_tickers": []
+    },
+    {
+      "analysis_date": "2026-04-29 10:00:00",
+      "available_tickers": []
+    },
+    {
+      "analysis_date": "2026-05-01 10:00:00",
+      "available_tickers": []
+    }
+  ],
+  "notes": [
+    "PIT rule: publication_date <= analysis_date.",
+    "A report's accounting period end does not determine availability.",
+    "This validates publication evidence only; it does not validate the accounting metrics themselves."
+  ]
+}
