@@ -1,0 +1,36 @@
+name: V2.2 PIT Diagnostic
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas numpy
+
+      - name: Run PIT diagnostic
+        run: python scripts/v22_pit_diagnostic.py
+
+      - name: Show diagnostic output
+        run: cat data/valuation/v22_pit_diagnostic.json
+
+      - name: Commit diagnostic output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/valuation/v22_pit_diagnostic.json
+          git diff --cached --quiet || git commit -m "chore: add v2.2 PIT diagnostic output"
+          git push
