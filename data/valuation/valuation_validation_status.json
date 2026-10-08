@@ -7,13 +7,22 @@
     "duplicate_ticker": 0,
     "negative_eps_per_guard": 0,
     "negative_bvps_pbv_guard": 0,
+    "pit_source_rows": 30,
+    "pit_source_eligible_tickers": 3,
+    "pit_source_overlap_with_snapshot": 0,
+    "pit_verified_rows": 0,
+    "pit_verified_tickers": [],
+    "pit_expected_in_snapshot": [],
+    "pit_integration_mismatch": [],
     "pit_unknown_rows": 94,
     "historical_verified_rows": 0,
     "peer_available_rows": 0,
     "classification_present": 94
   },
   "notes": [
-    "PASS validates structural safety only. It does not prove valuation accuracy or investment performance.",
-    "PIT UNKNOWN rows must remain excluded from historical valuation claims."
+    "PIT integration is validated against financial_statements_pit.csv using publication_date <= analysis_date.",
+    "EPS/BVPS are optional for PIT verification; if absent, PER/PBV remain UNKNOWN.",
+    "Historical valuation still requires sufficient multi-period PIT evidence.",
+    "PASS validates structural/PIT integrity only; it does not prove valuation accuracy or investment performance."
   ]
 }
