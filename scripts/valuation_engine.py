@@ -128,46 +128,132 @@ def metric_rows(fs, ticker, names):
         q=q[keys.isin(aliases)]
     return q
 
-def extract_periodic(fs, ticker):
-    """Return PIT-friendly fundamental observations. Prefer direct EPS/BVPS.
-    If BVPS absent, derive only when explicit equity and share count exist in the
-    same reporting period; otherwise leave BVPS unknown rather than inventing it.
+def pit_evidence_for_ticker(fs, ticker, analysis_date):
+    """Return the latest PIT financial evidence available by analysis_date.
+
+    PIT verification is independent of EPS/BVPS availability. A filing can be
+    PIT-verified even when the supplied statement does not contain per-share
+    fields needed for PER/PBV.
     """
-    if fs.empty: return pd.DataFrame()
-    q=fs[fs['ticker'].eq(ticker)].copy()
-    if 'value' not in q.columns or 'period_end' not in q.columns: return pd.DataFrame()
-    # If the reconciled PIT file exposes pit_ready, require it. This prevents
-    # an unverified row from becoming a historical/current valuation input.
+    result = {
+        'pit_status': 'PIT_UNKNOWN',
+        'pit_period_end': pd.NaT,
+        'pit_publication_date': pd.NaT,
+        'pit_rows': 0,
+    }
+    if fs.empty or 'ticker' not in fs.columns:
+        return result
+
+    q = fs[fs['ticker'].astype(str).str.upper().str.strip().eq(str(ticker).upper().strip())].copy()
+    required = {'period_end', 'publication_date'}
+    if q.empty or not required.issubset(q.columns):
+        return result
+
+    q['period_end'] = pd.to_datetime(q['period_end'], errors='coerce')
+    q['publication_date'] = pd.to_datetime(q['publication_date'], errors='coerce')
+    q = q.dropna(subset=['period_end', 'publication_date'])
+
     if 'pit_ready' in q.columns:
-        q=q[q['pit_ready'].eq(True)]
-    q['value']=pd.to_numeric(q['value'], errors='coerce')
-    q=q.dropna(subset=['value','period_end','publication_date'] if 'publication_date' in q.columns else ['value','period_end'])
-    out=[]
-    groups=q.groupby(['period_end'], dropna=True)
-    for pe,g in groups:
-        pub=pd.to_datetime(g.get('publication_date', pd.Series(dtype='datetime64[ns]')), errors='coerce').min() if 'publication_date' in g else pd.NaT
-        if pd.isna(pub): continue
+        q = q[q['pit_ready'].astype(str).str.lower().isin({'true','1','yes','y'})]
+
+    analysis_date = pd.to_datetime(analysis_date, errors='coerce')
+    if pd.isna(analysis_date):
+        return result
+
+    q = q[q['publication_date'] <= analysis_date].copy()
+    if q.empty:
+        return result
+
+    # Latest reporting period that was actually available by the analysis date.
+    latest_period = q['period_end'].max()
+    z = q[q['period_end'].eq(latest_period)].sort_values('publication_date')
+    if z.empty:
+        return result
+
+    result['pit_status'] = 'PIT_VERIFIED'
+    result['pit_period_end'] = z.iloc[-1]['period_end']
+    result['pit_publication_date'] = z.iloc[-1]['publication_date']
+    result['pit_rows'] = int(len(z))
+    return result
+
+
+def extract_periodic(fs, ticker, analysis_date=None):
+    """Return PIT-friendly fundamental observations.
+
+    The function does not require EPS/BVPS. Those fields are optional because
+    the supplied V2.1F statement dataset currently contains statement-level
+    metrics (revenue, equity, net income, etc.). Missing EPS/BVPS therefore
+    means PER/PBV remain UNKNOWN; it must not erase PIT verification.
+    """
+    if fs.empty:
+        return pd.DataFrame()
+
+    q = fs[fs['ticker'].astype(str).str.upper().str.strip().eq(str(ticker).upper().strip())].copy()
+    if 'value' not in q.columns or 'period_end' not in q.columns:
+        return pd.DataFrame()
+
+    if 'pit_ready' in q.columns:
+        q = q[q['pit_ready'].astype(str).str.lower().isin({'true','1','yes','y'})]
+
+    q['value'] = pd.to_numeric(q['value'], errors='coerce')
+    q['period_end'] = pd.to_datetime(q['period_end'], errors='coerce')
+    if 'publication_date' in q.columns:
+        q['publication_date'] = pd.to_datetime(q['publication_date'], errors='coerce')
+
+    q = q.dropna(subset=['value','period_end','publication_date'] if 'publication_date' in q.columns else ['value','period_end'])
+
+    if analysis_date is not None:
+        ad = pd.to_datetime(analysis_date, errors='coerce')
+        if pd.notna(ad) and 'publication_date' in q.columns:
+            q = q[q['publication_date'] <= ad]
+
+    out = []
+    # Use a scalar group key to avoid pandas returning a one-element tuple.
+    for pe, g in q.groupby('period_end', dropna=True):
+        pub = pd.to_datetime(g['publication_date'], errors='coerce').min() if 'publication_date' in g else pd.NaT
+        if pd.isna(pub):
+            continue
+
         def pick(names):
+            aliases = {x.lower() for x in names}
             if 'metric_key' in g.columns:
-                z=g[g.metric_key.astype(str).str.lower().isin({x.lower() for x in names})]
+                keys = g['metric_key'].astype(str).str.lower()
+            elif 'metric' in g.columns:
+                keys = g['metric'].astype(str).str.lower()
             else:
-                z=g[g.metric.astype(str).str.lower().isin({x.lower() for x in names})] if 'metric' in g else g.iloc[0:0]
-            if z.empty: return np.nan
+                return np.nan
+            z = g[keys.isin(aliases)]
+            if z.empty:
+                return np.nan
             return num(z.iloc[0]['value'])
-        eps=pick(ALIASES['eps'])
-        bvps=pick(ALIASES['bvps'])
-        # Explicit derivation, only if units are plausibly compatible.
+
+        eps = pick(ALIASES['eps'])
+        bvps = pick(ALIASES['bvps'])
+
+        # Conservative BVPS derivation: only when explicitly compatible units
+        # are available. Do not infer shares outstanding from market data.
         if not np.isfinite(bvps):
-            eq=pick(ALIASES['equity']); sh=pick(ALIASES['shares'])
-            if np.isfinite(eq) and np.isfinite(sh) and sh>0:
-                # Most IDX normalized financial values are in reporting currency thousands
-                # while shares are absolute. We cannot safely assume unit compatibility.
-                # Only derive when source unit explicitly indicates per-share or matching units.
-                unit_eq=' '.join(g[g['metric_key'].astype(str).str.lower().isin({x.lower() for x in ALIASES['equity']})]['unit'].astype(str).tolist()).lower() if 'metric_key' in g.columns and 'unit' in g.columns else ''
+            eq = pick(ALIASES['equity'])
+            sh = pick(ALIASES['shares'])
+            if np.isfinite(eq) and np.isfinite(sh) and sh > 0:
+                unit_eq = ' '.join(
+                    g[g.get('metric_key', pd.Series(index=g.index, dtype=object)).astype(str).str.lower().isin(
+                        {x.lower() for x in ALIASES['equity']}
+                    )]['unit'].astype(str).tolist()
+                ).lower() if 'unit' in g.columns else ''
                 if 'share' in unit_eq or 'per share' in unit_eq:
-                    bvps=eq/sh
-        out.append({'ticker':ticker,'period_end':pe,'publication_date':pub,'eps':eps,'bvps':bvps})
+                    bvps = eq / sh
+
+        out.append({
+            'ticker': ticker,
+            'period_end': pe,
+            'publication_date': pub,
+            'eps': eps,
+            'bvps': bvps
+        })
+
     return pd.DataFrame(out)
+
 
 def current_metric_map(m, ticker, analysis_date):
     if m.empty or 'ticker' not in m.columns or 'metric' not in m.columns or 'value' not in m.columns: return {}
@@ -261,19 +347,16 @@ def main():
         t=str(t).upper(); price_row=pg[pg.date==latest_date]
         if price_row.empty: continue
         price=num(price_row.iloc[-1].close)
-        f_hist=extract_periodic(fs,t)
-        # If direct EPS/BVPS are unavailable in raw statements, use derived metrics only for current snapshot.
+        pit_ev=pit_evidence_for_ticker(fs,t,latest_date)
+        f_hist=extract_periodic(fs,t,latest_date)
+        # EPS/BVPS are optional. Missing per-share fields must not invalidate PIT evidence.
         obs=valuation_obs_for_ticker(pg,f_hist)
         hs=hist_stats(obs,latest_date)
         cm=current_metric_map(m,t,latest_date)
         eps=num(obs.iloc[-1].eps) if not obs.empty and pd.notna(obs.iloc[-1].eps) else np.nan
         bvps=num(obs.iloc[-1].bvps) if not obs.empty and pd.notna(obs.iloc[-1].bvps) else np.nan
-        # Match the latest PIT financial period explicitly.
-        pit_pub=pd.NaT; pit_period=pd.NaT
-        if not f_hist.empty:
-            q=f_hist[f_hist.publication_date<=latest_date].sort_values(['period_end','publication_date'])
-            if not q.empty:
-                rr=q.iloc[-1]; pit_pub=rr.publication_date; pit_period=rr.period_end
+        pit_pub=pit_ev['pit_publication_date']
+        pit_period=pit_ev['pit_period_end']
         per=price/eps if np.isfinite(eps) and eps>0 else np.nan
         pbv=price/bvps if np.isfinite(bvps) and bvps>0 else np.nan
         ey=1/per if np.isfinite(per) and per>0 else np.nan
@@ -291,17 +374,12 @@ def main():
         if np.isfinite(roe) and roe<0: flags.append('NEGATIVE_ROE')
         trap=(('NEGATIVE_EPS' in flags or 'NEGATIVE_BOOK_VALUE' in flags) and (('EARNINGS_DECLINE' in flags) or ('REVENUE_DECLINE' in flags)))
         if trap: flags.append('VALUE_TRAP_RISK')
-        pit_status='PIT_VERIFIED' if pd.notna(pit_pub) else 'PIT_UNKNOWN'
-        # Explicitly distinguish evidence presence from PIT availability at the
-        # analysis date. A publication after the analysis date is not usable.
-        if pd.notna(pit_pub) and pit_pub > latest_date:
-            pit_status='PIT_UNKNOWN'
-            pit_pub=pd.NaT
-            pit_period=pd.NaT
+        pit_status=pit_ev['pit_status']
         r={'analysis_date':latest_date.date().isoformat(),'ticker':t,'close':price,'eps':eps,'bvps':bvps,'per':per,'pbv':pbv,'earnings_yield':ey,
            'revenue_growth_pct':revg,'net_profit_growth_pct':growth,'roe_pct':roe,'net_margin_pct':npm,'peg_diagnostic':peg,
            'sector':sector_lookup.get(t,''),'pit_period_end':pit_period.date().isoformat() if pd.notna(pit_period) else '',
-           'pit_publication_date':pit_pub.date().isoformat() if pd.notna(pit_pub) else '','pit_current_status':pit_status,
+           'pit_publication_date':pit_pub.date().isoformat() if pd.notna(pit_pub) else '',
+           'pit_evidence_rows':int(pit_ev['pit_rows']),'pit_current_status':pit_status,
            'value_trap_risk':bool(trap),'flags':';'.join(flags),**hs}
         r['peer_count']=0; r['peer_per_median']=np.nan; r['peer_pbv_median']=np.nan; r['peer_growth_median']=np.nan; r['peer_roe_median']=np.nan; r['peer_status']='UNKNOWN'
         rows.append(r)
@@ -331,7 +409,7 @@ def main():
                      'V2.2 reads V2.1F financial_statements_pit.csv as the authoritative PIT source when available.',
                      'Historical bands require at least 120 price observations and 2 distinct PIT financial periods.',
                      'Peer comparison requires at least 3 PIT-verified peers in the same supplied sector grouping.',
-                     'Missing PIT evidence remains UNKNOWN; no current value is backfilled into historical dates.',
+                     'Missing PIT evidence remains UNKNOWN; missing EPS/BVPS does not invalidate PIT verification.',
                      'Valuation classification is evidence, not a BUY/SELL signal or probability.']}
     (OUTDIR/'valuation_status.json').write_text(json.dumps(status,indent=2),encoding='utf-8')
     print(json.dumps(status,indent=2))
