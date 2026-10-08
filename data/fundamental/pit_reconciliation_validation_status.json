@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "engine_changed": false,
+  "checks": {
+    "pit_file_present": true,
+    "rows": 30,
+    "tickers": 3,
+    "duplicates": 0,
+    "pit_ready_rows": 0,
+    "publication_before_period_end": 0
+  },
+  "notes": [
+    "PASS is structural/PIT-reconciliation validation only.",
+    "A PIT-ready row requires explicit publication evidence matched to ticker and period_end.",
+    "No investment decision is produced."
+  ]
+}
