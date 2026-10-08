@@ -1,4 +1,1 @@
-ticker,period_end,period_code,year,publication_date,publication_timezone,source,source_url,evidence_type,confidence,notes
-AADI,2026-03-31,TW1,2026,2026-04-30 16:51:00,Asia/Jakarta,IDX,https://www.idx.co.id/id/perusahaan-tercatat/keterbukaan-informasi/,IDX disclosure index,HIGH,Verified from IDX disclosure screenshot supplied by user
-AALI,2026-03-31,TW1,2026,2026-04-28 16:30:00,Asia/Jakarta,IDX,https://www.idx.co.id/id/perusahaan-tercatat/keterbukaan-informasi/,IDX disclosure index,HIGH,Verified from IDX disclosure screenshot supplied by user
-ABBA,2026-03-31,TW1,2026,2026-04-28 17:14:00,Asia/Jakarta,IDX,https://www.idx.co.id/id/perusahaan-tercatat/keterbukaan-informasi/,IDX disclosure index,HIGH,Verified from IDX disclosure screenshot supplied by user
+ticker,period_end,publication_date,publication_confidence,source_status,source,source_url,document_id,notes
