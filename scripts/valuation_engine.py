@@ -14,6 +14,7 @@ ROOT = Path('.')
 PRICE = ROOT/'data/idx_stock_prices.csv'
 FUND_DIR = ROOT/'data/fundamental'
 METRICS = FUND_DIR/'fundamental_metrics.csv'
+FS_PIT = FUND_DIR/'financial_statements_pit.csv'
 FS = FUND_DIR/'financial_statements.csv'
 MANIFEST = FUND_DIR/'financial_source_manifest.csv'
 SECTOR = ROOT/'data/sector/sector_map.csv'
@@ -59,12 +60,20 @@ def load_prices():
     return p.dropna(subset=['ticker','date','close']).sort_values(['ticker','date'])
 
 def load_fundamentals():
-    fs=normalize_cols(read_csv(FS)); m=normalize_cols(read_csv(METRICS)); man=normalize_cols(read_csv(MANIFEST))
+    # Prefer the PIT-reconciled financial statements produced by V2.1F.
+    # Fall back to raw statements only when the PIT file is unavailable.
+    fs_pit=normalize_cols(read_csv(FS_PIT))
+    fs_raw=normalize_cols(read_csv(FS))
+    fs=fs_pit if not fs_pit.empty else fs_raw
+    m=normalize_cols(read_csv(METRICS))
+    man=normalize_cols(read_csv(MANIFEST))
     for d in (fs,m,man):
         if not d.empty:
             for c in ('period_start','period_end','publication_date','publication_timestamp','report_date'):
-                if c in d.columns: d[c]=pd.to_datetime(d[c], errors='coerce').dt.tz_localize(None)
-            if 'ticker' in d.columns: d['ticker']=d['ticker'].astype(str).str.upper().str.strip()
+                if c in d.columns:
+                    d[c]=pd.to_datetime(d[c], errors='coerce', utc=True).dt.tz_localize(None)
+            if 'ticker' in d.columns:
+                d['ticker']=d['ticker'].astype(str).str.upper().str.strip()
     return fs,m,man
 
 def load_sector():
@@ -297,6 +306,7 @@ def main():
         pd.DataFrame(columns=['ticker','date','close','publication_date','period_end','eps','bvps','per','pbv']).to_csv(OUTDIR/'pit_valuation_observations.csv',index=False)
     counts=snap.classification.value_counts(dropna=False).to_dict()
     status={'status':'BUILT','engine_changed':False,'analysis_date':latest_date.date().isoformat(),'tickers':int(len(snap)),
+            'financial_source':'financial_statements_pit.csv' if (ROOT/'data/fundamental/financial_statements_pit.csv').exists() else 'financial_statements.csv',
             'pit_verified':int((snap.pit_current_status=='PIT_VERIFIED').sum()),
             'historical_verified':int((snap.historical_status=='VERIFIED_PIT_RANGE').sum()),
             'peer_sets_available':int((snap.peer_status=='PEER_SET_AVAILABLE').sum()),
@@ -305,6 +315,7 @@ def main():
                      'Historical bands require at least 120 price observations and 2 distinct PIT financial periods.',
                      'Peer comparison requires at least 3 PIT-verified peers in the same supplied sector grouping.',
                      'Missing PIT evidence remains UNKNOWN; no current value is backfilled into historical dates.',
+                     'When available, financial_statements_pit.csv is the primary financial source.',
                      'Valuation classification is evidence, not a BUY/SELL signal or probability.']}
     (OUTDIR/'valuation_status.json').write_text(json.dumps(status,indent=2),encoding='utf-8')
     print(json.dumps(status,indent=2))
