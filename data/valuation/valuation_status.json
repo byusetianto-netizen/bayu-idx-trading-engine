@@ -12,6 +12,7 @@
   },
   "notes": [
     "Current valuation uses only fundamental evidence published on/before analysis date.",
+    "V2.2 reads V2.1F financial_statements_pit.csv as the authoritative PIT source when available.",
     "Historical bands require at least 120 price observations and 2 distinct PIT financial periods.",
     "Peer comparison requires at least 3 PIT-verified peers in the same supplied sector grouping.",
     "Missing PIT evidence remains UNKNOWN; no current value is backfilled into historical dates.",
