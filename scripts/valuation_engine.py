@@ -60,13 +60,10 @@ def load_prices():
     return p.dropna(subset=['ticker','date','close']).sort_values(['ticker','date'])
 
 def load_fundamentals():
-    # Prefer the PIT-reconciled financial statements produced by V2.1F.
-    # Fall back to raw statements only when the PIT file is unavailable.
     fs_pit=normalize_cols(read_csv(FS_PIT))
     fs_raw=normalize_cols(read_csv(FS))
     fs=fs_pit if not fs_pit.empty else fs_raw
-    m=normalize_cols(read_csv(METRICS))
-    man=normalize_cols(read_csv(MANIFEST))
+    m=normalize_cols(read_csv(METRICS)); man=normalize_cols(read_csv(MANIFEST))
     for d in (fs,m,man):
         if not d.empty:
             for c in ('period_start','period_end','publication_date','publication_timestamp','report_date'):
@@ -158,6 +155,31 @@ def extract_periodic(fs, ticker):
                     bvps=eq/sh
         out.append({'ticker':ticker,'period_end':pe,'publication_date':pub,'eps':eps,'bvps':bvps})
     return pd.DataFrame(out)
+
+def pit_evidence_for_ticker(fs, ticker, analysis_date):
+    # PIT verification is independent of EPS/BVPS extraction.
+    # A financial report is PIT-verified when its publication evidence exists
+    # and was available on or before the analysis date.
+    result={'pit_publication_date':pd.NaT,'pit_period_end':pd.NaT,'pit_status':'PIT_UNKNOWN'}
+    if fs.empty or 'ticker' not in fs.columns:
+        return result
+    q=fs[fs['ticker'].astype(str).str.upper().str.strip().eq(str(ticker).upper().strip())].copy()
+    if q.empty or not {'period_end','publication_date'}.issubset(q.columns):
+        return result
+    q['period_end']=pd.to_datetime(q['period_end'],errors='coerce')
+    q['publication_date']=pd.to_datetime(q['publication_date'],errors='coerce')
+    q=q.dropna(subset=['period_end','publication_date'])
+    q=q[q['publication_date']<=analysis_date].copy()
+    if q.empty:
+        return result
+    latest_period=q['period_end'].max()
+    z=q[q['period_end'].eq(latest_period)].sort_values('publication_date')
+    if z.empty:
+        return result
+    result['pit_period_end']=z.iloc[0]['period_end']
+    result['pit_publication_date']=z.iloc[0]['publication_date']
+    result['pit_status']='PIT_VERIFIED'
+    return result
 
 def current_metric_map(m, ticker, analysis_date):
     if m.empty or 'ticker' not in m.columns or 'metric' not in m.columns or 'value' not in m.columns: return {}
@@ -258,12 +280,9 @@ def main():
         cm=current_metric_map(m,t,latest_date)
         eps=num(obs.iloc[-1].eps) if not obs.empty and pd.notna(obs.iloc[-1].eps) else np.nan
         bvps=num(obs.iloc[-1].bvps) if not obs.empty and pd.notna(obs.iloc[-1].bvps) else np.nan
-        # Match the latest PIT financial period explicitly.
-        pit_pub=pd.NaT; pit_period=pd.NaT
-        if not f_hist.empty:
-            q=f_hist[f_hist.publication_date<=latest_date].sort_values(['period_end','publication_date'])
-            if not q.empty:
-                rr=q.iloc[-1]; pit_pub=rr.publication_date; pit_period=rr.period_end
+        pit_ev=pit_evidence_for_ticker(fs,t,latest_date)
+        pit_pub=pit_ev['pit_publication_date']
+        pit_period=pit_ev['pit_period_end']
         per=price/eps if np.isfinite(eps) and eps>0 else np.nan
         pbv=price/bvps if np.isfinite(bvps) and bvps>0 else np.nan
         ey=1/per if np.isfinite(per) and per>0 else np.nan
@@ -281,7 +300,7 @@ def main():
         if np.isfinite(roe) and roe<0: flags.append('NEGATIVE_ROE')
         trap=(('NEGATIVE_EPS' in flags or 'NEGATIVE_BOOK_VALUE' in flags) and (('EARNINGS_DECLINE' in flags) or ('REVENUE_DECLINE' in flags)))
         if trap: flags.append('VALUE_TRAP_RISK')
-        pit_status='PIT_VERIFIED' if pd.notna(pit_pub) else 'PIT_UNKNOWN'
+        pit_status=pit_ev['pit_status']
         r={'analysis_date':latest_date.date().isoformat(),'ticker':t,'close':price,'eps':eps,'bvps':bvps,'per':per,'pbv':pbv,'earnings_yield':ey,
            'revenue_growth_pct':revg,'net_profit_growth_pct':growth,'roe_pct':roe,'net_margin_pct':npm,'peg_diagnostic':peg,
            'sector':sector_lookup.get(t,''),'pit_period_end':pit_period.date().isoformat() if pd.notna(pit_period) else '',
@@ -306,7 +325,7 @@ def main():
         pd.DataFrame(columns=['ticker','date','close','publication_date','period_end','eps','bvps','per','pbv']).to_csv(OUTDIR/'pit_valuation_observations.csv',index=False)
     counts=snap.classification.value_counts(dropna=False).to_dict()
     status={'status':'BUILT','engine_changed':False,'analysis_date':latest_date.date().isoformat(),'tickers':int(len(snap)),
-            'financial_source':'financial_statements_pit.csv' if (ROOT/'data/fundamental/financial_statements_pit.csv').exists() else 'financial_statements.csv',
+            'financial_source':'financial_statements_pit.csv' if not fs.empty and FS_PIT.exists() else 'financial_statements.csv',
             'pit_verified':int((snap.pit_current_status=='PIT_VERIFIED').sum()),
             'historical_verified':int((snap.historical_status=='VERIFIED_PIT_RANGE').sum()),
             'peer_sets_available':int((snap.peer_status=='PEER_SET_AVAILABLE').sum()),
@@ -315,7 +334,6 @@ def main():
                      'Historical bands require at least 120 price observations and 2 distinct PIT financial periods.',
                      'Peer comparison requires at least 3 PIT-verified peers in the same supplied sector grouping.',
                      'Missing PIT evidence remains UNKNOWN; no current value is backfilled into historical dates.',
-                     'When available, financial_statements_pit.csv is the primary financial source.',
                      'Valuation classification is evidence, not a BUY/SELL signal or probability.']}
     (OUTDIR/'valuation_status.json').write_text(json.dumps(status,indent=2),encoding='utf-8')
     print(json.dumps(status,indent=2))
