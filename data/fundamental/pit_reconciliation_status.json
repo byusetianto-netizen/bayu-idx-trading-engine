@@ -1,0 +1,15 @@
+{
+  "status": "REVIEW",
+  "engine_changed": false,
+  "financial_rows": 30,
+  "tickers": 3,
+  "pit_ready_rows": 0,
+  "pit_ready_tickers": 0,
+  "evidence_rows": 0,
+  "notes": [
+    "Publication evidence is matched by ticker + period_end only.",
+    "Ticker-only fallback is intentionally prohibited to avoid wrong-period PIT attribution.",
+    "Publication date is never inferred from period_end.",
+    "This layer does not modify actual_engine.py."
+  ]
+}
