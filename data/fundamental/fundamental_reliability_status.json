@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "engine_changed": false,
+  "tickers": 3,
+  "pit_ready": 3,
+  "checks": [
+    {
+      "ticker": "AADI",
+      "period_end": "2026-03-31",
+      "publication_timestamp_present": true,
+      "publication_confidence": "HIGH",
+      "source_status": "VERIFIED",
+      "pit_rule_ready": true
+    },
+    {
+      "ticker": "AALI",
+      "period_end": "2026-03-31",
+      "publication_timestamp_present": true,
+      "publication_confidence": "HIGH",
+      "source_status": "VERIFIED",
+      "pit_rule_ready": true
+    },
+    {
+      "ticker": "ABBA",
+      "period_end": "2026-03-31",
+      "publication_timestamp_present": true,
+      "publication_confidence": "HIGH",
+      "source_status": "VERIFIED",
+      "pit_rule_ready": true
+    }
+  ],
+  "notes": [
+    "Publication timestamp is treated as availability evidence; period_end is never used as availability date.",
+    "Official IDX Financial Data and Ratio is a secondary cross-check and does not replace detailed statements.",
+    "No scraping bypass or investment decision is performed by this layer."
+  ]
+}
