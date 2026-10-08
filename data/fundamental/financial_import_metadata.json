@@ -1,0 +1,19 @@
+{
+  "ticker": "AADI",
+  "company_name": "PT Adaro Andalan Indonesia Tbk",
+  "currency": "Dollar Amerika / USD",
+  "rounding": "Ribuan / In Thousand",
+  "period_start": "2026-01-01",
+  "period_end": "2026-06-30",
+  "prior_start": "2025-01-01",
+  "prior_end": "2025-06-30",
+  "prior_year_end": "2025-12-31",
+  "board_statement_date": "2026-08-26",
+  "report_date": "2026-08-26",
+  "publication_date": "2026-08-28",
+  "report_type": "Ditelaah secara Terbatas / Limited Review",
+  "audit_opinion": "",
+  "document_id": "10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18",
+  "source_url": "https://www.idx.co.id/id/perusahaan-tercatat/keterbukaan-informasi/",
+  "engine_changed": false
+}

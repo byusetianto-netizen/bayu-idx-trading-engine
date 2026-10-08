@@ -1,10 +1,15 @@
 {
-  "status": "FOUNDATION_READY_NO_DATA",
-  "raw_records": 0,
-  "pit_safe_records": 0,
-  "authoritative_historical_feed_loaded": false,
+  "status": "IMPORT_OK",
   "engine_changed": false,
-  "notes": [
-    "No financial observations loaded. This is intentional until an authoritative source is imported."
+  "ticker": "AADI",
+  "rows": 256,
+  "document_id": "10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18",
+  "publication_date": "2026-08-28",
+  "period_end": "2026-06-30",
+  "statements": [
+    "cash_flow",
+    "profit_and_loss",
+    "statement_of_changes_in_equity",
+    "statement_of_financial_position"
   ]
 }

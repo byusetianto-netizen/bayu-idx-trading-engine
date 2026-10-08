@@ -1,0 +1,15 @@
+{
+  "status": "PIT_VALIDATION_PASS",
+  "engine_changed": false,
+  "rows": 256,
+  "tickers": [
+    "AADI"
+  ],
+  "publication_dates": [
+    "2026-08-28"
+  ],
+  "analysis_date": "2026-09-01",
+  "pit_allowed_rows": 256,
+  "pit_blocked_rows": 0,
+  "errors": []
+}
