@@ -3,7 +3,7 @@
   "engine_changed": false,
   "checks": {
     "snapshot_present": true,
-    "rows": 94,
+    "rows": 95,
     "duplicate_ticker": 0,
     "negative_eps_per_guard": 0,
     "negative_bvps_pbv_guard": 0,
@@ -14,10 +14,10 @@
     "pit_verified_tickers": [],
     "pit_expected_in_snapshot": [],
     "pit_integration_mismatch": [],
-    "pit_unknown_rows": 94,
+    "pit_unknown_rows": 95,
     "historical_verified_rows": 0,
     "peer_available_rows": 0,
-    "classification_present": 94
+    "classification_present": 95
   },
   "notes": [
     "PIT integration is validated against financial_statements_pit.csv using publication_date <= analysis_date.",
