@@ -1,0 +1,5 @@
+source,role,status,notes
+IDX Financial Data and Ratio,absolute/sector valuation cross-check,REFERENCE,Official IDX source
+PIT fundamental statements,EPS/BV/growth inputs,REQUIRED,Publication date must precede analysis date
+OHLCV price history,current price and historical valuation,REQUIRED,Use point-in-time prices
+Sector map,peer grouping,OPTIONAL,Must be PIT-safe before historical peer tests
