@@ -26,13 +26,13 @@ REQ = [
 
 ALIASES = {
  'revenue':'revenue', 'gross_profit':'gross_profit', 'profit_before_tax':'profit_before_tax',
- 'net_income':'net_income', 'net_income_attributable_parent':'net_income_attributable_parent',
+ 'net_income':'net_income', 'net_income_attributable_parent':'net_income_parent',
  'eps_basic':'basic_earnings_loss_per_share_from_continuing_operations',
  'eps_diluted':'diluted_earnings_loss_per_share_from_continuing_operations',
  'total_assets':'total_assets','total_current_assets':'total_current_assets',
  'total_liabilities':'total_liabilities','total_current_liabilities':'total_current_liabilities',
  'total_equity':'total_equity','parent_equity':'total_equity_attributable_to_equity_owners_of_parent_entity',
- 'cash':'cash','cfo':'cfo','cfi':'cfi','cff':'cff',
+ 'cash':'cash','cfo':'cash_from_operations','cfi':'cash_from_investing','cff':'cash_from_financing',
  'ppe_capex':'payments_for_acquisition_of_property_plant_and_equipment',
  'mining_capex':'payments_for_acquisition_of_mining_properties',
  'intangibles_capex':'payments_for_acquisition_of_intangible_assets',
@@ -144,132 +144,132 @@ def main():
     missing = [c for c in REQ if c not in df.columns]
     if missing:
         raise SystemExit(f'Missing columns: {missing}')
-# ------------------------------------------------------------------
-# PIT schema adapter
-# financial_statements_pit.csv uses "metric" as the canonical field.
-# Internal aliases below preserve compatibility with the metrics engine.
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+    # PIT schema adapter
+    # financial_statements_pit.csv uses "metric" as the canonical field.
+    # Internal aliases below preserve compatibility with the metrics engine.
+    # ------------------------------------------------------------------
 
-df['metric_key'] = df['metric'].astype(str).str.strip()
+    df['metric_key'] = df['metric'].astype(str).str.strip()
 
-INCOME_METRICS = {
-    'revenue',
-    'gross_profit',
-    'profit_before_tax',
-    'net_income',
-    'net_income_parent',
-    'basic_earnings_loss_per_share_from_continuing_operations',
-    'diluted_earnings_loss_per_share_from_continuing_operations',
-}
+    INCOME_METRICS = {
+        'revenue',
+        'gross_profit',
+        'profit_before_tax',
+        'net_income',
+        'net_income_parent',
+        'basic_earnings_loss_per_share_from_continuing_operations',
+        'diluted_earnings_loss_per_share_from_continuing_operations',
+    }
 
-BALANCE_METRICS = {
-    'total_assets',
-    'total_current_assets',
-    'total_liabilities',
-    'total_current_liabilities',
-    'total_equity',
-    'total_equity_attributable_to_equity_owners_of_parent_entity',
-    'cash',
-    'current_maturities_of_bank_loans',
-    'long_term_bank_loans',
-    'current_maturities_of_finance_lease_liabilities',
-    'long_term_finance_lease_liabilities',
-}
+    BALANCE_METRICS = {
+        'total_assets',
+        'total_current_assets',
+        'total_liabilities',
+        'total_current_liabilities',
+        'total_equity',
+        'total_equity_attributable_to_equity_owners_of_parent_entity',
+        'cash',
+        'current_maturities_of_bank_loans',
+        'long_term_bank_loans',
+        'current_maturities_of_finance_lease_liabilities',
+        'long_term_finance_lease_liabilities',
+    }
 
-CASH_FLOW_METRICS = {
-    'cfo',
-    'cfi',
-    'cff',
-    'payments_for_acquisition_of_property_plant_and_equipment',
-    'payments_for_acquisition_of_mining_properties',
-    'payments_for_acquisition_of_intangible_assets',
-}
+    CASH_FLOW_METRICS = {
+        'cash_from_operations',
+        'cash_from_investing',
+        'cash_from_financing',
+        'payments_for_acquisition_of_property_plant_and_equipment',
+        'payments_for_acquisition_of_mining_properties',
+        'payments_for_acquisition_of_intangible_assets',
+    }
 
-def infer_statement(metric):
-    if metric in INCOME_METRICS:
-        return 'profit_and_loss'
-    if metric in BALANCE_METRICS:
-        return 'statement_of_financial_position'
-    if metric in CASH_FLOW_METRICS:
-        return 'cash_flow'
-    return 'unknown'
+    def infer_statement(metric):
+        if metric in INCOME_METRICS:
+            return 'profit_and_loss'
+        if metric in BALANCE_METRICS:
+            return 'statement_of_financial_position'
+        if metric in CASH_FLOW_METRICS:
+            return 'cash_flow'
+        return 'unknown'
 
-df['statement'] = df['metric_key'].map(infer_statement)
-# ------------------------------------------------------------------
-# Normalize PIT period metadata
-# ------------------------------------------------------------------
+    df['statement'] = df['metric_key'].map(infer_statement)
+    # ------------------------------------------------------------------
+    # Normalize PIT period metadata
+    # ------------------------------------------------------------------
 
-df['period_type'] = (
-    df['period_type']
-    .fillna('UNKNOWN')
-    .astype(str)
-    .str.strip()
-    .str.upper()
-)
+    df['period_type'] = (
+        df['period_type']
+        .fillna('UNKNOWN')
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
 
-def normalize_cumulative(value):
-    if pd.isna(value):
+    def normalize_cumulative(value):
+        if pd.isna(value):
+            return False
+
+        v = str(value).strip().lower()
+
+        if v in {'true', '1', 'yes', 'y'}:
+            return True
+
+        if v in {'false', '0', 'no', 'n'}:
+            return False
+
         return False
 
-    v = str(value).strip().lower()
+    df['is_cumulative'] = df['is_cumulative'].map(normalize_cumulative)
 
-    if v in {'true', '1', 'yes', 'y'}:
-        return True
+    # Infer cumulative status only when source metadata is missing.
+    # Balance-sheet metrics are instant values.
+    # Income-statement and cash-flow metrics are treated as cumulative
+    # when their reporting period starts near the beginning of the year.
 
-    if v in {'false', '0', 'no', 'n'}:
-        return False
+    period_start_dt = pd.to_datetime(df['period_start'], errors='coerce')
+    period_end_dt = pd.to_datetime(df['period_end'], errors='coerce')
 
-    return False
+    flow_mask = df['statement'].isin([
+        'profit_and_loss',
+        'cash_flow'
+    ])
 
-df['is_cumulative'] = df['is_cumulative'].map(normalize_cumulative)
+    same_year = period_start_dt.dt.year.eq(period_end_dt.dt.year)
 
-# Infer cumulative status only when source metadata is missing.
-# Balance-sheet metrics are instant values.
-# Income-statement and cash-flow metrics are treated as cumulative
-# when their reporting period starts near the beginning of the year.
+    starts_near_year_begin = period_start_dt.dt.month.le(2)
 
-period_start_dt = pd.to_datetime(df['period_start'], errors='coerce')
-period_end_dt = pd.to_datetime(df['period_end'], errors='coerce')
+    infer_cumulative_mask = (
+        flow_mask
+        & same_year
+        & starts_near_year_begin
+        & df['period_type'].eq('UNKNOWN')
+    )
 
-flow_mask = df['statement'].isin([
-    'profit_and_loss',
-    'cash_flow'
-])
+    df.loc[
+        infer_cumulative_mask,
+        'is_cumulative'
+    ] = True
 
-same_year = period_start_dt.dt.year.eq(period_end_dt.dt.year)
+    df['period_end'] = pd.to_datetime(
+        df.period_end,
+        errors='coerce'
+    ).dt.strftime('%Y-%m-%d')
 
-starts_near_year_begin = period_start_dt.dt.month.le(2)
+    df['period_start'] = pd.to_datetime(
+        df.period_start,
+        errors='coerce'
+    ).dt.strftime('%Y-%m-%d')
 
-infer_cumulative_mask = (
-    flow_mask
-    & same_year
-    & starts_near_year_begin
-    & df['period_type'].eq('UNKNOWN')
-)
+    df['publication_date'] = pd.to_datetime(
+        df.publication_date,
+        errors='coerce'
+    ).dt.strftime('%Y-%m-%d')
 
-df.loc[
-    infer_cumulative_mask,
-    'is_cumulative'
-] = True
-
-df['period_end'] = pd.to_datetime(
-    df.period_end,
-    errors='coerce'
-).dt.strftime('%Y-%m-%d')
-
-df['period_start'] = pd.to_datetime(
-    df.period_start,
-    errors='coerce'
-).dt.strftime('%Y-%m-%d')
-
-df['publication_date'] = pd.to_datetime(
-    df.publication_date,
-    errors='coerce'
-).dt.strftime('%Y-%m-%d')
-
-# Point-in-Time cutoff:
-# Only information publicly available by analysis_date may be used.
-analysis_date = pd.Timestamp(args.analysis_date)
+    # Point-in-Time cutoff:
+    # Only information publicly available by analysis_date may be used.
+    analysis_date = pd.Timestamp(args.analysis_date)
 
     publication_dt = pd.to_datetime(
         df['publication_date'],
