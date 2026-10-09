@@ -6,14 +6,15 @@
   "evidence_rows": 3,
   "pit_ready_rows": 30,
   "pit_ready_tickers": 3,
-  "publication_missing_rows": 0,
+  "publication_timestamp_missing_rows": 0,
+  "publication_timestamp_invalid_rows": 0,
   "join_key": "ticker + period_end",
   "ticker_only_fallback": false,
+  "publication_date_fallback": false,
   "period_end_used_as_publication_date": false,
   "notes": [
-    "Publication evidence is matched strictly by ticker + period_end.",
-    "All financial statement rows are preserved by a left join.",
-    "Publication date is never inferred from period_end.",
-    "Publication time is optional."
+    "publication_timestamp is authoritative for PIT evidence readiness.",
+    "publication_date/publication_time are metadata only; no fallback.",
+    "Historical cutoff belongs downstream: publication_timestamp <= analysis_timestamp."
   ]
 }
