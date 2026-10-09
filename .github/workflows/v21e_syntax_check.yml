@@ -1,10 +1,10 @@
-name: V2.1E Syntax Check
+name: V2.1E Diagnostic Check
 
 on:
   workflow_dispatch:
 
 jobs:
-  syntax-check:
+  diagnostic:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,5 +16,24 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: pip install pandas numpy openpyxl
+
       - name: Compile V2.1E importer
         run: python -m py_compile scripts/import_financial_statements_batch.py
+
+      - name: Run importer in diagnostic mode
+        continue-on-error: true
+        run: python scripts/import_financial_statements_batch.py
+
+      - name: Show import status
+        if: always()
+        run: |
+          echo "===== IMPORT STATUS ====="
+          cat data/fundamental/fundamental_import_status.json || true
+
+      - name: Show detailed audit
+        if: always()
+        run: |
+          echo "===== IMPORT AUDIT ====="
+          cat data/fundamental/fundamental_import_audit.csv || true
