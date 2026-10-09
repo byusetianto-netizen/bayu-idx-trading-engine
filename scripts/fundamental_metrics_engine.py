@@ -339,7 +339,9 @@ def main():
         cash_quality='HEALTHY' if cfo_ni is not None and cfo_ni>=0.8 and (cvals.get('cfo') or 0)>0 else ('CAUTION' if cfo_ni is not None and cfo_ni>=0.5 else 'WEAK')
         g,p,b,c,o=classify(growth_y,margin,roe*factor if roe is not None else None,leverage,cash_quality)
         assessments.append({'ticker':ticker,'period_start':s,'period_end':e,'publication_date':pub,'growth':g,'profitability':p,'balance_sheet':b,'cash_flow':c,'overall_fundamental_view':o,'revenue_growth':growth(vals.get('revenue'),prevvals.get('revenue')),'net_income_growth':growth_y,'net_margin':margin,'roe_annualized_estimate':roe*factor if roe is not None else None,'debt_to_equity':leverage,'cfo_to_net_income':cfo_ni,'pit_safe':True,'source_document_id':doc})
-    out=pd.DataFrame(rows); ass=pd.DataFrame(assessments)
+    metric_columns=['ticker','metric','value','unit','period_start','period_end','basis','source_document_id','confidence','note']
+    assessment_columns=['ticker','period_start','period_end','publication_date','growth','profitability','balance_sheet','cash_flow','overall_fundamental_view','revenue_growth','net_income_growth','net_margin','roe_annualized_estimate','debt_to_equity','cfo_to_net_income','pit_safe','source_document_id']
+    out=pd.DataFrame(rows, columns=metric_columns); ass=pd.DataFrame(assessments, columns=assessment_columns)
     Path(args.metrics_output).parent.mkdir(parents=True,exist_ok=True); out.to_csv(args.metrics_output,index=False)
     ass.to_csv(args.assessment_output,index=False)
     status={'status':'FUNDAMENTAL_METRICS_BUILT','engine_changed':False,'tickers_processed':int(len(ass)),'metric_rows':int(len(out)),'assessment_rows':int(len(ass)),'notes':['Descriptive metrics only; no investment score or trade decision.','Interim ROA/ROE annualized estimates are explicitly labeled.','Debt-to-equity uses identified bank loans and finance leases only; other debt may require taxonomy expansion.','PIT safety inherits publication_date from the normalized financial statements.']}
