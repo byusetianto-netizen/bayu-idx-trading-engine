@@ -3,7 +3,7 @@
   "engine_changed": false,
   "checks": {
     "financial_statement_file": true,
-    "rows": 30,
+    "rows": 50,
     "tickers": 3,
     "duplicates": 0,
     "missing_metric": 0,

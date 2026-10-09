@@ -1,11 +1,11 @@
 {
   "status": "IMPORT_COMPLETE",
   "engine_changed": false,
-  "files_found": 3,
-  "files_imported": 3,
+  "files_found": 5,
+  "files_imported": 5,
   "files_with_errors": 0,
-  "rows_extracted": 234,
-  "financial_statement_rows_total": 30,
+  "rows_extracted": 399,
+  "financial_statement_rows_total": 50,
   "tickers_with_financial_data": 3,
   "notes": [
     "No financial values are fabricated.",

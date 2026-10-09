@@ -1,4 +1,24 @@
 ticker,metric,value,unit,currency,period_start,period_end,period_type,is_cumulative,publication_date,report_date,source,source_url,document_id,version,confidence
+AADI,revenue,7774.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,total_assets,1808595.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,total_liabilities,863180.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,total_equity,3474470.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,gross_profit,257553.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,profit_before_tax,208439.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,net_income_parent,143038.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,cash_from_operations,45289.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,cash_from_investing,-68293.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AADI,cash_from_financing,14487.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,fa943b40e34b00c99531cfa6cc237fb317c34cef326db8191c943f37b6ea5b2e,FinancialStatement-2026-I-AADI.xlsx,MEDIUM
+AALI,total_assets,9770714.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,total_liabilities,2442686.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,total_equity,23917380.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,revenue,7501811.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,gross_profit,1162532.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,profit_before_tax,540005.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,net_income_parent,373407.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,cash_from_operations,2084066.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,cash_from_investing,-137958.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
+AALI,cash_from_financing,-402.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,a81d55f122b593c2c85c48fadf383fc4a826cca98d527edaac99c6f208f4d710,FinancialStatement-2026-I-AALI.xlsx,MEDIUM
 ABBA,total_assets,89804351709.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,FinancialStatement-2026-I-ABBA.xlsx,MEDIUM
 ABBA,revenue,6884463886.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,FinancialStatement-2026-I-ABBA.xlsx,MEDIUM
 ABBA,total_liabilities,197865538038.0,reported,IDR,,2026-03-31,UNKNOWN,,,,IDX FinancialStatement XLSX,,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,FinancialStatement-2026-I-ABBA.xlsx,MEDIUM
