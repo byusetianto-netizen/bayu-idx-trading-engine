@@ -76,6 +76,7 @@ CURRENT_CONTEXTS = {
     },
     "cash_flow": {
         "CurrentYearDuration",
+        "CurrentYearInstant",
     },
 }
 
