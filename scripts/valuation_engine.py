@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V2.2 Complete Valuation Engine — timestamp-authoritative PIT edition.
+"""V2.2 Complete Valuation Engine - timestamp-authoritative PIT edition.
 
 Research-only. Builds current valuation, PIT historical valuation evidence,
 peer-relative valuation, GARP diagnostics and value-trap flags.
@@ -18,7 +18,7 @@ FUND_DIR = ROOT/'data/fundamental'
 METRICS = FUND_DIR/'fundamental_metrics.csv'
 FS_PIT = FUND_DIR/'financial_statements_pit.csv'
 MANIFEST = FUND_DIR/'financial_source_manifest.csv'
-RATIO_SNAP = FUND_DIR/'idx_financial_ratio_snapshots.csv'
+RATIO_SNAP = FUND_DIR/'idx_financial_ratio_snapshots_pit.csv'
 SECTOR = ROOT/'data/sector/sector_map.csv'
 OUTDIR = ROOT/'data/valuation'; OUTDIR.mkdir(parents=True, exist_ok=True)
 
