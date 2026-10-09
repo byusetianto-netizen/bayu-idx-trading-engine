@@ -296,7 +296,7 @@ def extract_periodic(fs, ticker, analysis_date=None, ratio_snap=None):
                 bvps_r=ratio_value(rg, ALIASES['bvps'], ('bvps','book_value_per_share'))
                 if not np.isfinite(eps) and np.isfinite(eps_r): eps=eps_r
                 if not np.isfinite(bvps) and np.isfinite(bvps_r): bvps=bvps_r
-                if not np.isfinite(pub) and 'publication_date' in rg.columns:
+                if pd.isna(pub) and 'publication_date' in rg.columns:
                     rpub=pd.to_datetime(rg['publication_date'],errors='coerce').dropna()
                     if not rpub.empty: pub=rpub.min()
 
