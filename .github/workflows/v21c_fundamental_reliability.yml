@@ -1,12 +1,18 @@
-name: V2.1C Fundamental Reliability
+name: V2.1C Fundamental Reliability Gate
+
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '00 14 * * 1-5' # 21:00 WIB
+    inputs:
+      analysis_date:
+        description: "Point-in-Time analysis date (YYYY-MM-DD)"
+        required: true
+        default: "2026-09-01"
+
 permissions:
   contents: write
+
 jobs:
-  reliability:
+  fundamental-reliability:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,14 +21,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Build coverage status
-        run: python scripts/build_fundamental_coverage.py
-      - name: Validate PIT readiness
-        run: python scripts/validate_fundamental_reliability.py
-      - name: Commit reliability outputs
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Build reliability gate
+        run: python scripts/fundamental_reliability_engine.py --analysis-date "${{ inputs.analysis_date }}"
+      - name: Validate reliability gate
+        run: python scripts/validate_fundamental_reliability.py --analysis-date "${{ inputs.analysis_date }}"
+      - name: Commit outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/fundamental/fundamental_coverage_status.json data/fundamental/fundamental_reliability_status.json
-          git diff --cached --quiet || git commit -m "Update fundamental reliability status"
+          git add data/fundamental/fundamental_reliability.csv data/fundamental/fundamental_reliability_status.json data/fundamental/fundamental_reliability_validation.json
+          git diff --cached --quiet || git commit -m "V2.1C: build fundamental reliability gate"
           git push
