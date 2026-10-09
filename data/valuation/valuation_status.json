@@ -5,8 +5,8 @@
   "tickers": 98,
   "financial_source": "financial_statements_pit.csv",
   "price_source": "idx_stock_prices.csv + PIT-required expansion/supplement when available",
-  "ratio_source": "not available",
-  "ratio_snapshot_rows": 0,
+  "ratio_source": "idx_financial_ratio_snapshots.csv when PIT-valid and period-matched",
+  "ratio_snapshot_rows": 18,
   "pit_verified": 3,
   "pit_verified_tickers": [
     "AADI",
@@ -17,7 +17,8 @@
   "peer_sets_available": 0,
   "classification_counts": {
     "INSUFFICIENT_PIT_DATA": 95,
-    "CURRENT_ONLY_CONTEXT": 3
+    "POTENTIAL_VALUE": 2,
+    "CURRENT_ONLY_CONTEXT": 1
   },
   "notes": [
     "Current valuation uses only fundamental evidence published on/before analysis date.",
