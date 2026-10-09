@@ -2,11 +2,14 @@
   "status": "BUILT",
   "engine_changed": false,
   "analysis_date": "2026-10-07",
+  "analysis_timestamp": "2026-10-07T23:59:59+07:00",
+  "analysis_timezone": "Asia/Jakarta (+07:00)",
   "tickers": 98,
   "financial_source": "financial_statements_pit.csv",
-  "price_source": "idx_stock_prices.csv + PIT-required expansion/supplement when available",
-  "ratio_source": "idx_financial_ratio_snapshots.csv when PIT-valid and period-matched",
+  "raw_financial_fallback": false,
+  "publication_date_fallback": false,
   "ratio_snapshot_rows": 18,
+  "ratio_timestamp_eligible_rows": 0,
   "pit_verified": 3,
   "pit_verified_tickers": [
     "AADI",
@@ -17,15 +20,14 @@
   "peer_sets_available": 0,
   "classification_counts": {
     "INSUFFICIENT_PIT_DATA": 95,
-    "POTENTIAL_VALUE": 2,
-    "CURRENT_ONLY_CONTEXT": 1
+    "CURRENT_ONLY_CONTEXT": 3
   },
   "notes": [
-    "Current valuation uses only fundamental evidence published on/before analysis date.",
-    "V2.2 reads V2.1F financial_statements_pit.csv as the authoritative PIT source when available.",
-    "Historical bands require at least 120 price observations and 2 distinct PIT financial periods.",
-    "Peer comparison requires at least 3 PIT-verified peers in the same supplied sector grouping.",
-    "Missing PIT evidence remains UNKNOWN; missing EPS/BVPS does not invalidate PIT verification.",
-    "Valuation classification is evidence, not a BUY/SELL signal or probability."
+    "publication_timestamp is authoritative; publication_date is metadata only and never a fallback.",
+    "PIT availability requires pit_ready=true and publication_timestamp <= analysis_timestamp.",
+    "Daily price dates are evaluated at 23:59:59 WIB for end-of-day valuation.",
+    "Raw financial-statements fallback is disabled; missing canonical PIT data fails closed.",
+    "Auxiliary metrics/ratio snapshots are usable only with their own valid publication_timestamp and pit_ready=true.",
+    "Valuation classification is research evidence, not a BUY/SELL signal or probability."
   ]
 }

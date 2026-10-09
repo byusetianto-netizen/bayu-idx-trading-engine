@@ -3,11 +3,18 @@
   "engine_changed": false,
   "checks": {
     "snapshot_present": true,
+    "status_present": true,
     "rows": 98,
     "duplicate_ticker": 0,
     "negative_eps_per_guard": 0,
     "negative_bvps_pbv_guard": 0,
+    "canonical_pit_schema_ok": true,
+    "analysis_timestamp_valid": true,
+    "snapshot_analysis_timestamp_consistent": true,
     "pit_source_rows": 30,
+    "publication_timestamp_missing_rows": 0,
+    "publication_timestamp_invalid_rows": 0,
+    "future_publication_rows": 0,
     "pit_source_eligible_tickers": 3,
     "pit_source_overlap_with_snapshot": 3,
     "pit_verified_rows": 3,
@@ -22,15 +29,18 @@
       "ABBA"
     ],
     "pit_integration_mismatch": [],
+    "verified_snapshot_timestamp_violations": 0,
     "pit_unknown_rows": 95,
     "historical_verified_rows": 0,
     "peer_available_rows": 0,
-    "classification_present": 98
+    "classification_present": 98,
+    "publication_date_fallback": false,
+    "raw_financial_fallback": false
   },
   "notes": [
-    "PIT integration is validated against financial_statements_pit.csv using publication_date <= analysis_date.",
-    "EPS/BVPS are optional for PIT verification; if absent, PER/PBV remain UNKNOWN.",
-    "Historical valuation still requires sufficient multi-period PIT evidence.",
+    "PIT integration is validated with publication_timestamp <= analysis_timestamp and pit_ready=true.",
+    "Missing/invalid publication_timestamp fails closed; publication_date is never a fallback.",
+    "Canonical financial_statements_pit.csv is required; raw financial fallback is prohibited.",
     "PASS validates structural/PIT integrity only; it does not prove valuation accuracy or investment performance."
   ]
 }
