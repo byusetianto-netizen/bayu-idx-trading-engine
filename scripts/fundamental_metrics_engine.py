@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT = ROOT / 'data/fundamental/financial_statements.csv'
+DEFAULT_INPUT = ROOT / 'data/fundamental/financial_statements_pit.csv'
 DEFAULT_METRICS = ROOT / 'data/fundamental/fundamental_metrics.csv'
 DEFAULT_ASSESS = ROOT / 'data/fundamental/fundamental_assessment.csv'
 DEFAULT_STATUS = ROOT / 'data/fundamental/fundamental_metrics_status.json'
@@ -118,16 +118,48 @@ def classify(growth, margin, roe, leverage, cfo_quality):
     return g,p,b,cash,overall
 
 def main():
-    ap=argparse.ArgumentParser()
-    ap.add_argument('--input',default=str(DEFAULT_INPUT)); ap.add_argument('--metrics-output',default=str(DEFAULT_METRICS)); ap.add_argument('--assessment-output',default=str(DEFAULT_ASSESS)); ap.add_argument('--status-output',default=str(DEFAULT_STATUS))
-    args=ap.parse_args()
-    df=pd.read_csv(args.input)
-    missing=[c for c in REQ if c not in df.columns]
-    if missing: raise SystemExit(f'Missing columns: {missing}')
-    df['period_end']=pd.to_datetime(df.period_end).dt.strftime('%Y-%m-%d')
-    df['period_start']=pd.to_datetime(df.period_start).dt.strftime('%Y-%m-%d')
-    df['publication_date']=pd.to_datetime(df.publication_date).dt.strftime('%Y-%m-%d')
-    rows=[]; assessments=[]
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--input', default=str(DEFAULT_INPUT))
+    ap.add_argument('--metrics-output', default=str(DEFAULT_METRICS))
+    ap.add_argument('--assessment-output', default=str(DEFAULT_ASSESS))
+    ap.add_argument('--status-output', default=str(DEFAULT_STATUS))
+    ap.add_argument('--analysis-date', required=True)
+    args = ap.parse_args()
+
+    df = pd.read_csv(args.input)
+
+    missing = [c for c in REQ if c not in df.columns]
+    if missing:
+        raise SystemExit(f'Missing columns: {missing}')
+
+    df['period_end'] = pd.to_datetime(
+        df.period_end, errors='coerce'
+    ).dt.strftime('%Y-%m-%d')
+
+    df['period_start'] = pd.to_datetime(
+        df.period_start, errors='coerce'
+    ).dt.strftime('%Y-%m-%d')
+
+    df['publication_date'] = pd.to_datetime(
+        df.publication_date, errors='coerce'
+    ).dt.strftime('%Y-%m-%d')
+
+    # Point-in-Time cutoff:
+    # only information publicly available by analysis_date may be used.
+    analysis_date = pd.Timestamp(args.analysis_date)
+
+    publication_dt = pd.to_datetime(
+        df['publication_date'],
+        errors='coerce'
+    )
+
+    df = df[
+        publication_dt.notna() &
+        (publication_dt <= analysis_date)
+    ].copy()
+
+    rows = []
+    assessments = []
     for ticker in sorted(df.ticker.dropna().unique()):
         inc=select_current_income(df,ticker)
         if not inc: continue
