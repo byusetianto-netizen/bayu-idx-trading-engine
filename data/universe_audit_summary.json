@@ -3,7 +3,7 @@
   "price_data_tickers": 95,
   "overlap_tickers": 95,
   "coverage_pct": 10.01,
-  "price_latest_date": "2026-10-06",
+  "price_latest_date": "2026-10-07",
   "tickers_with_200plus_rows": 95,
   "new_current_tickers_without_price_history": 854,
   "local_only_tickers": 0,
