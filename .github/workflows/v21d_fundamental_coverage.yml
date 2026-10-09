@@ -2,6 +2,11 @@ name: V2.1D Fundamental Coverage Expansion
 
 on:
   workflow_dispatch:
+    inputs:
+      analysis_date:
+        description: 'PIT analysis date (YYYY-MM-DD)'
+        required: true
+        default: '2026-09-01'
   schedule:
     - cron: '15 13 * * 1-5'
 
@@ -23,16 +28,34 @@ jobs:
       - name: Install
         run: pip install pandas numpy openpyxl
 
+      - name: Resolve analysis date
+        id: date
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "analysis_date=${{ inputs.analysis_date }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "analysis_date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build coverage queue
-        run: python scripts/build_financial_coverage_queue.py
+        run: |
+          python scripts/build_financial_coverage_queue.py \
+            --analysis-date "${{ steps.date.outputs.analysis_date }}"
 
       - name: Validate coverage
-        run: python scripts/validate_financial_coverage.py
+        run: |
+          python scripts/validate_financial_coverage.py \
+            --analysis-date "${{ steps.date.outputs.analysis_date }}"
 
       - name: Commit outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/fundamental/acquisition_queue.csv data/fundamental/coverage_expansion_status.json data/fundamental/coverage_validation_status.json
-          git diff --cached --quiet || git commit -m "Build V2.1 fundamental coverage queue"
+          git add \
+            data/fundamental/fundamental_coverage_assessment.csv \
+            data/fundamental/acquisition_queue.csv \
+            data/fundamental/coverage_expansion_status.json \
+            data/fundamental/coverage_validation_status.json
+          git diff --cached --quiet || git commit -m "Build V2.1D fundamental coverage queue"
           git push

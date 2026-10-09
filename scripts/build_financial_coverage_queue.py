@@ -1,91 +1,116 @@
+#!/usr/bin/env python3
+import argparse, json
+from pathlib import Path
+import pandas as pd
 
-import os, json, pandas as pd
-from datetime import datetime, timezone
-
-ROOT="."
-UNIVERSE="data/research_universe.csv"
-FS="data/fundamental/financial_statements.csv"
-PE="data/fundamental/publication_evidence.csv"
-OUT="data/fundamental/acquisition_queue.csv"
-STATUS="data/fundamental/coverage_expansion_status.json"
-
-def read_csv(path):
-    return pd.read_csv(path) if os.path.exists(path) else pd.DataFrame()
-
-u=read_csv(UNIVERSE)
-if "ticker" not in u.columns:
-    # fallback to price data
-    p=read_csv("data/idx_stock_prices.csv")
-    u=pd.DataFrame({"ticker": sorted(p["ticker"].dropna().astype(str).str.upper().unique())}) if "ticker" in p else pd.DataFrame(columns=["ticker"])
-u["ticker"]=u["ticker"].astype(str).str.upper().str.strip()
-u=u.drop_duplicates("ticker")
-
-fs=read_csv(FS)
-pe=read_csv(PE)
-if not fs.empty:
-    fs["ticker"]=fs["ticker"].astype(str).str.upper().str.strip()
-    fs["publication_date"]=pd.to_datetime(fs.get("publication_date"), errors="coerce")
-    fs["period_end"]=pd.to_datetime(fs.get("period_end"), errors="coerce")
-    fs_pit=fs[fs["publication_date"].notna()]
-    periods=fs_pit.groupby("ticker")["period_end"].nunique()
-    latest_pub=fs_pit.groupby("ticker")["publication_date"].max()
-    metric_count=fs_pit.groupby("ticker")["metric"].nunique()
-else:
-    periods=pd.Series(dtype=float); latest_pub=pd.Series(dtype="datetime64[ns]"); metric_count=pd.Series(dtype=float)
-
-if not pe.empty:
-    pe["ticker"]=pe["ticker"].astype(str).str.upper().str.strip()
-    pe["publication_date"]=pd.to_datetime(pe.get("publication_date"), errors="coerce")
-    pit_verified=set(pe.loc[(pe["publication_date"].notna()) & (pe.get("source_status","")=="VERIFIED"),"ticker"])
-else:
-    pit_verified=set()
-
-rows=[]
-for _,r in u.iterrows():
-    t=r["ticker"]
-    n=int(periods.get(t,0))
-    q="HIGH" if n>=2 and t in pit_verified else ("MEDIUM" if n>=1 else "HIGH")
-    if n==0:
-        priority="P0"
-        reason="No authoritative PIT financial statement coverage"
-    elif n==1:
-        priority="P1"
-        reason="Only one PIT financial period; need another period for growth/history"
-    elif n>=2:
-        priority="P2"
-        reason="Coverage exists; expand older periods and verify core metrics"
-    rows.append({
-        "ticker":t,
-        "priority":priority,
-        "reason":reason,
-        "pit_periods":n,
-        "latest_publication_date": latest_pub.get(t, pd.NaT),
-        "metric_count":int(metric_count.get(t,0)),
-        "pit_verified": t in pit_verified,
-        "suggested_import":"Place official IDX FinancialStatement XLSX + publication evidence in data/fundamental/inbox/",
-    })
-out=pd.DataFrame(rows)
-rank={"P0":0,"P1":1,"P2":2}
-if not out.empty:
-    out["_rank"]=out["priority"].map(rank)
-    out=out.sort_values(["_rank","pit_periods","ticker"]).drop(columns="_rank")
-out.to_csv(OUT,index=False)
-
-status={
- "status":"COVERAGE_QUEUE_BUILT",
- "engine_changed":False,
- "universe_tickers":int(len(u)),
- "pit_covered_tickers":int(sum(out["pit_verified"])) if not out.empty else 0,
- "tickers_with_0_periods":int((out["pit_periods"]==0).sum()) if not out.empty else 0,
- "tickers_with_1_period":int((out["pit_periods"]==1).sum()) if not out.empty else 0,
- "tickers_with_2plus_periods":int((out["pit_periods"]>=2).sum()) if not out.empty else 0,
- "generated_at":datetime.now(timezone.utc).isoformat(),
- "notes":[
-  "Queue does not fabricate financial data.",
-  "Period_end is accounting period, not availability date.",
-  "P0/P1 are the main coverage expansion targets.",
-  "Official IDX Financial Data & Ratio may be used as secondary cross-check, not as a replacement for detailed statements."
- ]
+CRITICAL = {
+    "revenue","net_income","total_assets","total_liabilities",
+    "total_equity","cash_from_operations"
 }
-json.dump(status,open(STATUS,"w"),indent=2,default=str)
-print(json.dumps(status,indent=2,default=str))
+
+def bool_series(s):
+    return s.astype(str).str.strip().str.lower().isin(["true","1","yes","y"])
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--universe",default="data/research_universe.csv")
+    ap.add_argument("--source",default="data/fundamental/financial_statements_pit.csv")
+    ap.add_argument("--analysis-date",required=True)
+    ap.add_argument("--analysis-time",default="23:59:59")
+    ap.add_argument("--assessment-output",default="data/fundamental/fundamental_coverage_assessment.csv")
+    ap.add_argument("--queue-output",default="data/fundamental/acquisition_queue.csv")
+    ap.add_argument("--status-output",default="data/fundamental/coverage_expansion_status.json")
+    a=ap.parse_args()
+
+    u=pd.read_csv(a.universe)
+    s=pd.read_csv(a.source)
+    req_u={"ticker","research_universe_eligible"}
+    req_s={"ticker","metric","period_end","publication_timestamp","document_id","confidence"}
+    if not req_u.issubset(u.columns):
+        raise SystemExit(f"Universe missing columns: {sorted(req_u-set(u.columns))}")
+    if not req_s.issubset(s.columns):
+        raise SystemExit(f"Source missing columns: {sorted(req_s-set(s.columns))}")
+
+    u["ticker"]=u["ticker"].astype(str).str.upper().str.strip()
+    eligible=sorted(u.loc[bool_series(u["research_universe_eligible"]),"ticker"].dropna().unique())
+    analysis_ts=pd.Timestamp(f"{a.analysis_date} {a.analysis_time}")
+
+    s["ticker"]=s["ticker"].astype(str).str.upper().str.strip()
+    s["metric"]=s["metric"].astype(str).str.strip()
+    s["publication_timestamp"]=pd.to_datetime(s["publication_timestamp"],errors="coerce")
+    s["period_end"]=pd.to_datetime(s["period_end"],errors="coerce")
+
+    # Fail closed: missing publication_timestamp is never replaced by publication_date.
+    pit=s[s["publication_timestamp"].notna() & (s["publication_timestamp"]<=analysis_ts)].copy()
+
+    rows=[]
+    for t in eligible:
+        z=pit[pit["ticker"].eq(t)]
+        if z.empty:
+            rows.append(dict(
+                ticker=t,analysis_timestamp=analysis_ts.isoformat(),
+                coverage_status="MISSING",latest_period_end="",
+                critical_metrics_present=0,critical_metrics_required=len(CRITICAL),
+                missing_critical_metrics=";".join(sorted(CRITICAL)),
+                acquisition_needed=True,reason="NO_PIT_SAFE_FINANCIAL_STATEMENT"))
+            continue
+
+        # Anchor the current coverage period on total_assets.
+        ends=z.loc[z["metric"].eq("total_assets"),"period_end"].dropna()
+        if ends.empty:
+            rows.append(dict(
+                ticker=t,analysis_timestamp=analysis_ts.isoformat(),
+                coverage_status="INCOMPLETE",latest_period_end="",
+                critical_metrics_present=0,critical_metrics_required=len(CRITICAL),
+                missing_critical_metrics=";".join(sorted(CRITICAL)),
+                acquisition_needed=True,reason="NO_ANCHOR_PERIOD"))
+            continue
+
+        e=ends.max()
+        q=z[z["period_end"].eq(e)]
+        present=set(q["metric"].dropna().astype(str))
+        missing=sorted(CRITICAL-present)
+        if missing:
+            rows.append(dict(
+                ticker=t,analysis_timestamp=analysis_ts.isoformat(),
+                coverage_status="INCOMPLETE",latest_period_end=e.date().isoformat(),
+                critical_metrics_present=len(CRITICAL)-len(missing),
+                critical_metrics_required=len(CRITICAL),
+                missing_critical_metrics=";".join(missing),
+                acquisition_needed=True,reason="MISSING_CRITICAL_METRICS"))
+        else:
+            rows.append(dict(
+                ticker=t,analysis_timestamp=analysis_ts.isoformat(),
+                coverage_status="COVERED",latest_period_end=e.date().isoformat(),
+                critical_metrics_present=len(CRITICAL),critical_metrics_required=len(CRITICAL),
+                missing_critical_metrics="",acquisition_needed=False,reason=""))
+
+    assessment=pd.DataFrame(rows)
+    queue=assessment[bool_series(assessment["acquisition_needed"])].copy()
+    for p in [a.assessment_output,a.queue_output,a.status_output]:
+        Path(p).parent.mkdir(parents=True,exist_ok=True)
+    assessment.to_csv(a.assessment_output,index=False)
+    queue.to_csv(a.queue_output,index=False)
+
+    counts=assessment["coverage_status"].value_counts().to_dict()
+    payload={
+        "status":"BUILT","analysis_timestamp":analysis_ts.isoformat(),
+        "universe_rows":int(len(u)),"eligible_tickers":int(len(eligible)),
+        "covered":int(counts.get("COVERED",0)),
+        "incomplete":int(counts.get("INCOMPLETE",0)),
+        "missing":int(counts.get("MISSING",0)),
+        "acquisition_queue_rows":int(len(queue)),
+        "noneligible_excluded":int(len(set(u["ticker"])-set(eligible))),
+        "engine_changed":False,
+        "notes":[
+            "Coverage expansion only; no score, ranking, or trade decision.",
+            "publication_timestamp is authoritative for PIT; publication_date never substitutes for a missing timestamp.",
+            "Only research_universe_eligible=True tickers are acquisition targets.",
+            "Coverage is assessed on the latest PIT-safe period anchored by total_assets."
+        ]
+    }
+    Path(a.status_output).write_text(json.dumps(payload,indent=2),encoding="utf-8")
+    print(json.dumps(payload,indent=2))
+
+if __name__=="__main__":
+    main()
