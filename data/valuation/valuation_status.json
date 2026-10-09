@@ -9,14 +9,14 @@
   "raw_financial_fallback": false,
   "publication_date_fallback": false,
   "ratio_snapshot_rows": 18,
-  "ratio_timestamp_eligible_rows": 6,
+  "ratio_timestamp_eligible_rows": 10,
   "pit_verified": 3,
   "pit_verified_tickers": [
     "AADI",
     "AALI",
     "ABBA"
   ],
-  "historical_verified": 0,
+  "historical_verified": 2,
   "peer_sets_available": 0,
   "classification_counts": {
     "INSUFFICIENT_PIT_DATA": 95,
