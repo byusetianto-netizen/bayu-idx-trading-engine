@@ -18,6 +18,45 @@ jobs:
 
       - name: Install dependencies
         run: pip install pandas numpy openpyxl
+      - name: Inspect AALI cash flow labels
+        run: |
+          python - <<'PY'
+          import glob
+          import openpyxl
+
+          for path in sorted(glob.glob("data/fundamental/inbox/*AALI*.xlsx")):
+              print(f"\n===== {path} =====")
+
+              wb = openpyxl.load_workbook(
+                  path,
+                  read_only=True,
+                  data_only=True
+              )
+
+              for sheet_name in ["1510000", "1520000"]:
+                  if sheet_name not in wb.sheetnames:
+                      continue
+
+                  ws = wb[sheet_name]
+
+                  print(
+                      f"--- sheet={sheet_name} "
+                      f"B4={ws['B4'].value!r} ---"
+                  )
+
+                  for row in range(1, ws.max_row + 1):
+                      english = ws.cell(row, 4).value
+                      current = ws.cell(row, 2).value
+
+                      if english and "operat" in str(english).lower():
+                          print(
+                              f"row={row} "
+                              f"B={current!r} "
+                              f"D={english!r}"
+                          )
+
+              wb.close()
+          PY
 
       - name: Compile V2.1E importer
         run: python -m py_compile scripts/import_financial_statements_batch.py
