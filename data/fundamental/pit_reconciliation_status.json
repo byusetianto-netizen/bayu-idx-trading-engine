@@ -1,10 +1,10 @@
 {
   "status": "PASS",
   "engine_changed": false,
-  "financial_rows": 30,
+  "financial_rows": 55,
   "tickers": 3,
-  "evidence_rows": 3,
-  "pit_ready_rows": 30,
+  "evidence_rows": 5,
+  "pit_ready_rows": 55,
   "pit_ready_tickers": 3,
   "publication_timestamp_missing_rows": 0,
   "publication_timestamp_invalid_rows": 0,
