@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "ACES",
-    "ACRO",
-    "ACST",
-    "ADCP",
-    "ADES"
+    "ADHI",
+    "ADMF",
+    "ADMG",
+    "ADMR",
+    "ADRO"
   ],
   "selected_count": 5,
-  "rows_received": 99,
-  "rows_total": 213,
+  "rows_received": 132,
+  "rows_total": 345,
   "errors": [],
-  "quota_remaining": "140",
+  "quota_remaining": "135",
   "provider": "indexalpha",
-  "updated_at": "2026-10-07T12:50:18.350693+00:00"
+  "updated_at": "2026-10-08T12:50:21.058979+00:00"
 }
