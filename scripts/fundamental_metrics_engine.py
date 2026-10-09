@@ -150,36 +150,26 @@ def main():
     # Internal aliases below preserve compatibility with the metrics engine.
     # ------------------------------------------------------------------
 
+    # Canonicalize source fields.
+    df['ticker'] = df['ticker'].astype(str).str.strip().str.upper()
     df['metric_key'] = df['metric'].astype(str).str.strip()
 
     INCOME_METRICS = {
-        'revenue',
-        'gross_profit',
-        'profit_before_tax',
-        'net_income',
+        'revenue', 'gross_profit', 'profit_before_tax', 'net_income',
         'net_income_parent',
         'basic_earnings_loss_per_share_from_continuing_operations',
         'diluted_earnings_loss_per_share_from_continuing_operations',
     }
-
     BALANCE_METRICS = {
-        'total_assets',
-        'total_current_assets',
-        'total_liabilities',
-        'total_current_liabilities',
-        'total_equity',
+        'total_assets', 'total_current_assets', 'total_liabilities',
+        'total_current_liabilities', 'total_equity',
         'total_equity_attributable_to_equity_owners_of_parent_entity',
-        'cash',
-        'current_maturities_of_bank_loans',
-        'long_term_bank_loans',
+        'cash', 'current_maturities_of_bank_loans', 'long_term_bank_loans',
         'current_maturities_of_finance_lease_liabilities',
         'long_term_finance_lease_liabilities',
     }
-
     CASH_FLOW_METRICS = {
-        'cash_from_operations',
-        'cash_from_investing',
-        'cash_from_financing',
+        'cash_from_operations', 'cash_from_investing', 'cash_from_financing',
         'payments_for_acquisition_of_property_plant_and_equipment',
         'payments_for_acquisition_of_mining_properties',
         'payments_for_acquisition_of_intangible_assets',
@@ -195,91 +185,59 @@ def main():
         return 'unknown'
 
     df['statement'] = df['metric_key'].map(infer_statement)
-    # ------------------------------------------------------------------
-    # Normalize PIT period metadata
-    # ------------------------------------------------------------------
-
-    df['period_type'] = (
-        df['period_type']
-        .fillna('UNKNOWN')
-        .astype(str)
-        .str.strip()
-        .str.upper()
-    )
+    df['period_type'] = df['period_type'].fillna('UNKNOWN').astype(str).str.strip().str.upper()
 
     def normalize_cumulative(value):
         if pd.isna(value):
-            return False
-
+            return None
         v = str(value).strip().lower()
-
         if v in {'true', '1', 'yes', 'y'}:
             return True
-
         if v in {'false', '0', 'no', 'n'}:
             return False
-
-        return False
+        return None
 
     df['is_cumulative'] = df['is_cumulative'].map(normalize_cumulative)
 
-    # Infer cumulative status only when source metadata is missing.
-    # Balance-sheet metrics are instant values.
-    # Income-statement and cash-flow metrics are treated as cumulative
-    # when their reporting period starts near the beginning of the year.
-
-    period_start_dt = pd.to_datetime(df['period_start'], errors='coerce')
     period_end_dt = pd.to_datetime(df['period_end'], errors='coerce')
+    period_start_dt = pd.to_datetime(df['period_start'], errors='coerce')
+    publication_dt = pd.to_datetime(df['publication_date'], errors='coerce')
 
-    flow_mask = df['statement'].isin([
-        'profit_and_loss',
-        'cash_flow'
-    ])
+    if period_end_dt.isna().any():
+        raise SystemExit('Invalid/missing period_end found in PIT source')
+    if publication_dt.isna().any():
+        raise SystemExit('Invalid/missing publication_date found in PIT source')
 
+    flow_mask = df['statement'].isin(['profit_and_loss', 'cash_flow'])
+    balance_mask = df['statement'].eq('statement_of_financial_position')
+
+    # The supplied normalized IDX interim flow values are YTD. If period_start
+    # is absent, infer Jan-01 of the period_end year.
+    missing_flow_start = flow_mask & period_start_dt.isna()
+    inferred_start = pd.to_datetime(
+        period_end_dt.dt.year.astype('Int64').astype(str) + '-01-01',
+        errors='coerce'
+    )
+    period_start_dt = period_start_dt.where(~missing_flow_start, inferred_start)
+
+    # Balance-sheet observations are point-in-time.
+    period_start_dt = period_start_dt.where(~balance_mask, period_end_dt)
+
+    missing_cum = df['is_cumulative'].isna()
     same_year = period_start_dt.dt.year.eq(period_end_dt.dt.year)
-
     starts_near_year_begin = period_start_dt.dt.month.le(2)
+    df.loc[missing_cum & flow_mask & same_year & starts_near_year_begin, 'is_cumulative'] = True
+    df.loc[missing_cum & balance_mask, 'is_cumulative'] = False
+    df['is_cumulative'] = df['is_cumulative'].fillna(False).astype(bool)
 
-    infer_cumulative_mask = (
-        flow_mask
-        & same_year
-        & starts_near_year_begin
-        & df['period_type'].eq('UNKNOWN')
-    )
+    df['period_start'] = period_start_dt.dt.strftime('%Y-%m-%d')
+    df['period_end'] = period_end_dt.dt.strftime('%Y-%m-%d')
+    df['publication_date'] = publication_dt.dt.strftime('%Y-%m-%d')
 
-    df.loc[
-        infer_cumulative_mask,
-        'is_cumulative'
-    ] = True
-
-    df['period_end'] = pd.to_datetime(
-        df.period_end,
-        errors='coerce'
-    ).dt.strftime('%Y-%m-%d')
-
-    df['period_start'] = pd.to_datetime(
-        df.period_start,
-        errors='coerce'
-    ).dt.strftime('%Y-%m-%d')
-
-    df['publication_date'] = pd.to_datetime(
-        df.publication_date,
-        errors='coerce'
-    ).dt.strftime('%Y-%m-%d')
-
-    # Point-in-Time cutoff:
-    # Only information publicly available by analysis_date may be used.
+    # Point-in-Time cutoff.
     analysis_date = pd.Timestamp(args.analysis_date)
-
-    publication_dt = pd.to_datetime(
-        df['publication_date'],
-        errors='coerce'
-    )
-
-    df = df[
-        publication_dt.notna() &
-        (publication_dt <= analysis_date)
-    ].copy()
+    publication_dt = pd.to_datetime(df['publication_date'], errors='coerce')
+    df = df[publication_dt.notna() & (publication_dt <= analysis_date)].copy()
 
     rows = []
     assessments = []
@@ -296,6 +254,12 @@ def main():
         # income metrics
         vals={k:pick(df,ticker,'profit_and_loss',k,period_end=e,period_start=s) for k in ['revenue','gross_profit','profit_before_tax','net_income','net_income_attributable_parent','eps_basic']}
         prevvals={k:pick(df,ticker,'profit_and_loss',k,period_end=prev_e,period_start=prev_inc[0]) for k in vals} if prev_inc else {}
+        # Some IDX filings expose only profit attributable to parent.
+        # Use it as the net-income proxy when consolidated net_income is absent.
+        if vals.get('net_income') is None:
+            vals['net_income'] = vals.get('net_income_attributable_parent')
+        if prevvals and prevvals.get('net_income') is None:
+            prevvals['net_income'] = prevvals.get('net_income_attributable_parent')
         # balance
         bvals={k:pick(df,ticker,'statement_of_financial_position',k,period_end=be) for k in ['total_assets','total_current_assets','total_liabilities','total_current_liabilities','total_equity','parent_equity','cash','current_bank_debt','long_term_bank_debt','current_lease_debt','long_term_lease_debt']}
         pbvals={k:pick(df,ticker,'statement_of_financial_position',k,period_end=prev_bal[0]) for k in bvals} if prev_bal else {}
@@ -328,7 +292,8 @@ def main():
         # Cash flow
         for k in ['cfo','cfi','cff']: emit_metric(rows,ticker,k,cvals.get(k),'reporting_currency_thousand',s,e,'period',doc)
         capex=sum((cvals.get(k) or 0) for k in ['ppe_capex','mining_capex','intangibles_capex'])
-        fcf=(cvals.get('cfo') or 0)-capex
+        # Preserve source signs: acquisition outflows are normally negative.
+        fcf=(cvals.get('cfo') or 0)+capex
         emit_metric(rows,ticker,'free_cash_flow',fcf,'reporting_currency_thousand',s,e,'CFO+investment_capex',doc,note='Capex defined as PPE + mining properties + intangible acquisitions; source cash-flow signs retained')
         cfo_ni=safe_div(cvals.get('cfo'),vals.get('net_income'))
         emit_metric(rows,ticker,'cfo_to_net_income',cfo_ni,'ratio',s,e,'period',doc)

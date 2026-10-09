@@ -51,6 +51,7 @@ jobs:
       - name: Validate fundamental metrics
         run: >
           python scripts/validate_fundamental_metrics.py
+          --source data/fundamental/financial_statements_pit.csv
           --analysis-date "${{ steps.analysis.outputs.analysis_date }}"
 
       - name: Commit outputs
