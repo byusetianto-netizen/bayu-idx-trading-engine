@@ -1,13 +1,19 @@
 {
   "status": "FUNDAMENTAL_METRICS_BUILT",
-  "engine_changed": false,
+  "analysis_date": "2026-09-01",
   "tickers_processed": 3,
-  "metric_rows": 36,
+  "metric_rows": 63,
   "assessment_rows": 3,
+  "tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "skipped_tickers": [],
   "notes": [
-    "Descriptive metrics only; no investment score or trade decision.",
-    "Interim ROA/ROE annualized estimates are explicitly labeled.",
-    "Debt-to-equity uses identified bank loans and finance leases only; other debt may require taxonomy expansion.",
-    "PIT safety inherits publication_date from the normalized financial statements."
+    "Comparable growth requires exact prior-year period.",
+    "Accounting identity gate tolerance is 1%.",
+    "FCF uses CFO minus absolute identified capex payments.",
+    "Debt-to-equity uses identified debt divided by total equity."
   ]
 }

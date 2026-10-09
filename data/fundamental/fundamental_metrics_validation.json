@@ -1,26 +1,24 @@
 {
   "status": "PASS",
   "analysis_date": "2026-09-01",
-  "assessment_rows": 3,
-  "metric_rows": 36,
-  "publication_dates_after_analysis": 0,
-  "required_metrics": [
-    "cfo",
-    "cfo_to_net_income",
-    "free_cash_flow",
-    "gross_margin",
-    "net_margin"
-  ],
-  "missing_required_metrics": [],
-  "tickers": [
+  "source_tickers": [
     "AADI",
     "AALI",
     "ABBA"
   ],
-  "warnings": [
-    "current_ratio not required: source lacks current assets/current liabilities",
-    "debt_to_equity not required: source lacks identified debt fields",
-    "revenue_growth not required: no prior-year revenue history in source"
+  "assessed_tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
   ],
-  "diagnostics": []
+  "assessment_rows": 3,
+  "metric_rows": 63,
+  "publication_dates_after_analysis": 0,
+  "accounting_identity_relative_gap": {
+    "AADI": 0.0,
+    "AALI": 0.0,
+    "ABBA": 0.0
+  },
+  "diagnostics": [],
+  "warnings": []
 }

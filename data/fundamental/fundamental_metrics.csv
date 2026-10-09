@@ -1,37 +1,64 @@
 ticker,metric,value,unit,period_start,period_end,basis,source_document_id,confidence,note
-AADI,gross_margin,111.02156028368795,ratio,2026-01-01,2026-06-30,period,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,net_margin,67.20070921985815,ratio,2026-01-01,2026-06-30,period,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,pre_tax_margin,94.27858156028368,ratio,2026-01-01,2026-06-30,period,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,debt_to_equity,0.0,ratio,2026-06-30,2026-06-30,instant,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,liabilities_to_equity,0.32382776661126145,ratio,2026-06-30,2026-06-30,instant,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,interest_bearing_debt,0.0,reporting_currency_thousand,2026-06-30,2026-06-30,instant,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,net_debt,0.0,reporting_currency_thousand,2026-06-30,2026-06-30,instant,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,cfo,449870.0,reporting_currency_thousand,2026-01-01,2026-06-30,period,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,cfi,-138504.0,reporting_currency_thousand,2026-01-01,2026-06-30,period,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,cff,-29198.0,reporting_currency_thousand,2026-01-01,2026-06-30,period,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AADI,free_cash_flow,449870.0,reporting_currency_thousand,2026-01-01,2026-06-30,CFO+investment_capex,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,Capex defined as PPE + mining properties + intangible acquisitions; source cash-flow signs retained
-AADI,cfo_to_net_income,0.9495636022078456,ratio,2026-01-01,2026-06-30,period,10825030ab29eb8cfdef24559ee61eee3473717c0845f9e885e24f1490599e18,HIGH,
-AALI,gross_margin,0.16576153150324527,ratio,2026-01-01,2026-06-30,period,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,net_margin,0.07201557213894158,ratio,2026-01-01,2026-06-30,period,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,pre_tax_margin,0.09967555640925675,ratio,2026-01-01,2026-06-30,period,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,debt_to_equity,0.0,ratio,2026-06-30,2026-06-30,instant,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,liabilities_to_equity,0.13755132179269267,ratio,2026-06-30,2026-06-30,instant,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,interest_bearing_debt,0.0,reporting_currency_thousand,2026-06-30,2026-06-30,instant,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,net_debt,0.0,reporting_currency_thousand,2026-06-30,2026-06-30,instant,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,cfo,3847709.0,reporting_currency_thousand,2026-01-01,2026-06-30,period,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,cfi,-334599.0,reporting_currency_thousand,2026-01-01,2026-06-30,period,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,cff,-681291.0,reporting_currency_thousand,2026-01-01,2026-06-30,period,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-AALI,free_cash_flow,3847709.0,reporting_currency_thousand,2026-01-01,2026-06-30,CFO+investment_capex,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,Capex defined as PPE + mining properties + intangible acquisitions; source cash-flow signs retained
-AALI,cfo_to_net_income,3.5014537410056885,ratio,2026-01-01,2026-06-30,period,4d62f6bd97f75378162ea764e34c3f4c8b78f0ab2c0e916a97c6694eb970837a,HIGH,
-ABBA,gross_margin,1.8976039603557882,ratio,2026-01-01,2026-03-31,period,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,net_margin,-0.9601808169031915,ratio,2026-01-01,2026-03-31,period,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,pre_tax_margin,-1.1093089814197916,ratio,2026-01-01,2026-03-31,period,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,debt_to_equity,0.0,ratio,2026-03-31,2026-03-31,instant,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,liabilities_to_equity,8.004951740489354,ratio,2026-03-31,2026-03-31,instant,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,interest_bearing_debt,0.0,reporting_currency_thousand,2026-03-31,2026-03-31,instant,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,net_debt,0.0,reporting_currency_thousand,2026-03-31,2026-03-31,instant,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,cfo,-5410062220.0,reporting_currency_thousand,2026-01-01,2026-03-31,period,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,cfi,-74058066.0,reporting_currency_thousand,2026-01-01,2026-03-31,period,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,cff,3045791517.0,reporting_currency_thousand,2026-01-01,2026-03-31,period,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
-ABBA,free_cash_flow,-5410062220.0,reporting_currency_thousand,2026-01-01,2026-03-31,CFO+investment_capex,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,Capex defined as PPE + mining properties + intangible acquisitions; source cash-flow signs retained
-ABBA,cfo_to_net_income,0.8184254175947017,ratio,2026-01-01,2026-03-31,period,c39821575419882a2694cb3df342296c6c8546800ac07554ac41c1f399814171,HIGH,
+AADI,revenue_growth,0.06127844537841387,ratio,2026-01-01,2026-06-30,same_period_yoy,AADI-2026-H1_YTD,HIGH,
+AADI,gross_profit_growth,0.12534308714449405,ratio,2026-01-01,2026-06-30,same_period_yoy,AADI-2026-H1_YTD,HIGH,
+AADI,net_income_growth,0.08966090425531914,ratio,2026-01-01,2026-06-30,same_period_yoy,AADI-2026-H1_YTD,HIGH,
+AADI,parent_net_income_growth,0.10516395565021242,ratio,2026-01-01,2026-06-30,same_period_yoy,AADI-2026-H1_YTD,HIGH,
+AADI,gross_margin,0.30735224590001714,ratio,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,net_margin,0.20593451022462927,ratio,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,pre_tax_margin,0.26100095971249465,ratio,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,roa_period,0.08452073230392697,ratio,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,roe_period,0.13605611164087952,ratio,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,roa_annualized_estimate,0.16904146460785394,ratio,2026-01-01,2026-06-30,annualized_estimate,AADI-2026-H1_YTD,HIGH,6-month interim annualization
+AADI,roe_annualized_estimate,0.27211222328175905,ratio,2026-01-01,2026-06-30,annualized_estimate,AADI-2026-H1_YTD,HIGH,6-month interim annualization
+AADI,current_ratio,2.5928718536158404,ratio,2026-06-30,2026-06-30,instant,AADI-2026-H1_YTD,HIGH,
+AADI,liabilities_to_equity,0.606769118306048,ratio,2026-06-30,2026-06-30,instant,AADI-2026-H1_YTD,HIGH,
+AADI,debt_to_equity,0.17866018144620655,ratio,2026-06-30,2026-06-30,identified_interest_bearing_debt,AADI-2026-H1_YTD,HIGH,Identified bank loans and finance lease liabilities divided by total equity
+AADI,interest_bearing_debt,702899.0,reported_thousand,2026-06-30,2026-06-30,instant,AADI-2026-H1_YTD,HIGH,
+AADI,cfo,449870.0,reported_thousand,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,cfi,-138504.0,reported_thousand,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,cff,-29198.0,reported_thousand,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AADI,capex,126271.0,reported_thousand,2026-01-01,2026-06-30,cash_outflow_magnitude,AADI-2026-H1_YTD,HIGH,Absolute magnitude of identified acquisition payments
+AADI,free_cash_flow,323599.0,reported_thousand,2026-01-01,2026-06-30,CFO-capex,AADI-2026-H1_YTD,HIGH,FCF = CFO - absolute identified capex payments
+AADI,cfo_to_net_income,0.8578233212313513,ratio,2026-01-01,2026-06-30,period,AADI-2026-H1_YTD,HIGH,
+AALI,revenue_growth,0.05622412011416511,ratio,2026-01-01,2026-06-30,same_period_yoy,AALI-2026-H1_YTD,HIGH,
+AALI,gross_profit_growth,0.12533117761085855,ratio,2026-01-01,2026-06-30,same_period_yoy,AALI-2026-H1_YTD,HIGH,
+AALI,net_income_growth,0.5691124895129902,ratio,2026-01-01,2026-06-30,same_period_yoy,AALI-2026-H1_YTD,HIGH,
+AALI,parent_net_income_growth,0.565099178061901,ratio,2026-01-01,2026-06-30,same_period_yoy,AALI-2026-H1_YTD,HIGH,
+AALI,gross_margin,0.16576153150324527,ratio,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,net_margin,0.07476784100606021,ratio,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,pre_tax_margin,0.09967555640925675,ratio,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,roa_period,0.038439683474685446,ratio,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,roe_period,0.0467731890706448,ratio,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,roa_annualized_estimate,0.07687936694937089,ratio,2026-01-01,2026-06-30,annualized_estimate,AALI-2026-H1_YTD,HIGH,6-month interim annualization
+AALI,roe_annualized_estimate,0.0935463781412896,ratio,2026-01-01,2026-06-30,annualized_estimate,AALI-2026-H1_YTD,HIGH,6-month interim annualization
+AALI,current_ratio,3.332303029807308,ratio,2026-06-30,2026-06-30,instant,AALI-2026-H1_YTD,HIGH,
+AALI,liabilities_to_equity,0.17263942414958067,ratio,2026-06-30,2026-06-30,instant,AALI-2026-H1_YTD,HIGH,
+AALI,debt_to_equity,0.0,ratio,2026-06-30,2026-06-30,identified_interest_bearing_debt,AALI-2026-H1_YTD,HIGH,Identified bank loans and finance lease liabilities divided by total equity
+AALI,interest_bearing_debt,0.0,reported_million,2026-06-30,2026-06-30,instant,AALI-2026-H1_YTD,HIGH,
+AALI,cfo,3340321.0,reported_million,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,cfi,-334599.0,reported_million,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,cff,-681291.0,reported_million,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+AALI,capex,91883.0,reported_million,2026-01-01,2026-06-30,cash_outflow_magnitude,AALI-2026-H1_YTD,HIGH,Absolute magnitude of identified acquisition payments
+AALI,free_cash_flow,3248438.0,reported_million,2026-01-01,2026-06-30,CFO-capex,AALI-2026-H1_YTD,HIGH,FCF = CFO - absolute identified capex payments
+AALI,cfo_to_net_income,2.927830650915166,ratio,2026-01-01,2026-06-30,period,AALI-2026-H1_YTD,HIGH,
+ABBA,revenue_growth,-0.40992443167800374,ratio,2026-01-01,2026-03-31,same_period_yoy,ABBA-2026-Q1_YTD,HIGH,
+ABBA,gross_profit_growth,-0.2669287633303913,ratio,2026-01-01,2026-03-31,same_period_yoy,ABBA-2026-Q1_YTD,HIGH,
+ABBA,net_income_growth,0.33213423353835325,ratio,2026-01-01,2026-03-31,same_period_yoy,ABBA-2026-Q1_YTD,HIGH,
+ABBA,parent_net_income_growth,0.44323695943063757,ratio,2026-01-01,2026-03-31,same_period_yoy,ABBA-2026-Q1_YTD,HIGH,
+ABBA,gross_margin,0.46365134390786744,ratio,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,net_margin,-0.27219351024940863,ratio,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,pre_tax_margin,-0.2710431738074155,ratio,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,roa_period,-0.03317845799151586,ratio,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,roe_period,-0.36344015916736344,ratio,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,roa_annualized_estimate,-0.13271383196606343,ratio,2026-01-01,2026-03-31,annualized_estimate,ABBA-2026-Q1_YTD,HIGH,3-month interim annualization
+ABBA,roe_annualized_estimate,-1.4537606366694538,ratio,2026-01-01,2026-03-31,annualized_estimate,ABBA-2026-Q1_YTD,HIGH,3-month interim annualization
+ABBA,current_ratio,0.4538655523315693,ratio,2026-03-31,2026-03-31,instant,ABBA-2026-Q1_YTD,HIGH,
+ABBA,liabilities_to_equity,-3.1339883596477507,ratio,2026-03-31,2026-03-31,instant,ABBA-2026-Q1_YTD,HIGH,
+ABBA,debt_to_equity,-0.15053961243296687,ratio,2026-03-31,2026-03-31,identified_interest_bearing_debt,ABBA-2026-Q1_YTD,HIGH,Identified bank loans and finance lease liabilities divided by total equity
+ABBA,interest_bearing_debt,16313632018.0,reported_full,2026-03-31,2026-03-31,instant,ABBA-2026-Q1_YTD,HIGH,
+ABBA,cfo,-5410062220.0,reported_full,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,cfi,-74058066.0,reported_full,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,cff,3045791517.0,reported_full,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
+ABBA,capex,174058066.0,reported_full,2026-01-01,2026-03-31,cash_outflow_magnitude,ABBA-2026-Q1_YTD,HIGH,Absolute magnitude of identified acquisition payments
+ABBA,free_cash_flow,-5584120286.0,reported_full,2026-01-01,2026-03-31,CFO-capex,ABBA-2026-Q1_YTD,HIGH,FCF = CFO - absolute identified capex payments
+ABBA,cfo_to_net_income,0.7054078889179596,ratio,2026-01-01,2026-03-31,period,ABBA-2026-Q1_YTD,HIGH,
