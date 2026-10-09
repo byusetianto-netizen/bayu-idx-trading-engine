@@ -9,7 +9,7 @@
   "raw_financial_fallback": false,
   "publication_date_fallback": false,
   "ratio_snapshot_rows": 18,
-  "ratio_timestamp_eligible_rows": 0,
+  "ratio_timestamp_eligible_rows": 6,
   "pit_verified": 3,
   "pit_verified_tickers": [
     "AADI",
@@ -20,7 +20,8 @@
   "peer_sets_available": 0,
   "classification_counts": {
     "INSUFFICIENT_PIT_DATA": 95,
-    "CURRENT_ONLY_CONTEXT": 3
+    "POTENTIAL_VALUE": 2,
+    "CURRENT_ONLY_CONTEXT": 1
   },
   "notes": [
     "publication_timestamp is authoritative; publication_date is metadata only and never a fallback.",

@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "ratio_rows": 18,
+  "evidence_rows": 3,
+  "pit_ready_rows": 6,
+  "blocked_rows": 12,
+  "publication_timestamp_missing_rows": 12,
+  "publication_timestamp_invalid_rows": 0,
+  "join_key": "ticker + period_end",
+  "ticker_only_fallback": false,
+  "publication_date_fallback": false,
+  "period_end_used_as_publication_date": false,
+  "raw_pit_ready_trusted_as_timestamp_evidence": false,
+  "notes": [
+    "publication_timestamp from publication_evidence.csv is authoritative.",
+    "Ratio publication_date is metadata only and is never converted into PIT timestamp.",
+    "Rows without matching valid timestamp evidence remain pit_ready=false.",
+    "Historical cutoff remains downstream: publication_timestamp <= analysis_timestamp."
+  ]
+}
