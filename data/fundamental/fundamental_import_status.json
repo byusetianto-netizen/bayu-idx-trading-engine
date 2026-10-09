@@ -3,14 +3,21 @@
   "engine_changed": false,
   "files_found": 5,
   "files_imported": 5,
-  "files_with_errors": 0,
-  "rows_extracted": 399,
-  "financial_statement_rows_total": 50,
+  "files_blocked": 0,
+  "rows_extracted": 55,
+  "financial_statement_rows_total": 55,
   "tickers_with_financial_data": 3,
+  "canonical_written": true,
+  "extraction_contract": "PRIMARY_STATEMENT_EXACT_LABEL_CURRENT_CONTEXT",
   "notes": [
     "No financial values are fabricated.",
+    "Only primary financial-statement families are scanned.",
+    "Only exact English taxonomy labels are accepted.",
+    "Only explicit current-period contexts are accepted.",
+    "Each required metric must have exactly one candidate.",
+    "Balance sheet accounting identity passed for every file.",
     "Publication date is not inferred from period_end.",
     "Rows without publication evidence are not PIT-ready.",
-    "Importer is research-only and does not modify actual_engine.py."
+    "Importer does not modify actual_engine.py."
   ]
 }
