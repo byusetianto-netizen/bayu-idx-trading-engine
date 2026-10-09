@@ -1,0 +1,20 @@
+name: V2.1E Syntax Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile V2.1E importer
+        run: python -m py_compile scripts/import_financial_statements_batch.py
