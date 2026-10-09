@@ -252,21 +252,24 @@ df.loc[
     'is_cumulative'
 ] = True
 
-    df['period_end'] = pd.to_datetime(
-        df.period_end, errors='coerce'
-    ).dt.strftime('%Y-%m-%d')
+df['period_end'] = pd.to_datetime(
+    df.period_end,
+    errors='coerce'
+).dt.strftime('%Y-%m-%d')
 
-    df['period_start'] = pd.to_datetime(
-        df.period_start, errors='coerce'
-    ).dt.strftime('%Y-%m-%d')
+df['period_start'] = pd.to_datetime(
+    df.period_start,
+    errors='coerce'
+).dt.strftime('%Y-%m-%d')
 
-    df['publication_date'] = pd.to_datetime(
-        df.publication_date, errors='coerce'
-    ).dt.strftime('%Y-%m-%d')
+df['publication_date'] = pd.to_datetime(
+    df.publication_date,
+    errors='coerce'
+).dt.strftime('%Y-%m-%d')
 
-    # Point-in-Time cutoff:
-    # only information publicly available by analysis_date may be used.
-    analysis_date = pd.Timestamp(args.analysis_date)
+# Point-in-Time cutoff:
+# Only information publicly available by analysis_date may be used.
+analysis_date = pd.Timestamp(args.analysis_date)
 
     publication_dt = pd.to_datetime(
         df['publication_date'],
