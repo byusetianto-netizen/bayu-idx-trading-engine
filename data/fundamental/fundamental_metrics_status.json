@@ -1,9 +1,9 @@
 {
   "status": "FUNDAMENTAL_METRICS_BUILT",
   "engine_changed": false,
-  "tickers_processed": 1,
-  "metric_rows": 22,
-  "assessment_rows": 1,
+  "tickers_processed": 3,
+  "metric_rows": 36,
+  "assessment_rows": 3,
   "notes": [
     "Descriptive metrics only; no investment score or trade decision.",
     "Interim ROA/ROE annualized estimates are explicitly labeled.",
