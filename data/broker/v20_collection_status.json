@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "ADHI",
-    "ADMF",
-    "ADMG",
-    "ADMR",
-    "ADRO"
+    "AGAR",
+    "AGII",
+    "AGRO",
+    "AGRS",
+    "AHAP"
   ],
   "selected_count": 5,
-  "rows_received": 132,
-  "rows_total": 345,
+  "rows_received": 142,
+  "rows_total": 487,
   "errors": [],
-  "quota_remaining": "135",
+  "quota_remaining": "130",
   "provider": "indexalpha",
-  "updated_at": "2026-10-08T12:50:21.058979+00:00"
+  "updated_at": "2026-10-09T12:48:45.075719+00:00"
 }
