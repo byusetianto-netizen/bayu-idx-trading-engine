@@ -1,4 +1,6 @@
 ticker,analysis_timestamp,coverage_status,latest_period_end,critical_metrics_present,critical_metrics_required,missing_critical_metrics,acquisition_needed,reason
+AADI,2026-09-01T23:59:59,COVERED,2026-06-30,6,6,,False,
+AALI,2026-09-01T23:59:59,COVERED,2026-06-30,6,6,,False,
 ABMM,2026-09-01T23:59:59,MISSING,,0,6,cash_from_operations;net_income;revenue;total_assets;total_equity;total_liabilities,True,NO_PIT_SAFE_FINANCIAL_STATEMENT
 ACES,2026-09-01T23:59:59,MISSING,,0,6,cash_from_operations;net_income;revenue;total_assets;total_equity;total_liabilities,True,NO_PIT_SAFE_FINANCIAL_STATEMENT
 ADMR,2026-09-01T23:59:59,MISSING,,0,6,cash_from_operations;net_income;revenue;total_assets;total_equity;total_liabilities,True,NO_PIT_SAFE_FINANCIAL_STATEMENT

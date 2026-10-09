@@ -1,16 +1,18 @@
 {
-  "status": "COVERAGE_QUEUE_BUILT",
+  "status": "BUILT",
+  "analysis_timestamp": "2026-09-01T23:59:59",
+  "universe_rows": 903,
+  "eligible_tickers": 297,
+  "covered": 2,
+  "incomplete": 0,
+  "missing": 295,
+  "acquisition_queue_rows": 295,
+  "noneligible_excluded": 606,
   "engine_changed": false,
-  "universe_tickers": 903,
-  "pit_covered_tickers": 0,
-  "tickers_with_0_periods": 903,
-  "tickers_with_1_period": 0,
-  "tickers_with_2plus_periods": 0,
-  "generated_at": "2026-10-08T04:04:48.354148+00:00",
   "notes": [
-    "Queue does not fabricate financial data.",
-    "Period_end is accounting period, not availability date.",
-    "P0/P1 are the main coverage expansion targets.",
-    "Official IDX Financial Data & Ratio may be used as secondary cross-check, not as a replacement for detailed statements."
+    "Coverage expansion only; no score, ranking, or trade decision.",
+    "publication_timestamp is authoritative for PIT; publication_date never substitutes for a missing timestamp.",
+    "Only research_universe_eligible=True tickers are acquisition targets.",
+    "Coverage is assessed on the latest PIT-safe period anchored by total_assets."
   ]
 }
