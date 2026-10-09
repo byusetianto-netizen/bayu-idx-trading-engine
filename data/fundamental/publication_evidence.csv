@@ -1,4 +1,6 @@
 ticker,period_end,publication_date,publication_timestamp,source,source_url,publication_confidence,source_status,pit_rule_ready,notes
+AADI,2026-03-31,2026-04-30,2026-04-30 16:51+07:00,MANUAL_IDX_EVIDENCE,,HIGH,VERIFIED,true,IDX screenshot evidence
 AADI,2026-06-30,2026-08-28,2026-08-28 16:13+07:00,MANUAL_IDX_EVIDENCE,,HIGH,VERIFIED,true,IDX screenshot evidence
+AALI,2026-03-31,2026-04-28,2026-04-28 16:30+07:00,MANUAL_IDX_EVIDENCE,,HIGH,VERIFIED,true,IDX screenshot evidence
 AALI,2026-06-30,2026-07-29,2026-07-29 18:19+07:00,MANUAL_IDX_EVIDENCE,,HIGH,VERIFIED,true,IDX screenshot evidence
 ABBA,2026-03-31,2026-04-28,2026-04-28 17:14+07:00,MANUAL_IDX_EVIDENCE,,HIGH,VERIFIED,true,IDX screenshot evidence

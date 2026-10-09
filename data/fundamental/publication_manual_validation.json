@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "rows": 3,
+  "rows": 5,
   "checks": [
     {
       "check": "missing_ticker",
@@ -19,7 +19,7 @@
       "count": 0
     }
   ],
-  "evidence_rows": 3,
+  "evidence_rows": 5,
   "notes": [
     "publication_date is mandatory; publication_time is optional."
   ]
