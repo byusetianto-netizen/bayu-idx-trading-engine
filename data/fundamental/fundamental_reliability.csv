@@ -1,0 +1,4 @@
+ticker,analysis_timestamp,current_period_end,pit_safety,accounting_integrity,accounting_identity_relative_gap,comparable_period,critical_source_coverage,critical_metric_coverage,currency_unit_integrity,source_reliability,publication_age_days,freshness,reliability_status,eligible_for_fundamental_scoring,block_reasons,warning_reasons
+AADI,2026-09-01T23:59:59,2026-06-30,PASS,PASS,0.0,PASS,PASS,PASS,PASS,PASS,6,OBSERVED,PASS,True,,
+AALI,2026-09-01T23:59:59,2026-06-30,PASS,PASS,0.0,PASS,PASS,PASS,PASS,PASS,34,OBSERVED,PASS,True,,
+ABBA,2026-09-01T23:59:59,2026-03-31,PASS,PASS,0.0,PASS,PASS,PASS,PASS,PASS,126,OBSERVED,PASS,True,,

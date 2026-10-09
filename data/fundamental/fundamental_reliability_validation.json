@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "analysis_timestamp": "2026-09-01T23:59:59",
+  "source_tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "reliability_tickers": [
+    "AADI",
+    "AALI",
+    "ABBA"
+  ],
+  "rows": 3,
+  "eligible": 3,
+  "blocked": 0,
+  "diagnostics": []
+}
