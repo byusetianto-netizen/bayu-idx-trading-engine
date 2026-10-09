@@ -1,24 +1,9 @@
 #!/usr/bin/env python3
-import argparse, json
+import argparse,json
 from pathlib import Path
 import pandas as pd
 
-BASE_EXPECTED = {'gross_margin','net_margin','cfo','free_cash_flow','cfo_to_net_income'}
-
-def read_csv_safe(path, required_columns):
-    p = Path(path)
-    if not p.exists():
-        return pd.DataFrame(columns=required_columns), f'missing file: {p}'
-    if p.stat().st_size == 0:
-        return pd.DataFrame(columns=required_columns), f'empty file: {p}'
-    try:
-        df = pd.read_csv(p)
-    except pd.errors.EmptyDataError:
-        return pd.DataFrame(columns=required_columns), f'empty CSV: {p}'
-    missing = [c for c in required_columns if c not in df.columns]
-    if missing:
-        return df, f'missing columns in {p}: {missing}'
-    return df, None
+CORE={'revenue_growth','gross_margin','net_margin','roa_period','roe_period','current_ratio','cfo','free_cash_flow','cfo_to_net_income'}
 
 def main():
     ap=argparse.ArgumentParser()
@@ -28,66 +13,66 @@ def main():
     ap.add_argument('--analysis-date',default='2026-09-01')
     ap.add_argument('--output',default='data/fundamental/fundamental_metrics_validation.json')
     args=ap.parse_args()
-
-    m,me=read_csv_safe(args.metrics,['ticker','metric','period_end','source_document_id'])
-    a,ae=read_csv_safe(args.assessment,['ticker','publication_date'])
-    s,se=read_csv_safe(args.source,['ticker','metric','period_end','publication_date'])
+    diagnostics=[]; warnings=[]
+    try: m=pd.read_csv(args.metrics); a=pd.read_csv(args.assessment); s=pd.read_csv(args.source)
+    except Exception as exc:
+        raise SystemExit(f'Cannot read validation inputs: {exc}')
     ad=pd.Timestamp(args.analysis_date)
-    diagnostics=[x for x in (me,ae,se) if x]
-    warnings=[]; bad=0; tickers=[]; present=set()
+    for c in ['period_start','period_end','publication_date']:
+        s[c]=pd.to_datetime(s[c],errors='coerce')
+    a['publication_date']=pd.to_datetime(a.publication_date,errors='coerce')
+    eligible=s[s.publication_date.notna()&(s.publication_date<=ad)].copy()
+    source_tickers=sorted(eligible.ticker.dropna().astype(str).unique())
+    assessed=sorted(a.ticker.dropna().astype(str).unique())
+    missing_tickers=sorted(set(source_tickers)-set(assessed))
+    extra_tickers=sorted(set(assessed)-set(source_tickers))
+    if missing_tickers: diagnostics.append(f'source ticker(s) not assessed: {missing_tickers}')
+    if extra_tickers: diagnostics.append(f'assessed ticker(s) absent from PIT source: {extra_tickers}')
+    bad_pub=int((a.publication_date>ad).sum())
+    if bad_pub: diagnostics.append(f'{bad_pub} assessment row(s) after analysis_date')
 
-    if not me:
-        present=set(m['metric'].dropna().astype(str))
-    if not ae:
-        a['publication_date']=pd.to_datetime(a['publication_date'],errors='coerce')
-        bad=int((a['publication_date']>ad).sum())
-        tickers=sorted(a['ticker'].dropna().astype(str).unique().tolist())
+    identity={}
+    for t in source_tickers:
+        z=eligible[eligible.ticker.astype(str).eq(t)]
+        ends=z[z.metric.eq('total_assets')].period_end.dropna()
+        if len(ends)==0:
+            diagnostics.append(f'{t}: no total_assets period'); continue
+        e=ends.max(); q=z[z.period_end.eq(e)]
+        def v(k):
+            x=q[q.metric.eq(k)].value
+            return None if x.empty else float(x.iloc[0])
+        A,L,E=v('total_assets'),v('total_liabilities'),v('total_equity')
+        if None in (A,L,E):
+            diagnostics.append(f'{t}: incomplete accounting identity components'); continue
+        gap=abs(A-(L+E))/max(abs(A),1)
+        identity[t]=gap
+        if gap>0.01: diagnostics.append(f'{t}: accounting identity relative gap {gap:.6f} > 1%')
 
-    expected=set(BASE_EXPECTED)
-    if not se:
-        s['publication_date']=pd.to_datetime(s['publication_date'],errors='coerce')
-        s=s[s['publication_date'].notna() & (s['publication_date']<=ad)].copy()
-        sm=set(s['metric'].dropna().astype(str))
+        flows=z[z.metric.eq('revenue')]
+        cur_end=flows.period_end.max() if len(flows) else None
+        if cur_end is None: diagnostics.append(f'{t}: no revenue period'); continue
+        cur=flows[flows.period_end.eq(cur_end)]
+        starts=cur.period_start.dropna()
+        if starts.empty: diagnostics.append(f'{t}: current revenue period_start missing'); continue
+        ps=starts.min(); pe=pd.Timestamp(cur_end)
+        prior=flows[(flows.period_start.eq(ps-pd.DateOffset(years=1)))&(flows.period_end.eq(pe-pd.DateOffset(years=1)))]
+        if prior.empty: diagnostics.append(f'{t}: exact prior-year comparable revenue period missing')
 
-        if {'total_current_assets','total_current_liabilities'} <= sm:
-            expected.add('current_ratio')
-        else:
-            warnings.append('current_ratio not required: source lacks current assets/current liabilities')
+        tm=m[m.ticker.astype(str).eq(t)]
+        present=set(tm.metric.astype(str))
+        miss=sorted(CORE-present)
+        # Debt/equity is required only if identified debt fields exist in current source.
+        debt_fields={'short_term_bank_loans','current_maturities_of_bank_loans','long_term_bank_loans',
+                     'current_maturities_of_finance_lease_liabilities','long_term_finance_lease_liabilities'}
+        if set(q.metric.astype(str)) & debt_fields: miss += ([] if 'debt_to_equity' in present else ['debt_to_equity'])
+        if miss: diagnostics.append(f'{t}: missing required metric(s): {sorted(set(miss))}')
 
-        debt={'current_maturities_of_bank_loans','long_term_bank_loans',
-              'current_maturities_of_finance_lease_liabilities',
-              'long_term_finance_lease_liabilities'}
-        if 'total_equity' in sm and debt & sm:
-            expected.add('debt_to_equity')
-        else:
-            warnings.append('debt_to_equity not required: source lacks identified debt fields')
-
-        s['period_end_dt']=pd.to_datetime(s['period_end'],errors='coerce')
-        has_yoy=False
-        for _,g in s[s['metric'].eq('revenue')].groupby('ticker'):
-            if g['period_end_dt'].dropna().dt.year.nunique() >= 2:
-                has_yoy=True; break
-        if has_yoy:
-            expected.add('revenue_growth')
-        else:
-            warnings.append('revenue_growth not required: no prior-year revenue history in source')
-
-    missing=sorted(expected-present)
-    if len(m)==0: diagnostics.append('fundamental_metrics.csv contains zero metric rows')
-    if len(a)==0: diagnostics.append('fundamental_assessment.csv contains zero assessment rows')
-    if bad: diagnostics.append(f'{bad} assessment row(s) have publication_date after analysis_date')
-    if missing: diagnostics.append(f'missing source-supported required metrics: {missing}')
-
-    passed=not diagnostics and len(m)>0 and len(a)>0
-    status={'status':'PASS' if passed else 'FAIL','analysis_date':args.analysis_date,
-            'assessment_rows':int(len(a)),'metric_rows':int(len(m)),
-            'publication_dates_after_analysis':bad,'required_metrics':sorted(expected),
-            'missing_required_metrics':missing,'tickers':tickers,
-            'warnings':warnings,'diagnostics':diagnostics}
-    out=Path(args.output); out.parent.mkdir(parents=True,exist_ok=True)
-    out.write_text(json.dumps(status,indent=2),encoding='utf-8')
-    print(json.dumps(status,indent=2))
-    raise SystemExit(0 if passed else 1)
-
-if __name__=='__main__':
-    main()
+    passed=not diagnostics and len(a)>0 and len(m)>0
+    out={'status':'PASS' if passed else 'FAIL','analysis_date':args.analysis_date,
+         'source_tickers':source_tickers,'assessed_tickers':assessed,'assessment_rows':len(a),'metric_rows':len(m),
+         'publication_dates_after_analysis':bad_pub,'accounting_identity_relative_gap':identity,
+         'diagnostics':diagnostics,'warnings':warnings}
+    Path(args.output).parent.mkdir(parents=True,exist_ok=True)
+    Path(args.output).write_text(json.dumps(out,indent=2),encoding='utf-8')
+    print(json.dumps(out,indent=2)); raise SystemExit(0 if passed else 1)
+if __name__=='__main__': main()
