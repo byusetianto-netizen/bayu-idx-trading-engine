@@ -28,3 +28,6 @@ data/execution_probe/data_quality_component_audit_summary.json
 
 data/execution_probe/data_quality_model_relevance_detail.csv
 data/execution_probe/data_quality_model_relevance_summary.json
+
+data/execution_probe/data_quality_numerical_impact_detail.csv
+data/execution_probe/data_quality_numerical_impact_summary.json
