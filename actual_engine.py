@@ -126,11 +126,12 @@ for t in [3,5,8]:
 
     X_val=df.loc[valid,features]
     
-    metrics.append({'target':t,'validation_auc':auc,'train_n':int(mask.sum())})
     yy=df.loc[valid,f'y{t}']
     vm=X_val.notna().all(axis=1) & yy.notna()
     pred=pipe.predict_proba(X_val.loc[vm])[:,1]
     auc=roc_auc_score(yy.loc[vm].astype(int),pred) if yy.loc[vm].nunique()>1 else np.nan
+    metrics.append({'target':t,'validation_auc':auc,'train_n':int(mask.sum())})
+
     X_latest=df.loc[latest,features]
     valid_latest=X_latest.notna().all(axis=1)
     p=np.full(len(X_latest),np.nan)
