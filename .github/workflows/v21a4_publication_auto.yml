@@ -2,18 +2,39 @@ name: V2.1A4 Automatic IDX Publication Evidence
 
 on:
   workflow_dispatch:
+    inputs:
+      year:
+        description: "IDX reporting year"
+        required: false
+        default: "2026"
+      period:
+        description: "IDX reporting period: TW1, TW2, TW3, or AUDIT"
+        required: false
+        default: "TW1"
+
   schedule:
     - cron: '45 13 * * 1-5' # 20:45 WIB
 
 permissions:
   contents: write
 
+concurrency:
+  group: v21a4-publication-evidence
+  cancel-in-progress: false
+
 jobs:
   publication-evidence:
     runs-on: ubuntu-latest
+
+    env:
+      IDX_PUBLICATION_YEAR: ${{ github.event.inputs.year || '2026' }}
+      IDX_PUBLICATION_PERIOD: ${{ github.event.inputs.period || 'TW1' }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -26,16 +47,46 @@ jobs:
           pip install playwright
           playwright install --with-deps chromium
 
-      - name: Collect IDX publication evidence
+      - name: Collect IDX publication candidates
         run: python scripts/collect_idx_publication_evidence.py
 
-      - name: Validate PIT publication evidence
+      - name: Validate PIT publication candidates
         run: python scripts/validate_pit_publication_evidence.py
 
-      - name: Commit evidence outputs
+      - name: Confirm canonical evidence was not modified
+        shell: bash
+        run: |
+          if ! git diff --quiet -- data/fundamental/publication_evidence.csv; then
+            echo "ERROR: canonical publication_evidence.csv was modified."
+            git diff -- data/fundamental/publication_evidence.csv
+            exit 1
+          fi
+
+          echo "PASS: canonical publication_evidence.csv unchanged."
+
+      - name: Commit automatic evidence audit outputs
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/fundamental/publication_evidence.csv data/fundamental/publication_collection_status.json data/fundamental/publication_collection_raw.json data/fundamental/pit_publication_validation.json
-          git diff --cached --quiet || git commit -m "chore: refresh IDX publication evidence"
-          git push
+
+          git add \
+            data/fundamental/publication_auto_candidates.csv \
+            data/fundamental/publication_collection_status.json \
+            data/fundamental/publication_collection_raw.json \
+            data/fundamental/pit_publication_validation.json
+
+          if git diff --cached --quiet; then
+            echo "No automatic publication evidence changes to commit."
+          else
+            git commit -m "chore: refresh IDX automatic publication evidence audit"
+          fi
+
+      - name: Push audit outputs
+        shell: bash
+        run: |
+          if git diff HEAD^ HEAD --quiet 2>/dev/null; then
+            echo "No new commit to push."
+          else
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
