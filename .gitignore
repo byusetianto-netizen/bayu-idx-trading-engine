@@ -25,3 +25,6 @@ data/execution_probe/data_quality_exact_dependency_summary.json
 
 data/execution_probe/data_quality_component_audit_detail.csv
 data/execution_probe/data_quality_component_audit_summary.json
+
+data/execution_probe/data_quality_model_relevance_detail.csv
+data/execution_probe/data_quality_model_relevance_summary.json
