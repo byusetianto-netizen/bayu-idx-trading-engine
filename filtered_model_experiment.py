@@ -70,7 +70,6 @@ FEATURES = [
     "volatility20",
     "rsi",
     "rs20",
-    "liq20",
 ]
 
 TARGETS = [3, 5, 8]
@@ -448,8 +447,8 @@ def make_model():
     return make_pipeline(
         SimpleImputer(strategy="median"),
         HistGradientBoostingClassifier(
-            max_iter=300,
-            learning_rate=0.05,
+            max_iter=180,
+            learning_rate=0.06,
             max_leaf_nodes=15,
             l2_regularization=1.0,
             random_state=42,
