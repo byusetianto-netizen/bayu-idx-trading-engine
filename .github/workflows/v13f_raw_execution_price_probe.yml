@@ -1,0 +1,38 @@
+name: V1.3F Raw Execution Price Probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas numpy "yfinance>=0.2.66"
+
+      - name: Run V1.3F raw execution price probe
+        run: python raw_execution_price_probe.py
+
+      - name: Commit probe outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/execution_probe/raw_execution_prices_probe.csv
+          git add data/execution_probe/corporate_actions_probe.csv
+          git add data/execution_probe/raw_vs_adjusted_probe.csv
+          git add data/execution_probe/raw_execution_probe_summary.json
+          git diff --cached --quiet || git commit -m "V1.3F raw execution price probe"
+          git push
