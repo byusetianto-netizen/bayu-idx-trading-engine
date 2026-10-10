@@ -1,0 +1,131 @@
+{
+  "version": "V1.3F-6",
+  "status": "SESSION_FILTER_IMPACT_ANALYSIS_COMPLETE",
+  "policy": {
+    "raw_price_datasets_modified": false,
+    "actual_engine_modified": false,
+    "model_retrained": false,
+    "official_idx_calendar_established": false,
+    "placeholder_is_proven_non_trading_session": false
+  },
+  "input": {
+    "base_rows": 368062,
+    "placeholder_candidate_rows": 5239,
+    "filtered_rows": 362823,
+    "unique_tickers": 95
+  },
+  "comparison": {
+    "common_retained_rows": 362823,
+    "rows_with_any_numeric_feature_change": 118909,
+    "rows_with_any_forward_label_change": 1512,
+    "rows_with_any_feature_or_label_change": 118994
+  },
+  "numeric_features": {
+    "ret5": {
+      "comparable_rows": 362348,
+      "changed_rows": 9415,
+      "changed_pct": 2.598330886330268,
+      "mean_abs_diff": 0.0006090323653610817,
+      "max_abs_diff": 3.8859586503494694
+    },
+    "ret10": {
+      "comparable_rows": 361873,
+      "changed_rows": 19745,
+      "changed_pct": 5.4563341282715205,
+      "mean_abs_diff": 0.0013839514457047706,
+      "max_abs_diff": 3.857133496792343
+    },
+    "ret20": {
+      "comparable_rows": 360923,
+      "changed_rows": 36314,
+      "changed_pct": 10.061425844293659,
+      "mean_abs_diff": 0.002717771706975049,
+      "max_abs_diff": 3.8095321828587165
+    },
+    "ret60": {
+      "comparable_rows": 357123,
+      "changed_rows": 68214,
+      "changed_pct": 19.100982014600014,
+      "mean_abs_diff": 0.006757907341602031,
+      "max_abs_diff": 4.010946654799171
+    },
+    "ma20_dist": {
+      "comparable_rows": 361018,
+      "changed_rows": 40306,
+      "changed_pct": 11.164540272230193,
+      "mean_abs_diff": 0.0005130360774730211,
+      "max_abs_diff": 0.17431780941429942
+    },
+    "ma50_dist": {
+      "comparable_rows": 358168,
+      "changed_rows": 72478,
+      "changed_pct": 20.235755288021267,
+      "mean_abs_diff": 0.000926258831639507,
+      "max_abs_diff": 0.245302766050715
+    },
+    "ma200_dist": {
+      "comparable_rows": 343918,
+      "changed_rows": 117989,
+      "changed_pct": 34.30730581126897,
+      "mean_abs_diff": 0.0020326006657621623,
+      "max_abs_diff": 0.43865400878310146
+    },
+    "vol_ratio": {
+      "comparable_rows": 354101,
+      "changed_rows": 40404,
+      "changed_pct": 11.410303839864898,
+      "mean_abs_diff": 0.01545671145182785,
+      "max_abs_diff": 19.130434782608695
+    },
+    "volatility20": {
+      "comparable_rows": 362063,
+      "changed_rows": 18547,
+      "changed_pct": 5.122589162659537,
+      "mean_abs_diff": 0.0004628217098477701,
+      "max_abs_diff": 1.897129962249496
+    },
+    "rsi": {
+      "comparable_rows": 344205,
+      "changed_rows": 27096,
+      "changed_pct": 7.872052991676472,
+      "mean_abs_diff": 0.4585744661619655,
+      "max_abs_diff": 90.90909090909079
+    },
+    "liq20": {
+      "comparable_rows": 361018,
+      "changed_rows": 28610,
+      "changed_pct": 7.924812613221502,
+      "mean_abs_diff": 209451517.33546177,
+      "max_abs_diff": 189666085581.97003
+    }
+  },
+  "forward_labels": {
+    "y3": {
+      "comparable_rows": 362348,
+      "changed_rows": 960,
+      "changed_pct": 0.2649386777352159,
+      "baseline_known_filtered_unknown": 0,
+      "baseline_unknown_filtered_known": 0
+    },
+    "y5": {
+      "comparable_rows": 362348,
+      "changed_rows": 764,
+      "changed_pct": 0.21084703103094266,
+      "baseline_known_filtered_unknown": 0,
+      "baseline_unknown_filtered_known": 0
+    },
+    "y8": {
+      "comparable_rows": 362348,
+      "changed_rows": 495,
+      "changed_pct": 0.1366090057072207,
+      "baseline_known_filtered_unknown": 0,
+      "baseline_unknown_filtered_known": 0
+    }
+  },
+  "notes": [
+    "Baseline reproduces ordered-row session semantics used by actual_engine.py for the analyzed fields.",
+    "Filtered calculations exclude V1.3F-4 PLACEHOLDER_CANDIDATE rows before rolling and forward-horizon calculations.",
+    "This analysis does not determine whether the placeholder dates are official IDX non-trading days.",
+    "No model probabilities, AUC values, opportunity scores, or trading decisions are recalculated here."
+  ]
+}
