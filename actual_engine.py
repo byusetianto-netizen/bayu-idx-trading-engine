@@ -73,10 +73,35 @@ df['liq20']=G.apply(lambda x:(x['close']*x['volume']).rolling(20,min_periods=20)
 
 features=['ret5','ret10','ret20','ret60','ma20_dist','ma50_dist','ma200_dist','vol_ratio','rsi','volatility20','rs20']
 
-for target in [0.03,0.05,0.08]:
-    hi=pd.concat([G['high'].shift(-i) for i in range(1,6)],axis=1).max(axis=1)
-    lo=pd.concat([G['low'].shift(-i) for i in range(1,6)],axis=1).min(axis=1)
-    df[f'y{int(target*100)}']=((hi>=df['close']*(1+target)) & (lo>df['close']*0.97)).astype(float)
+# Forward 5-session labels.
+# A label is valid only when all 5 future trading sessions exist
+# for the same ticker. Incomplete horizons remain UNKNOWN (NaN).
+future_highs = pd.concat(
+    [G['high'].shift(-i) for i in range(1, 6)],
+    axis=1
+)
+future_lows = pd.concat(
+    [G['low'].shift(-i) for i in range(1, 6)],
+    axis=1
+)
+
+complete_horizon = (
+    future_highs.notna().all(axis=1)
+    & future_lows.notna().all(axis=1)
+)
+
+hi = future_highs.max(axis=1, skipna=False)
+lo = future_lows.min(axis=1, skipna=False)
+
+for target in [0.03, 0.05, 0.08]:
+    label = (
+        (hi >= df['close'] * (1 + target))
+        & (lo > df['close'] * 0.97)
+    ).astype(float)
+
+    label = label.where(complete_horizon, np.nan)
+
+    df[f'y{int(target*100)}'] = label
 
 train=(df['date']<'2023-01-01')
 valid=(df['date']>='2023-01-01')&(df['date']<'2025-01-01')
@@ -100,12 +125,12 @@ for t in [3,5,8]:
     pipe.fit(X_train.loc[mask],y.loc[mask].astype(int))
 
     X_val=df.loc[valid,features]
-    vm=X_val.notna().all(axis=1)
-    yy=df.loc[valid,f'y{t}']
-    pred=pipe.predict_proba(X_val.loc[vm])[:,1]
-    auc=roc_auc_score(yy.loc[vm],pred) if yy.loc[vm].nunique()>1 else np.nan
+    
     metrics.append({'target':t,'validation_auc':auc,'train_n':int(mask.sum())})
-
+    yy=df.loc[valid,f'y{t}']
+    vm=X_val.notna().all(axis=1) & yy.notna()
+    pred=pipe.predict_proba(X_val.loc[vm])[:,1]
+    auc=roc_auc_score(yy.loc[vm].astype(int),pred) if yy.loc[vm].nunique()>1 else np.nan
     X_latest=df.loc[latest,features]
     valid_latest=X_latest.notna().all(axis=1)
     p=np.full(len(X_latest),np.nan)
