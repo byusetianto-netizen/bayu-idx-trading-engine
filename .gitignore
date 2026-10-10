@@ -7,3 +7,6 @@ data/execution_probe/session_filter_impact_detail.csv
 
 data/execution_probe/adjusted_price_discontinuity_detail.csv
 data/execution_probe/adjusted_price_discontinuity_summary.json
+
+data/execution_probe/corporate_action_reconciliation_detail.csv
+data/execution_probe/corporate_action_reconciliation_summary.json
