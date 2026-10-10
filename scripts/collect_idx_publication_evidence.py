@@ -812,6 +812,67 @@ def main():
         encoding="utf-8",
     )
 
+    successful_requests = sum(
+        1
+        for response in fetched.values()
+        if response.get("status") == 200
+    )
+
+    if successful_requests == 0:
+        status = {
+            "status": "COLLECTION_BLOCKED",
+            "engine_changed": False,
+            "canonical_evidence_modified": False,
+            "year": year,
+            "period": period,
+            "period_end": period_end(
+                year,
+                period,
+            ),
+            "tickers_requested": len(tickers),
+            "tickers": tickers,
+            "successful_requests": 0,
+            "http_errors": len(errors),
+            "errors": errors[:20],
+            "reason": (
+                "No IDX request returned HTTP 200. "
+                "Automatic publication evidence "
+                "collection is unavailable."
+            ),
+            "notes": [
+                (
+                    "Automatic evidence was not "
+                    "promoted to canonical evidence."
+                ),
+                (
+                    "Canonical publication_evidence.csv "
+                    "remains unchanged."
+                ),
+                (
+                    "Fail-closed: collection failure "
+                    "must not be reported as PIT PASS."
+                ),
+            ],
+        }
+
+        STATUS.write_text(
+            json.dumps(
+                status,
+                indent=2,
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+        print(
+            json.dumps(
+                status,
+                indent=2,
+                ensure_ascii=False,
+            )
+        )
+
+        raise SystemExit(1)
     auto_verified = sum(
         row.get("verification_status")
         == "AUTO_VERIFIED"
