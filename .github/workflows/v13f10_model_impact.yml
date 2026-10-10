@@ -1,0 +1,100 @@
+
+name: V1.3F-10 Model Impact Assessment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  model-impact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install research dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy==2.2.6 \
+            pandas==2.2.3 \
+            scikit-learn==1.6.1 \
+            scipy==1.15.3 \
+            tabulate==0.9.0
+
+      - name: Record runtime versions
+        run: |
+          python --version
+          python -c "import numpy, pandas, sklearn, scipy; print('numpy:', numpy.__version__); print('pandas:', pandas.__version__); print('scikit-learn:', sklearn.__version__); print('scipy:', scipy.__version__)"
+
+      - name: Compile research scripts
+        run: |
+          python -m py_compile adjusted_price_discontinuity_audit.py
+          python -m py_compile data_quality_impact_analysis.py
+          python -m py_compile data_quality_exact_dependency.py
+          python -m py_compile data_quality_component_audit.py
+          python -m py_compile data_quality_model_relevance.py
+          python -m py_compile data_quality_numerical_impact.py
+          python -m py_compile data_quality_baseline_parity.py
+          python -m py_compile data_quality_model_impact.py
+
+      - name: Reproduce adjusted price audit
+        run: |
+          python adjusted_price_discontinuity_audit.py
+
+      - name: Reproduce Stage A exposure audit
+        run: |
+          python data_quality_impact_analysis.py
+
+      - name: Reproduce Stage B dependency audit
+        run: |
+          python data_quality_exact_dependency.py
+
+      - name: Reproduce Stage C component audit
+        run: |
+          python data_quality_component_audit.py
+
+      - name: Reproduce Stage D model relevance audit
+        run: |
+          python data_quality_model_relevance.py
+
+      - name: Reproduce Stage E numerical sensitivity
+        run: |
+          python data_quality_numerical_impact.py
+
+      - name: Run actual engine baseline
+        run: |
+          python actual_engine.py
+
+      - name: Verify baseline parity
+        run: |
+          python data_quality_baseline_parity.py
+      - name: Run Stage F model impact assessment
+        run: |
+          python data_quality_model_impact.py
+
+      - name: Upload research audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v13f10-model-impact-research
+          path: |
+            data/execution_probe/data_quality_impact_summary.json
+            data/execution_probe/data_quality_exact_dependency_summary.json
+            data/execution_probe/data_quality_component_audit_summary.json
+            data/execution_probe/data_quality_model_relevance_summary.json
+            data/execution_probe/data_quality_numerical_impact_summary.json
+            data/execution_probe/data_quality_baseline_parity.json
+            data/execution_probe/data_quality_model_impact_summary.json
+            data/execution_probe/data_quality_model_impact_detail.csv
+          if-no-files-found: warn
+          retention-days: 30
