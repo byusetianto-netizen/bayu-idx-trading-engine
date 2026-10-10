@@ -1,0 +1,68 @@
+{
+  "version": "V1.3F-2",
+  "status": "QUALITY_GATE_COMPLETE__NOT_ENABLED_IN_ENGINE",
+  "source_file": "data/execution_probe/raw_execution_prices_probe.csv",
+  "rows": 8680,
+  "tickers": 3,
+  "status_counts": {
+    "PASS": 8429,
+    "REVIEW": 206,
+    "PASS_WITH_CORPORATE_ACTION_FLAG": 41,
+    "QUARANTINE": 4
+  },
+  "execution_eligible_rows": 8470,
+  "execution_ineligible_rows": 210,
+  "quarantine_rows": 4,
+  "review_rows": 206,
+  "ohlc_logic_error_rows": 4,
+  "zero_volume_rows": 205,
+  "suspicious_low_volume_rows": 2,
+  "corporate_action_rows": 43,
+  "ticker_summary": {
+    "BBRI": {
+      "rows": 2894,
+      "execution_eligible_rows": 2826,
+      "quarantine_rows": 1,
+      "review_rows": 67,
+      "corporate_action_rows": 17,
+      "zero_volume_rows": 67,
+      "suspicious_low_volume_rows": 0,
+      "ohlc_logic_error_rows": 1
+    },
+    "PTBA": {
+      "rows": 2893,
+      "execution_eligible_rows": 2820,
+      "quarantine_rows": 2,
+      "review_rows": 71,
+      "corporate_action_rows": 13,
+      "zero_volume_rows": 70,
+      "suspicious_low_volume_rows": 2,
+      "ohlc_logic_error_rows": 2
+    },
+    "TLKM": {
+      "rows": 2893,
+      "execution_eligible_rows": 2824,
+      "quarantine_rows": 1,
+      "review_rows": 68,
+      "corporate_action_rows": 13,
+      "zero_volume_rows": 68,
+      "suspicious_low_volume_rows": 0,
+      "ohlc_logic_error_rows": 1
+    }
+  },
+  "policy": {
+    "impossible_ohlc": "QUARANTINE",
+    "missing_or_nonpositive_price": "QUARANTINE",
+    "negative_volume": "QUARANTINE",
+    "zero_volume": "REVIEW_AND_EXECUTION_INELIGIBLE",
+    "volume_1_to_100": "REVIEW_AND_EXECUTION_INELIGIBLE",
+    "corporate_action": "FLAG_ONLY_UNLESS_ANOTHER_QUALITY_RULE_FAILS",
+    "automatic_price_repair": false,
+    "automatic_anomaly_deletion": false
+  },
+  "production_dataset_modified": false,
+  "actual_engine_modified": false,
+  "pit_safe_for_backtest": false,
+  "execution_backtest_ready": false,
+  "warning": "Quality-gated probe remains research-only. Low-volume threshold is a conservative probe rule, not yet a validated universe-wide execution rule. PIT universe, official-price reconciliation, fees, slippage, tick size, and execution assumptions remain unresolved."
+}
