@@ -1,0 +1,41 @@
+{
+  "version": "V1.3F-5",
+  "status": "RESEARCH_SESSION_ELIGIBILITY_COMPLETE__NOT_ENABLED_IN_ENGINE",
+  "policy": {
+    "raw_price_datasets_modified": false,
+    "actual_engine_modified": false,
+    "placeholder_is_proven_non_trading_session": false,
+    "eligibility_scope": "Research calculations based on ordered price observations.",
+    "exclusion_rule": "Exclude rows explicitly classified by V1.3F-4 as placeholder_candidate=True.",
+    "absence_from_v13f4_means_proven_valid_session": false
+  },
+  "v13f4": {
+    "audit_rows": 8979,
+    "placeholder_candidate_rows": 8979,
+    "unique_dates": 61,
+    "unique_tickers": 903
+  },
+  "base": {
+    "rows": 368062,
+    "unique_tickers": 95,
+    "unique_dates": 4129,
+    "v13f4_audit_overlap_rows": 5239,
+    "placeholder_candidate_rows": 5239,
+    "research_session_eligible_rows": 362823,
+    "research_session_ineligible_rows": 5239
+  },
+  "expansion": {
+    "rows": 932241,
+    "unique_tickers": 903,
+    "unique_dates": 4127,
+    "v13f4_audit_overlap_rows": 8979,
+    "placeholder_candidate_rows": 8979,
+    "research_session_eligible_rows": 923262,
+    "research_session_ineligible_rows": 8979
+  },
+  "notes": [
+    "This layer does not establish an official historical IDX trading calendar.",
+    "PLACEHOLDER_CANDIDATE remains a diagnostic data-quality classification.",
+    "No production engine consumes this eligibility layer in V1.3F-5."
+  ]
+}
