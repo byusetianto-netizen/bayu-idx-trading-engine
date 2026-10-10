@@ -1,0 +1,60 @@
+name: V1.3F-8 Temporal Robustness
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  temporal-robustness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy scikit-learn
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile research_session_eligibility.py
+          python -m py_compile filtered_model_experiment.py
+          python -m py_compile temporal_robustness_experiment.py
+
+      - name: Build V1.3F-5 eligibility artifact
+        run: |
+          python research_session_eligibility.py
+
+      - name: Run V1.3F-8 temporal robustness
+        run: |
+          python temporal_robustness_experiment.py
+
+      - name: Show temporal robustness summary
+        if: always()
+        run: |
+          if [ -f data/execution_probe/temporal_robustness_summary.json ]; then
+            cat data/execution_probe/temporal_robustness_summary.json
+          else
+            echo "Temporal robustness summary was not created."
+          fi
+
+      - name: Upload V1.3F-8 artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v13f8-temporal-robustness
+          path: |
+            data/execution_probe/temporal_robustness_summary.json
+            data/execution_probe/temporal_robustness_metrics.csv
+          if-no-files-found: warn
