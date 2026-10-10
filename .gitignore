@@ -16,3 +16,6 @@ data/execution_probe/independent_price_verification_detail.csv
 data/execution_probe/independent_price_verification_summary.json
 
 data/execution_probe/price_scale_evidence_summary.json
+
+data/execution_probe/data_quality_impact_detail.csv
+data/execution_probe/data_quality_impact_summary.json
