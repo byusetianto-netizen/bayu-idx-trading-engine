@@ -1,0 +1,31 @@
+{
+  "version": "V1.3F-3",
+  "status": "CALENDAR_RECONCILIATION_COMPLETE__NOT_ENABLED_IN_ENGINE",
+  "rows": 8680,
+  "tickers": 3,
+  "calendar_classification_counts": {
+    "NORMAL_CONTEXT": 8475,
+    "NON_TRADING_CALENDAR_ROW": 150,
+    "ZERO_VOLUME_ON_IHSG_DATE": 55
+  },
+  "zero_volume_rows": 205,
+  "non_trading_calendar_rows": 150,
+  "zero_volume_on_ihsg_date_rows": 55,
+  "zero_volume_on_ihsg_unique_dates": 20,
+  "all_probe_tickers_zero_same_date_count": 17,
+  "calendar_execution_eligible_rows": 8470,
+  "policy": {
+    "ihsg_date_presence": "CONTEXT_ONLY_NOT_OFFICIAL_CALENDAR_PROOF",
+    "non_trading_calendar_row": "EXECUTION_INELIGIBLE",
+    "zero_volume_on_ihsg_date": "REVIEW_AND_EXECUTION_INELIGIBLE",
+    "automatic_price_repair": false,
+    "automatic_row_deletion": false,
+    "eligibility_promotion_allowed": false
+  },
+  "production_dataset_modified": false,
+  "actual_engine_modified": false,
+  "official_idx_calendar_verified": false,
+  "pit_safe_for_backtest": false,
+  "execution_backtest_ready": false,
+  "warning": "IHSG date presence is used only as contextual evidence. This stage does not establish an official historical IDX trading calendar."
+}
