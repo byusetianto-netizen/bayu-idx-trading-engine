@@ -1,64 +1,40 @@
 {
   "status": "PASS",
   "engine_changed": false,
-  "checks": {
-    "publication_date_present": 3,
-    "publication_date_missing": 0,
-    "evidence_rows_matched_to_financial_statements": 0,
-    "exact_timestamp_matches": 0,
-    "timestamp_mismatches": 0
+  "pit_contract": "publication_timestamp <= analysis_timestamp",
+  "publication_date_fallback": false,
+  "period_end_used_as_publication_evidence": false,
+  "automatic_candidate_promoted_to_canonical": false,
+  "canonical_evidence": {
+    "rows_loaded": 5,
+    "valid_rows": 5,
+    "invalid_rows": 0,
+    "matched_to_financial_statements": 5
   },
-  "evidence_rows": [
-    {
-      "ticker": "AADI",
-      "period_end": "2026-03-31",
-      "publication_date": "2026-04-30 16:51:00",
-      "confidence": "HIGH"
-    },
-    {
-      "ticker": "AALI",
-      "period_end": "2026-03-31",
-      "publication_date": "2026-04-28 16:30:00",
-      "confidence": "HIGH"
-    },
-    {
-      "ticker": "ABBA",
-      "period_end": "2026-03-31",
-      "publication_date": "2026-04-28 17:14:00",
-      "confidence": "HIGH"
-    }
-  ],
-  "pit_examples": [
-    {
-      "analysis_date": "2026-04-28 10:00:00",
-      "available_tickers": []
-    },
-    {
-      "analysis_date": "2026-04-28 18:00:00",
-      "available_tickers": [
-        "AALI",
-        "ABBA"
-      ]
-    },
-    {
-      "analysis_date": "2026-04-29 10:00:00",
-      "available_tickers": [
-        "AALI",
-        "ABBA"
-      ]
-    },
-    {
-      "analysis_date": "2026-05-01 10:00:00",
-      "available_tickers": [
-        "AADI",
-        "AALI",
-        "ABBA"
-      ]
-    }
-  ],
+  "automatic_candidates": {
+    "rows_loaded": 0,
+    "auto_verified_rows": 0,
+    "review_rows": 0,
+    "invalid_rows": 0,
+    "auto_verified_matched_to_financial_statements": 0
+  },
+  "regression_against_canonical": {
+    "overlapping_rows": 0,
+    "exact_timestamp_matches": 0,
+    "timestamp_mismatches": 0,
+    "matches": [],
+    "mismatches": []
+  },
+  "invalid_canonical_rows": [],
+  "invalid_candidate_rows": [],
+  "review_candidates": [],
+  "auto_verified_candidates": [],
   "notes": [
-    "PIT rule: publication_date <= analysis_date.",
-    "A report's accounting period end does not determine availability.",
-    "This validates publication evidence; it does not validate accounting metrics themselves."
+    "Canonical PIT evidence requires an explicit timezone-aware publication_timestamp.",
+    "publication_date is never used as fallback publication evidence.",
+    "period_end identifies the accounting period only; it is never publication evidence.",
+    "Automatic candidates remain separate from canonical publication evidence.",
+    "Automatic evidence must reproduce canonical timestamps exactly before migration can be trusted.",
+    "REVIEW candidates are never treated as PIT-ready."
   ]
 }

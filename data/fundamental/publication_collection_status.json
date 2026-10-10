@@ -1,14 +1,20 @@
 {
   "status": "COLLECTION_PARTIAL",
   "engine_changed": false,
+  "canonical_evidence_modified": false,
+  "year": 2026,
+  "period": "TW1",
+  "period_end": "2026-03-31",
   "tickers_requested": 3,
   "tickers": [
     "AADI",
     "AALI",
     "ABBA"
   ],
-  "discovered_candidates": 0,
-  "stored_evidence_rows": 3,
+  "raw_candidates": 0,
+  "reconciled_candidates": 0,
+  "auto_verified_candidates": 0,
+  "review_candidates": 0,
   "http_errors": 6,
   "errors": [
     {
@@ -43,7 +49,11 @@
     }
   ],
   "notes": [
-    "Automatic collector never invents publication timestamps.",
-    "High-confidence manual IDX evidence is preserved until automatic evidence can replace it with equivalent evidence."
+    "Automatic collector does not modify publication_evidence.csv.",
+    "No publication timestamp is inferred from period_end.",
+    "Date-only evidence is not accepted by this automatic collector.",
+    "Ticker, reporting year and reporting period must be explicit.",
+    "Automatic evidence remains separate until reconciliation validates it.",
+    "Manual HIGH evidence remains canonical during migration."
   ]
 }
