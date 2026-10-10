@@ -4,3 +4,6 @@ __pycache__/
 
 data/execution_probe/research_session_eligibility.csv
 data/execution_probe/session_filter_impact_detail.csv
+
+data/execution_probe/adjusted_price_discontinuity_detail.csv
+data/execution_probe/adjusted_price_discontinuity_summary.json
