@@ -1,0 +1,40 @@
+{
+  "version": "V1.3F-4",
+  "status": "PLACEHOLDER_AUDIT_COMPLETE__DATASETS_UNCHANGED",
+  "source_stock_dataset": "data/idx_stock_prices_expansion.csv",
+  "ihsg_context_dataset": "data/idx_ihsg_index.csv",
+  "stock_rows": 932241,
+  "stock_unique_tickers": 903,
+  "stock_only_rows": 8979,
+  "stock_only_unique_tickers": 903,
+  "zero_volume_stock_only_rows": 8979,
+  "exact_flat_zero_volume_rows": 8977,
+  "effective_flat_zero_volume_rows": 8979,
+  "placeholder_candidate_rows": 8979,
+  "non_placeholder_stock_only_rows": 0,
+  "classification_counts": {
+    "PLACEHOLDER_CANDIDATE": 8979
+  },
+  "float_comparison_policy": {
+    "rtol": 1e-12,
+    "atol": 1e-09,
+    "purpose": "Handle insignificant floating-point representation differences only."
+  },
+  "policy": {
+    "ihsg_date_presence": "CONTEXT_ONLY_NOT_OFFICIAL_CALENDAR_PROOF",
+    "placeholder_definition": "DATE_ABSENT_FROM_IHSG_CONTEXT_AND_ZERO_VOLUME_AND_EFFECTIVELY_FLAT_OHLC",
+    "placeholder_is_proven_non_trading_session": false,
+    "automatic_row_deletion": false,
+    "automatic_price_repair": false,
+    "production_dataset_modified": false,
+    "actual_engine_modified": false,
+    "official_idx_calendar_verified": false,
+    "pit_safe_for_backtest": false,
+    "execution_backtest_ready": false
+  },
+  "outputs": [
+    "data/execution_probe/expansion_calendar_placeholder_audit.csv",
+    "data/execution_probe/expansion_calendar_placeholder_summary.json"
+  ],
+  "warning": "PLACEHOLDER_CANDIDATE is a data-quality classification, not proof that the date was an official IDX non-trading session."
+}

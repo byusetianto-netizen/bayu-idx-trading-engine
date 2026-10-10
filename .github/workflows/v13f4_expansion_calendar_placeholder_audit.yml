@@ -1,0 +1,36 @@
+﻿name: V1.3F-4 Expansion Calendar Placeholder Audit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas numpy
+
+      - name: Run V1.3F-4 placeholder audit
+        run: python expansion_calendar_placeholder_audit.py
+
+      - name: Commit audit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/execution_probe/expansion_calendar_placeholder_audit.csv
+          git add data/execution_probe/expansion_calendar_placeholder_summary.json
+          git diff --cached --quiet || git commit -m "V1.3F-4 expansion calendar placeholder audit"
+          git push
