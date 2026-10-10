@@ -47,6 +47,9 @@ jobs:
           python -m py_compile data_quality_baseline_parity.py
           python -m py_compile data_quality_model_impact.py
 
+      - name: Generate research session eligibility
+        run: |
+          python research_session_eligibility.py
       - name: Reproduce adjusted price audit
         run: |
           python adjusted_price_discontinuity_audit.py
