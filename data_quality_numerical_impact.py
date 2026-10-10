@@ -222,13 +222,13 @@ def make_scenario(prices, review):
     return scenario, mask_counts
 
 
-def calculate_model_inputs(source, ihsg):
+def calculate_model_inputs(source, ihsg, mask_missing_close_label=False):
     df = source.copy()
 
     g = df.groupby("ticker", group_keys=False)
 
     for n in [5, 10, 20, 60]:
-        df[f"ret{n}"] = g["close"].pct_change(n)
+        df[f"ret{n}"] = g["close"].pct_change(n, fill_method=None)
 
     for n in [20, 50, 200]:
         ma = g["close"].transform(
@@ -273,7 +273,7 @@ def calculate_model_inputs(source, ihsg):
 
     df["rsi"] = 100 - (100 / (1 + rs))
 
-    ihsg_ret20 = ihsg.pct_change(20)
+    ihsg_ret20 = ihsg.pct_change(20, fill_method=None)
 
     df["ihsg_ret20"] = df["date"].map(ihsg_ret20)
     df["rs20"] = df["ret20"] - df["ihsg_ret20"]
@@ -311,9 +311,10 @@ def calculate_model_inputs(source, ihsg):
         # Additional scenario safety:
         # a masked current Close must not silently
         # become a negative label.
-        label = label.where(
-            df["close"].notna(), np.nan
-        )
+        if mask_missing_close_label:
+            label = label.where(
+                df["close"].notna(), np.nan
+            )
 
         df[f"y{int(target * 100)}"] = label
 
@@ -417,7 +418,9 @@ def main():
     )
 
     baseline = calculate_model_inputs(prices, ihsg)
-    simulated = calculate_model_inputs(scenario, ihsg)
+    simulated = calculate_model_inputs(
+        scenario, ihsg, mask_missing_close_label=True
+    )
 
     require(
         baseline[["ticker", "date"]].equals(
