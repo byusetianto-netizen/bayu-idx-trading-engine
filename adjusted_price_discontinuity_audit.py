@@ -357,6 +357,71 @@ def detect_multi_session_scale_reversal(df, max_lookahead=5):
         ] = zero_between.loc[candidate]
 
     return x
+
+
+def classify_scale_reversal(df):
+    """
+    Classify detected scale-reversal patterns.
+
+    STRONG_SCALE_PATTERN:
+      Ratio near 2x, 3x, 4x, or 5x (or reciprocals),
+      with recovery deviation <= 7%.
+
+    POSSIBLE_REVERSAL:
+      Recovery detected, but strong-pattern criteria not met.
+
+    These are diagnostic classifications, not probabilities
+    or confirmed corporate actions.
+    """
+    x = df.copy()
+
+    x["scale_pattern_class"] = "NOT_DETECTED"
+    x["nearest_scale_factor"] = np.nan
+    x["scale_factor_deviation"] = np.nan
+
+    factors = np.array([
+        2.0, 3.0, 4.0, 5.0,
+        1 / 2, 1 / 3, 1 / 4, 1 / 5,
+    ])
+
+    candidate = x["scale_reversal_candidate"].fillna(False)
+
+    if not candidate.any():
+        return x
+
+    ratio = x.loc[candidate, "scale_reversal_ratio"].to_numpy(
+        dtype=float
+    )
+
+    # Relative distance between observed ratio and candidate factors.
+    deviations = np.abs(
+        ratio[:, None] / factors[None, :] - 1
+    )
+
+    nearest_index = deviations.argmin(axis=1)
+
+    x.loc[candidate, "nearest_scale_factor"] = factors[
+        nearest_index
+    ]
+
+    x.loc[candidate, "scale_factor_deviation"] = deviations[
+        np.arange(len(ratio)),
+        nearest_index,
+    ]
+
+    x.loc[candidate, "scale_pattern_class"] = "POSSIBLE_REVERSAL"
+
+    strong = (
+        candidate
+        & x["scale_factor_deviation"].le(0.05)
+        & x["scale_reversal_recovery_deviation"].le(0.07)
+    )
+
+    x.loc[strong, "scale_pattern_class"] = "STRONG_SCALE_PATTERN"
+
+    return x
+
+
 def main():
     print("V1.3F-9 Adjusted-Price Discontinuity Audit")
     print("-----------------------------------------")
@@ -394,6 +459,7 @@ def main():
         audited,
         max_lookahead=5,
     )
+    audited = classify_scale_reversal(audited)
 
     flagged = audited.loc[
         audited["audit_flag"]
@@ -471,6 +537,17 @@ def main():
                     "ticker",
                 ].nunique()
             ),
+            "scale_pattern_class_counts": {
+                str(k): int(v)
+                for k, v in (
+                    audited.loc[
+                        audited["scale_reversal_candidate"],
+                        "scale_pattern_class",
+                    ]
+                    .value_counts()
+                    .items()
+                )
+            },
             "flagged_placeholder_rows": int(
                 flagged["placeholder_candidate"].sum()
             ),
@@ -543,6 +620,9 @@ def main():
         "scale_reversal_ratio",
         "scale_reversal_recovery_deviation",
         "scale_reversal_zero_volume_between",
+        "scale_pattern_class",
+        "nearest_scale_factor",
+        "scale_factor_deviation",
         "severity",
     ]
 
