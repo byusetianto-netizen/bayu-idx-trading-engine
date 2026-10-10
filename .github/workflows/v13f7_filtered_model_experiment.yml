@@ -1,0 +1,59 @@
+name: V1.3F-7 Filtered Model Experiment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  filtered-model-experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy scikit-learn
+
+      - name: Syntax check
+        run: |
+          python -m py_compile filtered_model_experiment.py
+
+      - name: Build V1.3F-5 eligibility artifact
+        run: |
+          python research_session_eligibility.py
+
+      - name: Run V1.3F-7 experiment
+        run: |
+          python filtered_model_experiment.py
+
+      - name: Show experiment summary
+        if: always()
+        run: |
+          if [ -f data/execution_probe/filtered_model_experiment_summary.json ]; then
+            cat data/execution_probe/filtered_model_experiment_summary.json
+          else
+            echo "Summary artifact was not created."
+          fi
+
+      - name: Upload experiment artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v13f7-filtered-model-experiment
+          path: |
+            data/execution_probe/filtered_model_experiment_summary.json
+            data/execution_probe/filtered_model_experiment_metrics.csv
+            data/execution_probe/filtered_model_experiment_latest.csv
+          if-no-files-found: warn
