@@ -1,0 +1,64 @@
+{
+  "version": "V1.3F",
+  "status": "PROBE_REVIEW_REQUIRED__NOT_ENABLED_IN_ENGINE",
+  "purpose": "Raw/unadjusted execution-price proof-of-concept only",
+  "source": "Yahoo Finance via yfinance",
+  "yfinance_version": "1.7.0",
+  "auto_adjust": false,
+  "actions_requested": true,
+  "start_date": "2015-01-01",
+  "tickers": [
+    "BBRI",
+    "TLKM",
+    "PTBA"
+  ],
+  "raw_integrity": {
+    "rows": 8680,
+    "tickers": 3,
+    "duplicate_ticker_date_rows": 0,
+    "missing_ohlcv_rows": 0,
+    "nonpositive_price_rows": 0,
+    "negative_volume_rows": 0,
+    "ohlc_logic_error_rows": 4
+  },
+  "hard_issue_count": 4,
+  "corporate_action_rows": 43,
+  "comparison_rows": 8680,
+  "ticker_summary": {
+    "BBRI": {
+      "raw_rows": 2894,
+      "first_raw_date": "2015-01-02",
+      "last_raw_date": "2026-10-09",
+      "comparison_rows": 2894,
+      "corporate_action_rows": 17,
+      "raw_adjusted_ratio_min": 1.0,
+      "raw_adjusted_ratio_max": 1.7351463990168792,
+      "latest_raw_adjusted_ratio": 1.0
+    },
+    "TLKM": {
+      "raw_rows": 2893,
+      "first_raw_date": "2015-01-02",
+      "last_raw_date": "2026-10-09",
+      "comparison_rows": 2893,
+      "corporate_action_rows": 13,
+      "raw_adjusted_ratio_min": 1.0,
+      "raw_adjusted_ratio_max": 1.7620427154269662,
+      "latest_raw_adjusted_ratio": 1.0
+    },
+    "PTBA": {
+      "raw_rows": 2893,
+      "first_raw_date": "2015-01-02",
+      "last_raw_date": "2026-10-09",
+      "comparison_rows": 2893,
+      "corporate_action_rows": 13,
+      "raw_adjusted_ratio_min": 1.0,
+      "raw_adjusted_ratio_max": 3.586439264997048,
+      "latest_raw_adjusted_ratio": 1.0
+    }
+  },
+  "production_dataset_modified": false,
+  "actual_engine_modified": false,
+  "pit_safe_for_backtest": false,
+  "execution_backtest_ready": false,
+  "warning": "Probe output is research evidence only. It does not establish official IDX historical prices, PIT universe membership, transaction cost assumptions, tick-size handling, or execution-grade backtest validity."
+}
