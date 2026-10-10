@@ -84,6 +84,9 @@ jobs:
       - name: Run Stage F model impact assessment
         run: |
           python data_quality_model_impact.py
+      - name: Run Stage G ranking stability audit
+        run: |
+          python data_quality_ranking_stability.py
 
       - name: Upload research audit artifacts
         if: always()
@@ -99,5 +102,7 @@ jobs:
             data/execution_probe/data_quality_baseline_parity.json
             data/execution_probe/data_quality_model_impact_summary.json
             data/execution_probe/data_quality_model_impact_detail.csv
+            data/execution_probe/data_quality_ranking_stability_summary.json
+            data/execution_probe/data_quality_ranking_stability_detail.csv
           if-no-files-found: warn
           retention-days: 30
