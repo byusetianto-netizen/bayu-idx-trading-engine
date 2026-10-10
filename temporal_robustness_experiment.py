@@ -79,7 +79,24 @@ def evaluate_window(frame, experiment_name, window):
     valid_start = pd.Timestamp(window["valid_start"])
     valid_end = pd.Timestamp(window["valid_end"])
 
-    train = frame["date"] <= train_end
+    # Purge the final five observations per ticker before validation.
+    # Forward labels require five subsequent observations.
+    pre_validation = frame["date"] <= train_end
+
+    session_position = (
+        frame.groupby("ticker").cumcount()
+    )
+
+    last_train_position = (
+        session_position.where(pre_validation)
+        .groupby(frame["ticker"])
+        .transform("max")
+    )
+
+    train = (
+        pre_validation
+        & (session_position <= last_train_position - 5)
+    )
 
     valid = (
         (frame["date"] >= valid_start)
