@@ -41,6 +41,7 @@ jobs:
           python -m py_compile v13f11_calendar_integrity.py
           python -m py_compile v13f11_calendar_sensitivity.py
           python -m py_compile v13f11_baseline_parity.py
+          python -m py_compile v13f11_calendar_model_impact.py
           python -m py_compile data_quality_numerical_impact.py
           python -m py_compile data_quality_baseline_parity.py
           python -m py_compile actual_engine.py
@@ -65,12 +66,18 @@ jobs:
         run: |
           python data_quality_baseline_parity.py
 
+      - name: Stage D - Controlled calendar model impact
+        run: |
+          python v13f11_calendar_model_impact.py
+
       - name: Upload research artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: v13f11-calendar-parity-research
           path: |
+            data/execution_probe/v13f11_calendar_model_impact_summary.json
+            data/execution_probe/v13f11_calendar_model_impact_detail.csv
             data/execution_probe/v13f11_calendar_integrity_summary.json
             data/execution_probe/v13f11_calendar_integrity_detail.csv
             data/execution_probe/v13f11_calendar_sensitivity_summary.json
