@@ -1,0 +1,82 @@
+
+name: V1.3F-11 Calendar Integrity and Baseline Parity
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calendar-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install research dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy==2.2.6 \
+            pandas==2.2.3 \
+            scikit-learn==1.6.1 \
+            scipy==1.15.3 \
+            tabulate==0.9.0
+
+      - name: Record runtime versions
+        run: |
+          python --version
+          python -c "import numpy, pandas, sklearn, scipy; print('numpy:', numpy.__version__); print('pandas:', pandas.__version__); print('scikit-learn:', sklearn.__version__); print('scipy:', scipy.__version__)"
+
+      - name: Compile research scripts
+        run: |
+          python -m py_compile v13f11_calendar_integrity.py
+          python -m py_compile v13f11_calendar_sensitivity.py
+          python -m py_compile v13f11_baseline_parity.py
+          python -m py_compile data_quality_numerical_impact.py
+          python -m py_compile data_quality_baseline_parity.py
+          python -m py_compile actual_engine.py
+
+      - name: Stage A - Calendar integrity diagnostic
+        run: |
+          python v13f11_calendar_integrity.py
+
+      - name: Stage B - Calendar exclusion sensitivity
+        run: |
+          python v13f11_calendar_sensitivity.py
+
+      - name: Stage C1 - Feature and label baseline parity
+        run: |
+          python v13f11_baseline_parity.py
+
+      - name: Generate actual engine baseline
+        run: |
+          python actual_engine.py
+
+      - name: Stage C2 - Model and AUC baseline parity
+        run: |
+          python data_quality_baseline_parity.py
+
+      - name: Upload research artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v13f11-calendar-parity-research
+          path: |
+            data/execution_probe/v13f11_calendar_integrity_summary.json
+            data/execution_probe/v13f11_calendar_integrity_detail.csv
+            data/execution_probe/v13f11_calendar_sensitivity_summary.json
+            data/execution_probe/v13f11_calendar_sensitivity_components.csv
+            data/execution_probe/v13f11_baseline_parity_summary.json
+            data/execution_probe/data_quality_baseline_parity.json
+            data/engine_output/model_validation_metrics.csv
+          if-no-files-found: warn
+          retention-days: 30
