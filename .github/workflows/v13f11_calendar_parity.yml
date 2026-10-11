@@ -42,6 +42,8 @@ jobs:
           python -m py_compile v13f11_calendar_sensitivity.py
           python -m py_compile v13f11_baseline_parity.py
           python -m py_compile v13f11_calendar_model_impact.py
+          python -m py_compile v13f11_weekly_walkforward.py
+          python -m py_compile v13f11_weekly_retraining.py
           python -m py_compile data_quality_numerical_impact.py
           python -m py_compile data_quality_baseline_parity.py
           python -m py_compile actual_engine.py
@@ -70,6 +72,14 @@ jobs:
         run: |
           python v13f11_calendar_model_impact.py
 
+      - name: Stage E1 - Weekly label maturity audit
+        run: |
+          python v13f11_weekly_walkforward.py
+
+      - name: Stage E2 - Four-week walk-forward pilot
+        run: |
+          python v13f11_weekly_retraining.py
+
       - name: Upload research artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -78,6 +88,10 @@ jobs:
           path: |
             data/execution_probe/v13f11_calendar_model_impact_summary.json
             data/execution_probe/v13f11_calendar_model_impact_detail.csv
+            data/execution_probe/v13f11_weekly_maturity_summary.json
+            data/execution_probe/v13f11_weekly_maturity_detail.csv
+            data/execution_probe/v13f11_weekly_retraining_summary.json
+            data/execution_probe/v13f11_weekly_retraining_detail.csv
             data/execution_probe/v13f11_calendar_integrity_summary.json
             data/execution_probe/v13f11_calendar_integrity_detail.csv
             data/execution_probe/v13f11_calendar_sensitivity_summary.json
