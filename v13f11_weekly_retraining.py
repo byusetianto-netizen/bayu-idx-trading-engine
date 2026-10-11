@@ -37,7 +37,7 @@ SUMMARY = OUT / "v13f11_weekly_retraining_summary.json"
 DETAIL = OUT / "v13f11_weekly_retraining_detail.csv"
 
 TARGETS = [3, 5, 8]
-PILOT_WEEKS = 4
+PILOT_WEEKS = 12
 KEYS = ["ticker", "date"]
 
 
