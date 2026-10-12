@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "AGAR",
-    "AGII",
-    "AGRO",
-    "AGRS",
-    "AHAP"
+    "AIMS",
+    "AISA",
+    "AKKU",
+    "AKPI",
+    "AKRA"
   ],
   "selected_count": 5,
-  "rows_received": 142,
-  "rows_total": 487,
+  "rows_received": 123,
+  "rows_total": 610,
   "errors": [],
-  "quota_remaining": "130",
+  "quota_remaining": "125",
   "provider": "indexalpha",
-  "updated_at": "2026-10-09T12:48:45.075719+00:00"
+  "updated_at": "2026-10-12T13:09:15.849286+00:00"
 }
