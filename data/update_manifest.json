@@ -1,19 +1,15 @@
 {
-  "updated_at": "2026-10-10T09:38:38.406095+07:00",
-  "source": "yfinance",
-  "old_last_date": "2026-10-06",
+  "updated_at": "2026-10-12T18:47:25.894016+07:00",
+  "source": "github-daily-snapshot",
+  "old_last_date": "2026-10-09",
   "new_last_date": "2026-10-09",
   "ihsg_last_date": "2026-10-09",
-  "requested_start": "2026-10-07",
-  "requested_end": "2026-10-10",
-  "new_days": [
-    "2026-10-07",
-    "2026-10-08",
-    "2026-10-09"
-  ],
+  "requested_start": "2026-10-10",
+  "requested_end": "2026-10-12",
+  "new_days": [],
   "ticker_count": 95,
   "latest_date_ticker_count": 94,
-  "legacy_blank_ticker_rows_removed": 2,
+  "legacy_blank_ticker_rows_removed": 0,
   "blank_ticker_rows_final": 0,
   "rows": 368062
 }
