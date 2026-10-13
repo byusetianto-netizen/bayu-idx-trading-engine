@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "AIMS",
-    "AISA",
-    "AKKU",
-    "AKPI",
-    "AKRA"
+    "AKSI",
+    "ALDO",
+    "ALKA",
+    "ALMI",
+    "ALTO"
   ],
   "selected_count": 5,
-  "rows_received": 123,
-  "rows_total": 610,
+  "rows_received": 76,
+  "rows_total": 686,
   "errors": [],
-  "quota_remaining": "125",
+  "quota_remaining": "120",
   "provider": "indexalpha",
-  "updated_at": "2026-10-12T13:09:15.849286+00:00"
+  "updated_at": "2026-10-13T12:54:42.428594+00:00"
 }
