@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "AKSI",
-    "ALDO",
-    "ALKA",
-    "ALMI",
-    "ALTO"
+    "AMAG",
+    "AMAN",
+    "AMAR",
+    "AMFG",
+    "AMIN"
   ],
   "selected_count": 5,
-  "rows_received": 76,
-  "rows_total": 686,
+  "rows_received": 50,
+  "rows_total": 736,
   "errors": [],
-  "quota_remaining": "120",
+  "quota_remaining": "115",
   "provider": "indexalpha",
-  "updated_at": "2026-10-13T12:54:42.428594+00:00"
+  "updated_at": "2026-10-14T13:09:08.613503+00:00"
 }
