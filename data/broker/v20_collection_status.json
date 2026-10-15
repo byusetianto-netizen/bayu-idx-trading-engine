@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "AMAG",
-    "AMAN",
-    "AMAR",
-    "AMFG",
-    "AMIN"
+    "AMMN",
+    "AMMS",
+    "AMOR",
+    "AMRT",
+    "ANDI"
   ],
   "selected_count": 5,
-  "rows_received": 50,
-  "rows_total": 736,
+  "rows_received": 152,
+  "rows_total": 888,
   "errors": [],
-  "quota_remaining": "115",
+  "quota_remaining": "110",
   "provider": "indexalpha",
-  "updated_at": "2026-10-14T13:09:08.613503+00:00"
+  "updated_at": "2026-10-15T13:13:19.669440+00:00"
 }
