@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "AMMN",
-    "AMMS",
-    "AMOR",
-    "AMRT",
-    "ANDI"
+    "ANJT",
+    "ANTM",
+    "APEX",
+    "APIC",
+    "APII"
   ],
   "selected_count": 5,
-  "rows_received": 152,
-  "rows_total": 888,
+  "rows_received": 159,
+  "rows_total": 1047,
   "errors": [],
-  "quota_remaining": "110",
+  "quota_remaining": "105",
   "provider": "indexalpha",
-  "updated_at": "2026-10-15T13:13:19.669440+00:00"
+  "updated_at": "2026-10-16T13:12:12.521093+00:00"
 }
