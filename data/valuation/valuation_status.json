@@ -1,8 +1,8 @@
 {
   "status": "BUILT",
   "engine_changed": false,
-  "analysis_date": "2026-10-16",
-  "analysis_timestamp": "2026-10-16T23:59:59+07:00",
+  "analysis_date": "2026-10-19",
+  "analysis_timestamp": "2026-10-19T23:59:59+07:00",
   "analysis_timezone": "Asia/Jakarta (+07:00)",
   "tickers": 98,
   "financial_source": "financial_statements_pit.csv",
