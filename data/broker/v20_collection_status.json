@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "APLI",
-    "APLN",
-    "ARCI",
-    "AREA",
-    "ARGO"
+    "ARII",
+    "ARKA",
+    "ARKO",
+    "ARNA",
+    "ARTA"
   ],
   "selected_count": 5,
-  "rows_received": 116,
-  "rows_total": 1163,
+  "rows_received": 109,
+  "rows_total": 1272,
   "errors": [],
-  "quota_remaining": "100",
+  "quota_remaining": "95",
   "provider": "indexalpha",
-  "updated_at": "2026-10-19T13:13:54.058417+00:00"
+  "updated_at": "2026-10-20T13:13:57.162941+00:00"
 }
