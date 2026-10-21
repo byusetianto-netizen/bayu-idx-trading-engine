@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "ARII",
-    "ARKA",
-    "ARKO",
-    "ARNA",
-    "ARTA"
+    "ARTI",
+    "ARTO",
+    "ASBI",
+    "ASDM",
+    "ASGR"
   ],
   "selected_count": 5,
-  "rows_received": 109,
-  "rows_total": 1272,
+  "rows_received": 92,
+  "rows_total": 1364,
   "errors": [],
-  "quota_remaining": "95",
+  "quota_remaining": "90",
   "provider": "indexalpha",
-  "updated_at": "2026-10-20T13:13:57.162941+00:00"
+  "updated_at": "2026-10-21T13:14:31.998202+00:00"
 }
