@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "ASMI",
-    "ASPI",
-    "ASPR",
-    "ASRI",
-    "ASRM"
+    "ASSA",
+    "ATAP",
+    "ATIC",
+    "ATLA",
+    "AUTO"
   ],
   "selected_count": 5,
-  "rows_received": 144,
-  "rows_total": 1686,
+  "rows_received": 121,
+  "rows_total": 1807,
   "errors": [],
-  "quota_remaining": "80",
+  "quota_remaining": "75",
   "provider": "indexalpha",
-  "updated_at": "2026-10-23T13:09:58.003252+00:00"
+  "updated_at": "2026-10-26T15:01:51.308941+00:00"
 }
