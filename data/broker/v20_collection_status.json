@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "ASSA",
-    "ATAP",
-    "ATIC",
-    "ATLA",
-    "AUTO"
+    "AVIA",
+    "AWAN",
+    "AXIO",
+    "AYLS",
+    "BABP"
   ],
   "selected_count": 5,
-  "rows_received": 121,
-  "rows_total": 1807,
+  "rows_received": 138,
+  "rows_total": 1945,
   "errors": [],
-  "quota_remaining": "75",
+  "quota_remaining": "70",
   "provider": "indexalpha",
-  "updated_at": "2026-10-26T15:01:51.308941+00:00"
+  "updated_at": "2026-10-27T13:19:26.685607+00:00"
 }
