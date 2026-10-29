@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-10-28T19:09:36.067146+07:00",
+  "updated_at": "2026-10-29T19:09:44.818808+07:00",
   "source": "yfinance",
-  "old_last_date": "2026-10-26",
-  "new_last_date": "2026-10-27",
-  "ihsg_last_date": "2026-10-27",
-  "requested_start": "2026-10-27",
-  "requested_end": "2026-10-28",
+  "old_last_date": "2026-10-27",
+  "new_last_date": "2026-10-28",
+  "ihsg_last_date": "2026-10-28",
+  "requested_start": "2026-10-28",
+  "requested_end": "2026-10-29",
   "new_days": [
-    "2026-10-27"
+    "2026-10-28"
   ],
   "ticker_count": 95,
   "latest_date_ticker_count": 94,
   "legacy_blank_ticker_rows_removed": 0,
   "blank_ticker_rows_final": 0,
-  "rows": 369190
+  "rows": 369284
 }
