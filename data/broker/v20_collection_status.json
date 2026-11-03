@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BBLD",
-    "BBMD",
-    "BBNI",
-    "BBRI",
-    "BBRM"
+    "BBSI",
+    "BBSS",
+    "BBTN",
+    "BBYB",
+    "BCAP"
   ],
   "selected_count": 5,
-  "rows_received": 149,
-  "rows_total": 2441,
+  "rows_received": 152,
+  "rows_total": 2593,
   "errors": [],
-  "quota_remaining": "50",
+  "quota_remaining": "45",
   "provider": "indexalpha",
-  "updated_at": "2026-11-02T13:39:10.907792+00:00"
+  "updated_at": "2026-11-03T13:35:48.548027+00:00"
 }
