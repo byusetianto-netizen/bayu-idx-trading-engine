@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BEEF",
-    "BEER",
-    "BEKS",
-    "BELI",
-    "BELL"
+    "BESS",
+    "BEST",
+    "BFIN",
+    "BGTG",
+    "BHAT"
   ],
   "selected_count": 5,
-  "rows_received": 159,
-  "rows_total": 2840,
+  "rows_received": 91,
+  "rows_total": 2931,
   "errors": [],
-  "quota_remaining": "35",
+  "quota_remaining": "145",
   "provider": "indexalpha",
-  "updated_at": "2026-11-05T20:11:25.968692+00:00"
+  "updated_at": "2026-11-06T19:37:05.120142+00:00"
 }
