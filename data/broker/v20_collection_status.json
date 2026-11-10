@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BHIT",
-    "BIKA",
-    "BIKE",
-    "BIMA",
-    "BINA"
+    "BINO",
+    "BIPI",
+    "BIPP",
+    "BIRD",
+    "BISI"
   ],
   "selected_count": 5,
-  "rows_received": 44,
-  "rows_total": 2975,
+  "rows_received": 119,
+  "rows_total": 3094,
   "errors": [],
-  "quota_remaining": "140",
+  "quota_remaining": "135",
   "provider": "indexalpha",
-  "updated_at": "2026-11-09T22:37:11.814917+00:00"
+  "updated_at": "2026-11-10T19:54:24.606227+00:00"
 }
