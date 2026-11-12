@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BJBR",
-    "BJTM",
-    "BKDP",
-    "BKSL",
-    "BKSW"
+    "BLES",
+    "BLOG",
+    "BLTA",
+    "BLTZ",
+    "BLUE"
   ],
   "selected_count": 5,
-  "rows_received": 143,
-  "rows_total": 3237,
+  "rows_received": 121,
+  "rows_total": 3358,
   "errors": [],
-  "quota_remaining": "130",
+  "quota_remaining": "125",
   "provider": "indexalpha",
-  "updated_at": "2026-11-11T19:46:59.131922+00:00"
+  "updated_at": "2026-11-12T20:15:11.008455+00:00"
 }
