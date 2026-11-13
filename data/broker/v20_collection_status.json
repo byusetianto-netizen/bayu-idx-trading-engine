@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BLES",
-    "BLOG",
-    "BLTA",
-    "BLTZ",
-    "BLUE"
+    "BMAS",
+    "BMBL",
+    "BMHS",
+    "BMRI",
+    "BMSR"
   ],
   "selected_count": 5,
-  "rows_received": 121,
-  "rows_total": 3358,
+  "rows_received": 130,
+  "rows_total": 3488,
   "errors": [],
-  "quota_remaining": "125",
+  "quota_remaining": "120",
   "provider": "indexalpha",
-  "updated_at": "2026-11-12T20:15:11.008455+00:00"
+  "updated_at": "2026-11-13T19:55:58.032496+00:00"
 }
