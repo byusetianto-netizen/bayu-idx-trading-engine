@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BMAS",
-    "BMBL",
-    "BMHS",
-    "BMRI",
-    "BMSR"
+    "BMTR",
+    "BNBA",
+    "BNBR",
+    "BNGA",
+    "BNII"
   ],
   "selected_count": 5,
-  "rows_received": 130,
-  "rows_total": 3488,
+  "rows_received": 175,
+  "rows_total": 3663,
   "errors": [],
-  "quota_remaining": "120",
+  "quota_remaining": "115",
   "provider": "indexalpha",
-  "updated_at": "2026-11-13T19:55:58.032496+00:00"
+  "updated_at": "2026-11-16T22:24:43.116708+00:00"
 }
