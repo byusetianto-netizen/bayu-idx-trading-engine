@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BMTR",
-    "BNBA",
-    "BNBR",
-    "BNGA",
-    "BNII"
+    "BNLI",
+    "BOAT",
+    "BOBA",
+    "BOGA",
+    "BOLA"
   ],
   "selected_count": 5,
-  "rows_received": 175,
-  "rows_total": 3663,
+  "rows_received": 72,
+  "rows_total": 3735,
   "errors": [],
-  "quota_remaining": "115",
+  "quota_remaining": "110",
   "provider": "indexalpha",
-  "updated_at": "2026-11-16T22:24:43.116708+00:00"
+  "updated_at": "2026-11-17T21:11:53.234743+00:00"
 }
