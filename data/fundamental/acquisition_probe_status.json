@@ -1,5 +1,5 @@
 {
-  "status": "PROBE_PARTIAL_METADATA_ONLY",
+  "status": "PROBE_BLOCKED_OR_UNAVAILABLE",
   "engine_changed": false,
   "year": 2025,
   "period": "audit",
@@ -8,11 +8,11 @@
     "AALI",
     "ABBA"
   ],
-  "metadata_success": 2,
-  "metadata_failed": 1,
-  "attachment_success": 2,
+  "metadata_success": 0,
+  "metadata_failed": 3,
+  "attachment_success": 0,
   "attachment_failed": 0,
   "notes": [
-    "IDX metadata accessible but no sample attachment was successfully downloaded."
+    "Do not invent or substitute financial values. Use an approved IDX export/data-service route if access remains blocked."
   ]
 }
