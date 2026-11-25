@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BTPS",
-    "BUAH",
-    "BUDI",
-    "BUKA",
-    "BUKK"
+    "BULL",
+    "BUMI",
+    "BUVA",
+    "BVIC",
+    "BWPT"
   ],
   "selected_count": 5,
-  "rows_received": 114,
-  "rows_total": 4217,
+  "rows_received": 205,
+  "rows_total": 4422,
   "errors": [],
-  "quota_remaining": "85",
+  "quota_remaining": "80",
   "provider": "indexalpha",
-  "updated_at": "2026-11-24T22:40:03.032619+00:00"
+  "updated_at": "2026-11-25T21:53:29.134892+00:00"
 }
