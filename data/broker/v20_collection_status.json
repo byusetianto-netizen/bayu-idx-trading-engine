@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BULL",
-    "BUMI",
-    "BUVA",
-    "BVIC",
-    "BWPT"
+    "BYAN",
+    "CAKK",
+    "CAMP",
+    "CANI",
+    "CARE"
   ],
   "selected_count": 5,
-  "rows_received": 205,
-  "rows_total": 4422,
+  "rows_received": 72,
+  "rows_total": 4494,
   "errors": [],
-  "quota_remaining": "80",
+  "quota_remaining": "75",
   "provider": "indexalpha",
-  "updated_at": "2026-11-25T21:53:29.134892+00:00"
+  "updated_at": "2026-11-26T21:48:26.470294+00:00"
 }
