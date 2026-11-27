@@ -1,17 +1,17 @@
 {
   "status": "SUCCESS",
   "selected_tickers": [
-    "BYAN",
-    "CAKK",
-    "CAMP",
-    "CANI",
-    "CARE"
+    "CARS",
+    "CASA",
+    "CASH",
+    "CASS",
+    "CBDK"
   ],
   "selected_count": 5,
-  "rows_received": 72,
-  "rows_total": 4494,
+  "rows_received": 79,
+  "rows_total": 4573,
   "errors": [],
-  "quota_remaining": "75",
+  "quota_remaining": "70",
   "provider": "indexalpha",
-  "updated_at": "2026-11-26T21:48:26.470294+00:00"
+  "updated_at": "2026-11-27T21:31:26.942068+00:00"
 }
